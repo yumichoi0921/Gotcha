@@ -1,4 +1,4 @@
-package com.saffy.gotcha.db.entity;
+package com.saffy.gotcha.entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

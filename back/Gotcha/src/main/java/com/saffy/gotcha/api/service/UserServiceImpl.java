@@ -5,8 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.saffy.gotcha.api.request.UserRegisterPostReq;
-import com.saffy.gotcha.db.entity.User;
-import com.saffy.gotcha.db.repository.UserRepository;
+import com.saffy.gotcha.entity.User;
+import com.saffy.gotcha.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
