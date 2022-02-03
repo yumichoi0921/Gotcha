@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import room from "../components/RoomList/Room.vue";
-import user from "../components/RoomList/User.vue";
+import Room from "@/components/RoomList/Room.vue";
+import User from "@/components/RoomList/User.vue";
 export default {
   name: "RoomList",
   components: {
-    room,
-    user,
+    Room,
+    User,
   },
   data() {
     return {};
