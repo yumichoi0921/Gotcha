@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.saffy.gotcha.api.request.UserRegisterPostReq;
 import com.saffy.gotcha.api.service.UserService;
 import com.saffy.gotcha.common.model.response.BaseResponseBody;
-import com.saffy.gotcha.db.entity.User;
+import com.saffy.gotcha.entity.User;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,7 +23,6 @@ public class UserController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<? extends BaseResponseBody> register(@RequestBody UserRegisterPostReq registerInfo) {
-		System.out.println("controller");
 		User user = userService.createUser(registerInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}

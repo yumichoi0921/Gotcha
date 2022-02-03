@@ -1,9 +1,9 @@
-package com.saffy.gotcha.db.repository;
+package com.saffy.gotcha.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.saffy.gotcha.db.entity.User;
+import com.saffy.gotcha.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
