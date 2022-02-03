@@ -1,4 +1,4 @@
-# gotcharfront
+# gotchafront
 
 ## Project setup
 ```
