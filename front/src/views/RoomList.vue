@@ -3,29 +3,38 @@
     <div class="m-5">
       <div class="cardGroup pt-3 pb-5">
         <user></user>
-        <b-button variant="danger" class="float-right mr-4"
+        <b-button
+          pill
+          variant="danger"
+          class="float-right mr-4"
+          @click="showModal = true"
           >makingRoom</b-button
         >
+        <create-room v-if="showModal" @close="showModal = false"> </create-room>
       </div>
-      <room></room>
+      <b-card-group deck><room /> </b-card-group>
     </div>
   </div>
 </template>
 
 <script>
-import room from "../components/RoomList/Room.vue";
-import user from "../components/RoomList/User.vue";
-
+import Room from "@/components/RoomList/Room.vue";
+import User from "@/components/RoomList/User.vue";
+import CreateRoom from "@/components/RoomList/CreateRoom.vue";
 import { mapActions } from "vuex";
 const roomStore = "roomStore";
+
 export default {
   name: "RoomList",
   components: {
-    room,
-    user,
+    Room,
+    User,
+    CreateRoom,
   },
   data() {
-    return {};
+    return {
+      showModal: false,
+    };
   },
 
   created() {

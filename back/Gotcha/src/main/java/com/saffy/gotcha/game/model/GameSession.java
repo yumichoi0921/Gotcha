@@ -8,18 +8,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GameSession {
-	private String gameSessionId; // ÇöÀç °ÔÀÓ¹æÀÇ id
-	private HashMap<String, Player> players; // ÇöÀç °ÔÀÓ¹æ¿¡ Âü°¡ÇÑ ÇÃ·¹ÀÌ¾î ¸®½ºÆ®
+	private String gameSessionId; // í˜„ì¬ ê²Œì„ë°©ì˜ id
+	private HashMap<String, Player> players; // í˜„ì¬ ê²Œì„ë°©ì— ì°¸ê°€í•œ í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸
 	private String hostId;
-//	private GameManager gameMgr; // ¼±ÅÃµÈ °ÔÀÓÀ» ÁøÇàÇÒ Mgr.  TODO: Ãß°¡ÇØ¾ßÇÔ.
+//	private GameManager gameMgr; // ì„ íƒëœ ê²Œì„ì„ ì§„í–‰í•  Mgr.  TODO: ì¶”ê°€í•´ì•¼í•¨.
 
 	public GameSession(String gameSessionId, Player hostPlayer) {
 		this.gameSessionId = gameSessionId;
 		players = new HashMap<String, Player>();
-		players.put(hostPlayer.getUserId(), hostPlayer); // UUID , À¯ÀúÁ¤º¸
+		players.put(hostPlayer.getUserId(), hostPlayer); // UUID , ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 
-// TODO: ±¸ÇöÇØ¾ßÇÔ
+// TODO: êµ¬í˜„í•´ì•¼í•¨
 //	public void setGameManager(String TYPE) {
 //		switch (TYPE) {
 //		case "DODUK":
@@ -30,4 +30,5 @@ public class GameSession {
 //			break;
 //		}
 //	}
+
 }

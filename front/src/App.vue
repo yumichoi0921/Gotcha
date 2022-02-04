@@ -2,7 +2,6 @@
   <div id="app">
     <div id="nav">
       <h2>니선악깡버 프론트페이지 입니다</h2>
-      <b-alert show>Default Alert</b-alert>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
