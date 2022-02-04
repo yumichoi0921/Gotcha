@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.saffy.gotcha.api.request.RoomModifyPostReq;
 import com.saffy.gotcha.api.request.RoomRegisterPostReq;
 import com.saffy.gotcha.entity.Room;
 import com.saffy.gotcha.entity.User;
@@ -63,5 +64,14 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public void deleteRoom(String roomId) {
 		roomRepository.deleteByRoomId(roomId);
+	}
+	
+	@Override
+	public Room modifyRoom(String roomId, RoomModifyPostReq modifyInfo) {
+		Room room = roomRepository.findByRoomId(roomId);
+		room.setParticipant(modifyInfo.getParticipant());
+		room.setFull(modifyInfo.isFull());
+		room.setRun(modifyInfo.isRun());
+		return roomRepository.save(room);
 	}
 }
