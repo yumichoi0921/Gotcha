@@ -10,12 +10,9 @@
           @click="showModal = true"
           >makingRoom</b-button
         >
-
-        <!-- <b-modal v-model="showModal"><create-room /></b-modal> -->
-
         <create-room v-if="showModal" @close="showModal = false"> </create-room>
       </div>
-      <room></room>
+      <b-card-group deck><room /> </b-card-group>
     </div>
   </div>
 </template>
