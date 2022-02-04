@@ -15,6 +15,9 @@
 <script>
 import room from "../components/RoomList/Room.vue";
 import user from "../components/RoomList/User.vue";
+
+import { mapActions } from "vuex";
+const roomStore = "roomStore";
 export default {
   name: "RoomList",
   components: {
@@ -23,6 +26,13 @@ export default {
   },
   data() {
     return {};
+  },
+
+  created() {
+    this.getRoomList();
+  },
+  methods: {
+    ...mapActions(roomStore, ["getRoomList"]),
   },
 };
 </script>
