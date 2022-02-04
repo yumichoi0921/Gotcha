@@ -9,14 +9,16 @@ const roomStore = {
   getters: {},
   mutations: {
     SET_ROOMS: (state, rooms) => {
-      state.rooms = rooms;
+      rooms.forEach((room) => {
+        console.log(room);
+        state.rooms.push(room);
+      });
     },
   },
   actions: {
     getRoomList: ({ commit }) => {
       roomList(
         ({ data }) => {
-          console.log("값: " + data);
           commit("SET_ROOMS", data);
         },
         (error) => {

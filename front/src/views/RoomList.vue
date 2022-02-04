@@ -27,11 +27,12 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    ...mapActions(roomStore, ["getRoomList"]),
-  },
+
   created() {
     this.getRoomList();
+  },
+  methods: {
+    ...mapActions(roomStore, ["getRoomList"]),
   },
 };
 </script>
