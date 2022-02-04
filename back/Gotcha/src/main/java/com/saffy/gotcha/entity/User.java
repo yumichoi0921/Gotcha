@@ -25,7 +25,7 @@ public class User extends BaseEntity {
 	String password;
 	
 	public Player toPlayer() {
-		return Player.builder() // ������
+		return Player.builder()
 				.userId(userId)
 				.nickName(nickName)
 				.readyState(false)
