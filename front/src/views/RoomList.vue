@@ -12,8 +12,14 @@
         >
         <create-room v-if="showModal" @close="showModal = false"> </create-room>
       </div>
-      <b-card-group deck><room /> </b-card-group>
     </div>
+    <b-container class="">
+      <b-row cols="3">
+        <b-col v-for="(room, index) in rooms" :key="index" v-bind="room">
+          <room v-bind="room"
+        /></b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -21,7 +27,7 @@
 import Room from "@/components/RoomList/Room.vue";
 import User from "@/components/RoomList/User.vue";
 import CreateRoom from "@/components/RoomList/CreateRoom.vue";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 const roomStore = "roomStore";
 
 export default {
@@ -36,9 +42,12 @@ export default {
       showModal: false,
     };
   },
-
+  computed: {
+    ...mapGetters(roomStore, ["rooms"]),
+  },
   created() {
     this.getRoomList();
+    console.log(this.rooms);
   },
   methods: {
     ...mapActions(roomStore, ["getRoomList"]),
