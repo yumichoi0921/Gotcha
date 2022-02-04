@@ -6,12 +6,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.saffy.gotcha.game.model.Player;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+
 public class User extends BaseEntity {
 	
 	String userId;
@@ -23,7 +25,7 @@ public class User extends BaseEntity {
 	String password;
 	
 	public Player toPlayer() {
-		return Player.builder() // »ý¼ºÀÚ
+		return Player.builder() // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				.userId(userId)
 				.nickName(nickName)
 				.readyState(false)

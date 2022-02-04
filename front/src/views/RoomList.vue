@@ -13,8 +13,7 @@
 
         <!-- <b-modal v-model="showModal"><create-room /></b-modal> -->
 
-        <create-room-v2 v-if="showModal" @close="showModal = false">
-        </create-room-v2>
+        <create-room v-if="showModal" @close="showModal = false"> </create-room>
       </div>
       <room></room>
     </div>
@@ -25,21 +24,27 @@
 import Room from "@/components/RoomList/Room.vue";
 import User from "@/components/RoomList/User.vue";
 import CreateRoom from "@/components/RoomList/CreateRoom.vue";
-import CreateRoomV2 from "@/components/RoomList/CreateRoomV2.vue";
+import { mapActions } from "vuex";
+const roomStore = "roomStore";
+
 export default {
   name: "RoomList",
   components: {
     Room,
     User,
-    // eslint-disable-next-line vue/no-unused-components
     CreateRoom,
-    // eslint-disable-next-line vue/no-unused-components
-    CreateRoomV2,
   },
   data() {
     return {
       showModal: false,
     };
+  },
+
+  created() {
+    this.getRoomList();
+  },
+  methods: {
+    ...mapActions(roomStore, ["getRoomList"]),
   },
 };
 </script>
