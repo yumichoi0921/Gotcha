@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -33,9 +35,12 @@ public class Room extends BaseEntity {
 	@ApiModelProperty(value = "참가 인원 수 ")
 	int participant;
 	@ApiModelProperty(value = "인원 초과 여부")
+	@JsonProperty("isFull")
 	boolean isFull;
 	@ApiModelProperty(value = "방 공개 여부")
+	@JsonProperty("isPrivate")
 	boolean isPrivate;
 	@ApiModelProperty(value = "게임 실행 여부")
+	@JsonProperty("isRun")
 	boolean isRun;
 }
