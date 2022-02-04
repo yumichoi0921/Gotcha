@@ -14,13 +14,18 @@ import com.saffy.gotcha.api.service.UserService;
 import com.saffy.gotcha.common.model.response.BaseResponseBody;
 import com.saffy.gotcha.entity.User;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/users")
+@Api(value = "User 컨트롤러 API")
 public class UserController {
 
 	@Autowired
 	UserService userService;
 	
+	@ApiOperation(value = "registerInfo", notes = "로그인")
 	@PostMapping("/signup")
 	public ResponseEntity<? extends BaseResponseBody> register(@RequestBody UserRegisterPostReq registerInfo) {
 		User user = userService.createUser(registerInfo);
