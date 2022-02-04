@@ -47,7 +47,6 @@ export default {
   },
   created() {
     this.getRoomList();
-    console.log(this.rooms);
   },
   methods: {
     ...mapActions(roomStore, ["getRoomList"]),

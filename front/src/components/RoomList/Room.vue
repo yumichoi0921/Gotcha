@@ -4,7 +4,7 @@
       <div class="row">
         <span class="col-6">{{ roomTitle }}</span>
         <span class="col-2"
-          >{{ isPrivate }}<b-icon icon="lock" v-if="isPrivate"></b-icon>
+          ><b-icon icon="lock" v-if="isPrivate"></b-icon>
           <b-icon icon="unlock" v-else></b-icon
         ></span>
         <span class="col-4">{{ participant }} / {{ capacity }}</span>
