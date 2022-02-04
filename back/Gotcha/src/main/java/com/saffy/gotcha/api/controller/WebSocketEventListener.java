@@ -17,7 +17,7 @@ public class WebSocketEventListener {
 	@EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         System.out.println("Received a new web socket connection");
-        // 여기에서 session별 참가자(participant)값 감소하면서 0이 되는 순간 해당 방(session) 삭제
+        // 여기에서 session별 참가자(participant)값 감소하면서  0이 되는 순간 해당 방(session) 삭제
     }
 	
 	// 웹소켓 세션에서 사용자 이름을 추출하고 연결된 모든 클라이언트에게 사용자 퇴장 이벤트를 broadcast

@@ -12,7 +12,7 @@ import lombok.Setter;
 @ApiModel(value = "RoomRegisterPostReq : 방 생성", description = "방 생성의 상세 정보를 나타낸다.")
 public class RoomRegisterPostReq {
 	@ApiModelProperty(value = "호스트 아이디")
-	String hostId; // �� ������û�� user�� userId (����, host)
+	String hostId; // 방 생성을 요청한 ID (방장, host)
 	@ApiModelProperty(value = "room 이름")
 	String roomTitle;
 	@ApiModelProperty(value = "room 비밀번호")
