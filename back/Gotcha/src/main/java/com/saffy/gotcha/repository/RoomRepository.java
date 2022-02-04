@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.saffy.gotcha.entity.Room;
 
 public interface RoomRepository extends JpaRepository<Room, Long>{
-
+	void deleteByRoomId(String roomId);
+	Room findByRoomId(String roomId);
 }

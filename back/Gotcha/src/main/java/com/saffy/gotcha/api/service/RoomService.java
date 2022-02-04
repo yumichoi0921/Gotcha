@@ -8,5 +8,6 @@ import com.saffy.gotcha.entity.Room;
 public interface RoomService {
 	Room createRoom(RoomRegisterPostReq roomRegisterPostReq);
 	List<Room> getRooms();
-	
+	Room getRoom(String roomId);
+	void deleteRoom(String roomId);
 }

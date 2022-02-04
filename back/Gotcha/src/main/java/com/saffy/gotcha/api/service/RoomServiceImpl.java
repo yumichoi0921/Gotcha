@@ -31,16 +31,16 @@ public class RoomServiceImpl implements RoomService {
 	public Room createRoom(RoomRegisterPostReq roomRegisterPostReq) {
 		User host = userRopository.findByUserId(roomRegisterPostReq.getHostId());
 		
-		String gameSessionId = UUID.randomUUID().toString(); // 랜덤으로 생성해주기
+		String gameSessionId = UUID.randomUUID().toString();
 		
 		Room room = Room.builder()
-				  .roomId(gameSessionId)  // 랜덤한 아이디 하나 생성해서 넣어주기. 이놈이 sessionId와 동일해야 함.
+				  .roomId(gameSessionId) 
 				  .password(roomRegisterPostReq.getPassword())
 						.roomTitle(roomRegisterPostReq.getRoomTitle())
 						.createdAt(LocalDateTime.now())
 						.isPrivate(roomRegisterPostReq.isPrivate())
 						.capacity(roomRegisterPostReq.getCapacity())
-						.participant(1) // 방장은 들어갔다고 가정해야하니까
+						.participant(1)
 						.isFull(false)
 						.isRun(false)
 						.build();
@@ -54,5 +54,14 @@ public class RoomServiceImpl implements RoomService {
 	public List<Room> getRooms() {
 		return roomRepository.findAll();
 	}
-
+	
+	@Override
+	public Room getRoom(String roomId) {
+		return roomRepository.findByRoomId(roomId);
+	}
+	
+	@Override
+	public void deleteRoom(String roomId) {
+		roomRepository.deleteByRoomId(roomId);
+	}
 }
