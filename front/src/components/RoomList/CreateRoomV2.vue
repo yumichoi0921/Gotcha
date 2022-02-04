@@ -131,7 +131,13 @@ export default {
   methods: {
     onSubmit() {
       axios
-        .post("/books", { title: "1984" })
+        .post("http://localhost:8080/api/rooms", {
+          hostId: "testId",
+          roomTitle: this.form.roomTitle,
+          password: this.form.roomPassword,
+          isPrivate: this.form.isPrivate,
+          capacity: this.form.capacity,
+        })
         .then((reponse) => {
           console.log(reponse);
         })
