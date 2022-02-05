@@ -1,5 +1,21 @@
 <template>
-  <div>웨이팅룸 아이디:{{ roomId }}</div>
+  <div>
+    웨이팅룸 아이디:{{ roomId }}
+    <b-form @submit.prevent="sendMessage" class="text-left">
+      <b-form-group id="sender" label="sender" label-for="sender">
+        <b-form-input id="sender" v-model="sender" required></b-form-input>
+      </b-form-group>
+      <b-form-group id="content" label="content" label-for="content">
+        <b-form-input id="content" v-model="content" required></b-form-input>
+      </b-form-group>
+      <div class="mt-5 mx-5 d-flex justify-content-center">
+        <b-button type="submit" variant="danger" class="mx-3"
+          >방만들기</b-button
+        >
+      </div>
+    </b-form>
+    <div v-for="(m, index) in msg" :key="index" v-bind="m">{{ m }}</div>
+  </div>
 </template>
 
 <script>
@@ -10,6 +26,8 @@ export default {
   data() {
     return {
       roomId: "",
+      sender: "",
+      content: "",
       stompClient: null,
       msg: [],
     };
@@ -33,7 +51,6 @@ export default {
           // 서버의 메시지 전송 endpoint를 구독합니다.
           // 이런형태를 pub sub 구조라고 합니다.
           this.stompClient.subscribe("/sub/" + this.roomId, (res) => {
-            this.sendMessage();
             console.log("구독으로 받은 메시지 입니다.", res.body);
             // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
             let jsonBody = JSON.parse(res.body);
@@ -44,7 +61,6 @@ export default {
               type: jsonBody.type,
             };
             this.msg.push(message);
-            console.log(message);
           });
         },
         (error) => {
@@ -57,9 +73,9 @@ export default {
     sendMessage() {
       let message = {
         roomId: this.roomId,
-        sender: "A",
-        content: "입장",
-        type: "Chat",
+        sender: this.sender,
+        content: this.content,
+        type: "JOIN",
       };
       this.stompClient.send("/pub/message", JSON.stringify(message), {});
     },
