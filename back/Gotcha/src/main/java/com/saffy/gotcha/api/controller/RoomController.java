@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.saffy.gotcha.api.request.RoomModifyPostReq;
 import com.saffy.gotcha.api.request.RoomRegisterPostReq;
+import com.saffy.gotcha.api.response.BaseResponseBody;
+import com.saffy.gotcha.api.response.RoomRegisterPostRes;
 import com.saffy.gotcha.api.service.RoomService;
-import com.saffy.gotcha.common.model.response.BaseResponseBody;
 import com.saffy.gotcha.entity.Room;
+import com.saffy.gotcha.repository.GameSessionRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,12 +34,15 @@ public class RoomController {
 
 	@Autowired
 	RoomService roomService;
-
+	@Autowired
+	GameSessionRepository gameSessionRepository;
+	
+	
 	@ApiOperation(value = "roomInfo", notes = "새로운 room 만들기")
 	@PostMapping()
-	public ResponseEntity<? extends BaseResponseBody> createRoom(@RequestBody RoomRegisterPostReq roomInfo) {
-		roomService.createRoom(roomInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	public ResponseEntity<RoomRegisterPostRes> createRoom(@RequestBody RoomRegisterPostReq roomInfo) {
+		Room room = roomService.createRoom(roomInfo);
+		return ResponseEntity.status(200).body(RoomRegisterPostRes.of(room));
 	}
 
 	
@@ -62,7 +67,7 @@ public class RoomController {
 	public ResponseEntity<? extends BaseResponseBody> modifyRoom(@PathVariable("roomId") String roomId,
 			@RequestBody RoomModifyPostReq modifyInfo) {
 		Room room = roomService.modifyRoom(roomId, modifyInfo);
-
-		return null;
+		
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 }
