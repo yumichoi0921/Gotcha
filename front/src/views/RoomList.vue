@@ -3,6 +3,7 @@
     <div class="m-5">
       <div class="cardGroup pt-3 pb-5">
         <user></user>
+
         <b-button
           pill
           variant="danger"
@@ -24,16 +25,18 @@
 </template>
 
 <script>
-import Room from "@/components/RoomList/Room.vue";
+//import Room from "@/components/RoomList/Room.vue";
 import User from "@/components/RoomList/User.vue";
 import CreateRoom from "@/components/RoomList/CreateRoom.vue";
+
 import { mapGetters, mapActions } from "vuex";
+
 const roomStore = "roomStore";
 
 export default {
   name: "RoomList",
   components: {
-    Room,
+    // Room,
     User,
     CreateRoom,
   },
@@ -48,6 +51,7 @@ export default {
   created() {
     this.getRoomList();
   },
+
   methods: {
     ...mapActions(roomStore, ["getRoomList"]),
   },
