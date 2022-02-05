@@ -23,7 +23,7 @@ public class GameSessionRepository {
 	}
 
 	public List<GameSession> findAllGameSessions() {
-		// Ã¤ÆÃ¹æ »ı¼º ¼ø¼­ ÃÖ±Ù ¼øÀ¸·Î ¹İÈ¯
+		// ì±„íŒ…ë°© ìƒì„± ìˆœì„œ ìµœê·¼ ìˆœìœ¼ë¡œ ë°˜í™˜
 		List<GameSession> result = new ArrayList<>(gameSessionMap.values());
 		Collections.reverse(result);
 

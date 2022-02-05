@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.saffy.gotcha.api.request.UserRegisterPostReq;
+import com.saffy.gotcha.api.response.BaseResponseBody;
 import com.saffy.gotcha.api.service.UserService;
-import com.saffy.gotcha.common.model.response.BaseResponseBody;
 import com.saffy.gotcha.entity.User;
 
 import io.swagger.annotations.Api;

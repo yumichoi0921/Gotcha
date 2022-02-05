@@ -1,4 +1,4 @@
-package com.saffy.gotcha.common.model.response;
+package com.saffy.gotcha.api.response;
 
 import lombok.Getter;
 import lombok.Setter;
