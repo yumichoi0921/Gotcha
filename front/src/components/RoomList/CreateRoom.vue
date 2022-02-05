@@ -137,8 +137,6 @@ export default {
           capacity: this.form.capacity,
         },
         (response) => {
-          console.log(response);
-          console.log(response.data.roomId);
           const roomId = response.data.roomId;
           this.$router.push({
             name: "WaitingRoom",

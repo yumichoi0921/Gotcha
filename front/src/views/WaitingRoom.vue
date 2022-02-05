@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     connect() {
-      const serverURL = "http://localhost:8080";
+      const serverURL = "http://localhost:8080/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
@@ -33,15 +33,18 @@ export default {
           // 서버의 메시지 전송 endpoint를 구독합니다.
           // 이런형태를 pub sub 구조라고 합니다.
           this.stompClient.subscribe("/sub/" + this.roomId, (res) => {
+            this.sendMessage();
             console.log("구독으로 받은 메시지 입니다.", res.body);
             // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
             let jsonBody = JSON.parse(res.body);
             let message = {
-              senderNickname: jsonBody.senderNickname,
+              roomId: jsonBody.roomId,
+              sender: jsonBody.sender,
               content: jsonBody.content,
-              style: jsonBody.senderId == this.id ? "myMsg" : "otherMsg",
+              type: jsonBody.type,
             };
             this.msg.push(message);
+            console.log(message);
           });
         },
         (error) => {
@@ -50,6 +53,15 @@ export default {
           this.connected = false;
         }
       );
+    },
+    sendMessage() {
+      let message = {
+        roomId: this.roomId,
+        sender: "A",
+        content: "입장",
+        type: "Chat",
+      };
+      this.stompClient.send("/pub/message", JSON.stringify(message), {});
     },
   },
 };

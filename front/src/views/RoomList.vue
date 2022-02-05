@@ -28,6 +28,7 @@
 //import Room from "@/components/RoomList/Room.vue";
 import User from "@/components/RoomList/User.vue";
 import CreateRoom from "@/components/RoomList/CreateRoom.vue";
+import Room from "@/components/RoomList/Room.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -36,7 +37,7 @@ const roomStore = "roomStore";
 export default {
   name: "RoomList",
   components: {
-    // Room,
+    Room,
     User,
     CreateRoom,
   },
