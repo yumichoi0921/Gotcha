@@ -1,5 +1,9 @@
 <template>
-  <div>웨이팅룸 아이디:{{ roomId }}</div>
+  <div>
+    웨이팅룸 아이디:{{ roomId }}
+    <b-button @click="sendMessage">send</b-button>
+    <div v-for="(room, index) in rooms" :key="index" v-bind="room"></div>
+  </div>
 </template>
 
 <script>
@@ -61,7 +65,7 @@ export default {
         content: "입장",
         type: "Chat",
       };
-      this.stompClient.send("/pub/message", JSON.stringify(message), {});
+      this.stompClient.send("/pub/message", {}, JSON.stringify(message));
     },
   },
 };
