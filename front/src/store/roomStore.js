@@ -6,13 +6,14 @@ const roomStore = {
     rooms: [], //모든 방들
     room: null, // 하나의 방
   },
-  getters: {},
+  getters: {
+    rooms(state) {
+      return state.rooms;
+    },
+  },
   mutations: {
     SET_ROOMS: (state, rooms) => {
-      rooms.forEach((room) => {
-        console.log(room);
-        state.rooms.push(room);
-      });
+      state.rooms = rooms;
     },
   },
   actions: {

@@ -37,7 +37,7 @@
                     <b-form-input
                       id="room-password"
                       class="col-10 mr-3"
-                      v-model="form.roomPassword"
+                      v-model="form.password"
                       placeholder="비공개방 체크를 먼저 해주세요"
                       :readonly="!form.isPrivate"
                       :state="roomPwdValidation"
@@ -63,7 +63,7 @@
                 >
                   <b-form-select
                     id="room-capacity"
-                    v-model="form.roomCapacity"
+                    v-model="form.capacity"
                     :options="capacityOptions"
                     value-field="value"
                     text-field="text"
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { createRoom } from "@/api/room.js";
 export default {
   name: "CreateRoom",
   components: {},
@@ -101,9 +101,9 @@ export default {
     return {
       form: {
         roomTitle: "",
-        roomPassword: "",
+        password: "",
         isPrivate: false,
-        roomCapacity: 4,
+        capacity: 4,
       },
       capacityOptions: [
         { text: "4", value: 4 },
@@ -118,34 +118,28 @@ export default {
       );
     },
     roomPwdValidation() {
-      return (
-        this.form.roomPassword.length >= 2 && this.form.roomPassword.length <= 4
-      );
+      return this.form.password.length >= 2 && this.form.password.length <= 4;
     },
   },
   watch: {
     "form.isPrivate"() {
-      this.form.roomPassword = "";
+      this.form.password = "";
     },
   },
   methods: {
     onSubmit() {
-      axios
-        .post("http://localhost:8080/api/rooms", {
+      createRoom(
+        {
           hostId: "testId",
           roomTitle: this.form.roomTitle,
-          password: this.form.roomPassword,
+          password: this.form.password,
           isPrivate: this.form.isPrivate,
           capacity: this.form.capacity,
-        })
-        .then((reponse) => {
-          console.log(reponse);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      console.log(this.form);
+        },
+        (response) => {
+          console.log(response);
+        }
+      );
     },
   },
 };
