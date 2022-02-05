@@ -20,15 +20,14 @@
 export default {
   name: "Room",
   props: {
+    roomId: String,
     roomTitle: String,
     isPrivate: Boolean,
     participant: Number,
     capacity: Number,
   },
   data() {
-    return {
-      roomId: "695d2660-0168-4372-9525-4dba334d5bbe",
-    };
+    return {};
   },
 };
 </script>
