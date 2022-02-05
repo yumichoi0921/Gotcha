@@ -8,9 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import com.saffy.gotcha.game.model.ChatMessage;
-import com.saffy.gotcha.game.model.MessageType;
-
 @Component
 public class WebSocketEventListener {
 
@@ -32,9 +29,9 @@ public class WebSocketEventListener {
         if(username != null) {
         	System.out.println("User Disconnected : " + username);
 
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setType(MessageType.LEAVE);
-            chatMessage.setSender(username);
+//            ChatMessage chatMessage = new ChatMessage();
+//            chatMessage.setType(MessageType.LEAVE);
+//            chatMessage.setSender(username);
 
 //           messagingTemplate.convertAndSend("/sub/chat/room/" + chatMessage.getRoomId(), chatMessage);
         }
