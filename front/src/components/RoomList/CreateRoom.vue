@@ -137,7 +137,11 @@ export default {
           capacity: this.form.capacity,
         },
         (response) => {
-          console.log(response);
+          const roomId = response.data.roomId;
+          this.$router.push({
+            name: "WaitingRoom",
+            params: { roomId: roomId },
+          });
         }
       );
     },

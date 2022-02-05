@@ -1,5 +1,5 @@
 <template>
-  <b-card bg-variant="light" class="rounded-lg shadow m-1">
+  <b-card bg-variant="light" class="rounded-lg shadow mx-3 my-4">
     <b-alert show variant="dark" class="rounded-pill">
       <div class="row">
         <span class="col-6">{{ roomTitle }}</span>
@@ -10,19 +10,25 @@
         <span class="col-4">{{ participant }} / {{ capacity }}</span>
       </div>
     </b-alert>
-    <b-button pill class="col-6 mx-auto">Enter</b-button>
+
+    <router-link :to="{ name: 'WaitingRoom', params: { roomId: roomId } }"
+      ><b-button pill class="col-6 mx-auto">Enter</b-button></router-link
+    >
   </b-card>
 </template>
 <script>
 export default {
   name: "Room",
   props: {
+    roomId: String,
     roomTitle: String,
     isPrivate: Boolean,
     participant: Number,
     capacity: Number,
   },
+  data() {
+    return {};
+  },
 };
 </script>
-
 <style></style>
