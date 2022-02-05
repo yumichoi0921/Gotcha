@@ -3,7 +3,7 @@ import { roomList } from "@/api/room.js";
 const roomStore = {
   namespaced: true,
   state: {
-    rooms: null, //모든 방들
+    rooms: [], //모든 방들
     room: null, // 하나의 방
   },
   getters: {},

@@ -3,6 +3,7 @@
     <div class="m-5">
       <div class="cardGroup pt-3 pb-5">
         <user></user>
+
         <b-button
           pill
           variant="danger"
@@ -12,24 +13,32 @@
         >
         <create-room v-if="showModal" @close="showModal = false"> </create-room>
       </div>
-      <b-card-group deck><room /> </b-card-group>
+      <b-card-group deck>
+        <each-room
+          v-for="(room, index) in rooms"
+          :key="index"
+          :room="room"
+        ></each-room>
+      </b-card-group>
     </div>
   </div>
 </template>
 
 <script>
-import Room from "@/components/RoomList/Room.vue";
+//import Room from "@/components/RoomList/Room.vue";
 import User from "@/components/RoomList/User.vue";
 import CreateRoom from "@/components/RoomList/CreateRoom.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+import EachRoom from "../components/RoomList/EachRoom.vue";
 const roomStore = "roomStore";
 
 export default {
   name: "RoomList",
   components: {
-    Room,
+    // Room,
     User,
     CreateRoom,
+    EachRoom,
   },
   data() {
     return {
@@ -39,6 +48,9 @@ export default {
 
   created() {
     this.getRoomList();
+  },
+  computed: {
+    ...mapState(roomStore, ["rooms"]),
   },
   methods: {
     ...mapActions(roomStore, ["getRoomList"]),
