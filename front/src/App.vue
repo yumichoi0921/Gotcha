@@ -2,7 +2,6 @@
   <div id="app">
     <div id="nav">
       <h2>니선악깡버 프론트페이지 입니다</h2>
-      <router-link to="/">Home</router-link> |
     </div>
     <router-view />
   </div>
