@@ -11,7 +11,7 @@
       </div>
     </b-alert>
 
-    <router-link :to="{ name: 'WaitingRoom', params: { roomId: roomId } }"
+    <router-link :to="{ name: 'GameRoom', params: { roomId: roomId } }"
       ><b-button pill class="col-6 mx-auto">Enter</b-button></router-link
     >
   </b-card>
