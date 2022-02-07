@@ -4,7 +4,7 @@ import Home from "../views/Home.vue";
 import RoomList from "../views/RoomList.vue";
 import WaitingRoom from "../views/WaitingRoom.vue";
 import JokerGame from "../views/JokerGame.vue";
-//import JokerGame2 from "../views/JokerGame2.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -24,15 +24,10 @@ const routes = [
     component: WaitingRoom,
   },
   {
-    path: "/jocker",
+    path: "/joker",
     name: "JokerGame",
     component: JokerGame,
   },
-  /* {
-    path: "/jocker2",
-    name: "JokerGame2",
-    component: JokerGame2,
-  },*/
 ];
 
 const router = new VueRouter({
