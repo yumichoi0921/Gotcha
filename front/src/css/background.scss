@@ -1,0 +1,111 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+@property --hue {
+  initial-value: 0;
+  syntax: "<number>";
+  inherits: false;
+}
+
+@property --eval {
+  initial-value: 0;
+  syntax: "<number>";
+  inherits: false;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: pink;
+  animation: rotate 8s linear infinite both, eval 19s linear infinite both,
+    rain_effect 40s linear infinite, none;
+  background-image: radial-gradient(
+      farthest-corner at 0% calc(var(--eval) * 100%),
+      hsla(calc(var(--hue) * 360deg), 70%, 60%, 1),
+      hsla(calc(var(--hue) * 360deg), 70%, 60%, 0) 80%
+    ),
+    radial-gradient(
+      farthest-corner at calc(var(--eval) * 100%) 100%,
+      hsla(calc((var(--hue) + 0.15) * 360deg), 60%, 60%, 1),
+      hsla(calc((var(--hue) + 0.2) * 360deg), 60%, 60%, 0) 110%
+    ),
+    radial-gradient(
+      farthest-corner at calc(100% - var(--eval) * 100%) 0%,
+      hsla(calc((var(--hue) + 0.3) * 360deg), 60%, 60%, 1),
+      hsla(calc((var(--hue) + 0.3) * 360deg), 60%, 60%, 0) 100%
+    ),
+    radial-gradient(
+      farthest-corner at 100% calc(100% - var(--eval) * 100%),
+      hsla(calc((var(--hue) + 0.45) * 360deg), 70%, 60%, 1),
+      hsla(calc((var(--hue) + 0.5) * 360deg), 70%, 60%, 0) 90%
+    ),
+    url("../assets/jammin2.png"), url("../assets/jammin.png");
+}
+
+h1 {
+  font-size: 10vw;
+  background-image: inherit;
+  animation: inherit;
+  filter: brightness(1.5) drop-shadow(0rem 0.3rem 0rem rgba(0, 0, 0, 0.2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@keyframes rotate {
+  from {
+    --hue: 0;
+  }
+  to {
+    --hue: 1;
+  }
+}
+
+@keyframes eval {
+  0% {
+    --eval: 0;
+  }
+  50% {
+    --eval: 1;
+  }
+  100% {
+    --eval: 0;
+  }
+}
+
+@keyframes rain_effect {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 35%;
+  }
+  75% {
+    background-position: 50%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
