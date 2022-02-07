@@ -144,6 +144,7 @@ export default {
       // 소켓 연결 성공
       console.log("소켓 연결 성공", frame);
       console.log("성공", url);
+      // const connectedID =
       this.connected = true;
       this.stompClient.subscribe("/sub/" + this.roomId, this.onMessageReceived);
       let message = {
