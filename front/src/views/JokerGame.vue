@@ -45,7 +45,7 @@
                 <b-card
                   v-on:click="cardClick(card)"
                   :img-src="require('../assets/backCard.jpg')"
-                  class="card my-3"
+                  class="cardlist my-3"
                 >
                   <!-- {{ card.shape }} {{ card.number }} -->
                 </b-card>
@@ -58,7 +58,7 @@
                 <b-card
                   v-on:click="cardClick(card)"
                   :img-src="require('../assets/backCard.jpg')"
-                  class="card my-3"
+                  class="cardlist my-3"
                 >
                   <!-- {{ card.shape }} {{ card.number }} -->
                 </b-card>
@@ -131,7 +131,7 @@ export default {
 </script>
 
 <style>
-.card {
+.cardlist {
   width: 50px;
   height: 50px;
   float: left;
