@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import RoomList from "../views/RoomList.vue";
 import WaitingRoom from "../views/WaitingRoom.vue";
+import JokerGame from "../views/JokerGame.vue";
+//import JokerGame2 from "../views/JokerGame2.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -21,6 +23,16 @@ const routes = [
     name: "WaitingRoom",
     component: WaitingRoom,
   },
+  {
+    path: "/jocker",
+    name: "JokerGame",
+    component: JokerGame,
+  },
+  /* {
+    path: "/jocker2",
+    name: "JokerGame2",
+    component: JokerGame2,
+  },*/
 ];
 
 const router = new VueRouter({
