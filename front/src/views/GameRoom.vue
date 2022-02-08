@@ -185,6 +185,11 @@ export default {
       this.candidate = gameMessage.candidate;
       this.myCard = this.cardList[this.userId];
     },
+    gameStart() {
+      this.type = "START";
+      this.content = "";
+      this.sendMessage();
+    },
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
@@ -348,11 +353,6 @@ export default {
           .then((data) => resolve(data.token))
           .catch((error) => reject(error.response));
       });
-    },
-    gameStart() {
-      this.type = "START";
-      this.content = "";
-      this.sendMessage();
     },
   },
 };
