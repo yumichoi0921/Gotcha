@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <h2>니선악깡버 프론트페이지 입니다</h2>
+      <img src="@/assets/jammin.gif" />
+      <h1 class="Jua">GotCha에 오신 것을 환영합니다!</h1>
     </div>
     <router-view />
   </div>
@@ -23,9 +24,8 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  margin-top: 15px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
