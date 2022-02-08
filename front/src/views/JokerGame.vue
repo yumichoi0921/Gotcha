@@ -2,7 +2,6 @@
   <div>
     <b-container>
       <b-alert show variant="primary">도둑잡기 게임화면입니다.</b-alert>
-
       <b-row>
         <b-col sm="4" align-self="start"
           ><div>
@@ -95,7 +94,6 @@ export default {
         ["CA", "C2", "H3", "D5"],
       ],
       myturn: 3,
-      myCardList: [],
     };
   },
   methods: {

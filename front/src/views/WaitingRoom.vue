@@ -50,8 +50,10 @@
             @click.native="updateMainVideoStreamManager(sub)"
           />
         </div>
+        <joker-game session></joker-game>
       </div>
     </div>
+
     <b-form @submit.prevent="sendMessage" class="text-left">
       <b-form-group id="sender" label="sender" label-for="sender">
         <b-form-input id="sender" v-model="sender" required></b-form-input>
@@ -74,7 +76,9 @@ import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
+
 import UserVideo from "@/components/WaitingRoom/UserVideo.vue";
+import JokerGame from "@/views/JokerGame.vue";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":443";
@@ -83,6 +87,7 @@ export default {
   name: "WaitingRoom",
   components: {
     UserVideo,
+    JokerGame,
   },
   data() {
     return {
