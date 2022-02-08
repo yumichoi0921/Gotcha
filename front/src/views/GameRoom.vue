@@ -170,7 +170,7 @@ export default {
       //   type: jsonBody.type,
       // };
       // this.msg.push(message);
-      if (jsonBody.type == "START") {
+      if (jsonBody.type == "GAME") {
         this.gameMessageParser(jsonBody.content);
       }
     },
