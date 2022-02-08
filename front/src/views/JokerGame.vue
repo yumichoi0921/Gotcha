@@ -2,14 +2,22 @@
   <div>
     <b-container>
       <b-alert show variant="primary">도둑잡기 게임화면입니다.</b-alert>
-      <b-row>
+      <b-row cols="5">
+        <b-col
+          v-for="sub in subscribers"
+          :key="sub.stream.connection.connectionId"
+        >
+          <user-video :stream-manager="sub"
+        /></b-col>
+      </b-row>
+      <!-- <b-row>
         <b-col sm="4" align-self="start"
           ><div>
-            <b-img
-              src="https://picsum.photos/125/125/?image=58"
-              fluid
-              alt="Responsive image"
-            ></b-img></div
+            <user-video
+              :stream-manager="streamManager"
+              :userId="userId"
+              :myCard="myCard"
+            /></div
         ></b-col>
         <b-col sm="4" align-self="center"
           ><div>
@@ -27,7 +35,7 @@
               alt="Responsive image"
             ></b-img></div
         ></b-col>
-      </b-row>
+      </b-row> -->
 
       <b-row>
         <b-col cols="8">
@@ -67,13 +75,12 @@
           </b-row>
         </b-col>
         <b-col cols="4">
-          <b-alert show variant="primary">내카메라</b-alert>
           <div>
-            <b-img
-              src="https://picsum.photos/1024/400/?image=41"
-              fluid
-              alt="Responsive image"
-            ></b-img>
+            <user-video
+              :stream-manager="publisher"
+              :userId="userId"
+              :myCard="myCard"
+            />
           </div>
         </b-col>
       </b-row>
@@ -82,8 +89,18 @@
 </template>
 
 <script>
+import UserVideo from "@/components/GameRoom/UserVideo.vue";
 export default {
   name: "JokerGame",
+  props: {
+    publisher: Object,
+    subscribers: Array,
+    userId: String,
+    myCard: Array,
+  },
+  components: {
+    UserVideo,
+  },
 
   data() {
     return {

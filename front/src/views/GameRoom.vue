@@ -50,14 +50,14 @@
         </div>
 
         <div id="video-container" class="container-fluid">
-          <user-video
+          <!-- <user-video
             :stream-manager="publisher"
             @click.native="updateMainVideoStreamManager(publisher)"
             :userId="userId"
             :myCard="myCard"
-          />
+          /> -->
 
-          <b-row>
+          <!-- <b-row>
             <b-col
               v-for="sub in subscribers"
               :key="sub.stream.connection.connectionId"
@@ -66,36 +66,27 @@
                 :stream-manager="sub"
                 @click.native="updateMainVideoStreamManager(sub)"
             /></b-col>
-          </b-row>
+          </b-row> -->
         </div>
-        <joker-game session></joker-game>
+        <joker-game
+          :publisher="publisher"
+          :subscribers="subscribers"
+          :userId="userId"
+          :myCard="myCard"
+        ></joker-game>
       </div>
     </div>
-
-    <b-form @submit.prevent="sendMessage" class="text-left">
-      <b-form-group id="sender" label="sender" label-for="sender">
-        <b-form-input id="sender" v-model="sender" required></b-form-input>
-      </b-form-group>
-      <b-form-group id="content" label="content" label-for="content">
-        <b-form-input id="content" v-model="content" required></b-form-input>
-      </b-form-group>
-      <div class="mt-5 mx-5 d-flex justify-content-center">
-        <b-button type="submit" variant="danger" class="mx-3"
-          >방만들기</b-button
-        >
-      </div>
-    </b-form>
-    <div v-for="(m, index) in msg" :key="index" v-bind="m">{{ m }}</div>
   </div>
 </template>
 
 <script>
-import Stomp from "webstomp-client";
-import SockJS from "sockjs-client";
-import axios from "axios";
-import { OpenVidu } from "openvidu-browser";
 import JokerGame from "@/views/JokerGame.vue";
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
+
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
+import { OpenVidu } from "openvidu-browser";
+import axios from "axios";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":443";
@@ -103,6 +94,7 @@ const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   name: "GameRoom",
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     UserVideo,
     JokerGame,
   },
