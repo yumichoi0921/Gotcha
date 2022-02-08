@@ -11,11 +11,11 @@
           role="alert"
           v-if="clientData.userId == userId"
         >
-          카드: {{ clientData.myCard }}
+          카드: {{ card }}
         </div>
         <div class="card-text alert alert-dark" role="alert" v-else>
           <b-icon icon="file-fill" scale="1"></b-icon> x
-          {{ clientData.myCard }}
+          {{ cardLength }}
         </div>
       </div>
     </div>
@@ -35,16 +35,25 @@ export default {
   props: {
     streamManager: Object,
     userId: String,
+    myCard: Array,
   },
   data() {
     return {
       isHovered: false,
+      card: null,
+      cardLength: null,
     };
   },
   computed: {
     clientData() {
       const { clientData } = this.getConnectionData();
       return clientData;
+    },
+  },
+  watch: {
+    myCard() {
+      this.card = this.myCard;
+      this.cardLength = this.myCard.length;
     },
   },
 
