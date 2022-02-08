@@ -41,10 +41,10 @@
             <!--  <b-card-group deck class="col-6"> -->
             <b-col>
               <b-alert show variant="primary">카드를 선택하세요</b-alert>
-              <b-col v-for="card in cards[myturn]" v-bind:key="card">
+              <b-col v-for="(card, idx) in cards[myturn]" v-bind:key="idx">
                 <b-card
                   v-on:click="cardClick(card)"
-                  :img-src="require('../assets/backCard.jpg')"
+                  :img-src="require('../assets/poker/backCard.jpg')"
                   class="cardlist my-3"
                 >
                   <!-- {{ card.shape }} {{ card.number }} -->
@@ -54,14 +54,15 @@
             <!--  </b-card-group> -->
             <b-col>
               <b-alert show variant="primary">내카드덱</b-alert>
-              <b-col v-for="card in cards[myturn]" v-bind:key="card">
-                <b-card
+              <!-- <b-button variant="primary" v-on:click="makeDeck()"
+                >Primary</b-button
+              > -->
+              <b-col v-for="(card, idx) in cards[myturn]" v-bind:key="idx">
+                <img
+                  class="cardlist"
                   v-on:click="cardClick(card)"
-                  :img-src="require('../assets/backCard.jpg')"
-                  class="cardlist my-3"
-                >
-                  <!-- {{ card.shape }} {{ card.number }} -->
-                </b-card>
+                  :src="require('@/assets/poker/poker' + card + '.jpg')"
+                />
               </b-col>
             </b-col>
           </b-row>
@@ -88,43 +89,19 @@ export default {
   data() {
     return {
       cards: [
-        [
-          { number: 1, shape: "HEART" },
-          { number: 2, shape: "CLOVER" },
-          { number: 2, shape: "DIAMOND" },
-          { number: 4, shape: "HEART" },
-        ],
-
-        [
-          { number: 1, shape: "HEART" },
-          { number: 2, shape: "CLOVER" },
-          { number: 2, shape: "DIAMOND" },
-          { number: 4, shape: "HEART" },
-        ],
-        [
-          { number: 1, shape: "HEART" },
-          { number: 2, shape: "CLOVER" },
-          { number: 2, shape: "DIAMOND" },
-          { number: 4, shape: "HEART" },
-        ],
-        [
-          { number: 1, shape: "HEART" },
-          { number: 2, shape: "CLOVER" },
-          { number: 2, shape: "DIAMOND" },
-          { number: 4, shape: "HEART" },
-          { number: 1, shape: "HEART" },
-          { number: 2, shape: "CLOVER" },
-          { number: 2, shape: "DIAMOND" },
-          { number: 4, shape: "HEART" },
-        ],
+        ["CA", "C2", "H3", "D5"],
+        ["CA", "C2", "H3", "D5"],
+        ["CA", "C2", "H3", "D5"],
+        ["CA", "C2", "H3", "D5"],
       ],
       myturn: 3,
+      myCardList: [],
     };
   },
   methods: {
     cardClick(card) {
       console.log(card);
-      alert(card.shape + card.number);
+      alert(card);
     },
   },
 };
@@ -133,7 +110,8 @@ export default {
 <style>
 .cardlist {
   width: 50px;
-  height: 50px;
+  height: 70px;
+  margin: 5px;
   float: left;
 }
 </style>
