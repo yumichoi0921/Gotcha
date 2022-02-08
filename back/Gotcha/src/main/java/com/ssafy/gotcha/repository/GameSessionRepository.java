@@ -20,13 +20,14 @@ public class GameSessionRepository {
 	@PostConstruct
 	private void init() {
 		gameSessionMap = new LinkedHashMap<>();
+		// testcode -> 게임세션 생성
+		gameSessionMap.put("865a1de0-c25b-4819-a7bc-cc87fe19272c", new GameSession("865a1de0-c25b-4819-a7bc-cc87fe19272c", Player.builder().build()));
 	}
 
 	public List<GameSession> findAllGameSessions() {
 		// 채팅방 생성 순서 최근 순으로 반환
 		List<GameSession> result = new ArrayList<>(gameSessionMap.values());
 		Collections.reverse(result);
-
 		return result;
 	}
 
