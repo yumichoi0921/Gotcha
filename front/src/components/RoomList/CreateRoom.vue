@@ -139,7 +139,7 @@ export default {
         (response) => {
           const roomId = response.data.roomId;
           this.$router.push({
-            name: "WaitingRoom",
+            name: "GameRoom",
             params: { roomId: roomId },
           });
         }

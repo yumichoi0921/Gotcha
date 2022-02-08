@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="">
     <p>웨이팅룸 아이디:{{ roomId }}</p>
-    <div id="main-container" class="container">
+    <div id="main-container" class="">
       <div id="join" v-if="!session">
-        <div id="join-dialog" class="jumbotron vertical-center">
+        <div id="join-dialog" class="jumbotron vertical-center container">
           <h1>Join a video session</h1>
           <div class="form-group">
             <p>
-              <label>닉네임</label>
+              <label>아이디를 적으세요</label>
               <input
-                v-model="nickName"
+                v-model="userId"
                 class="form-control"
                 type="text"
                 required
@@ -26,7 +26,6 @@
 
       <div id="session" v-if="session">
         <div id="session-header">
-          <h1 id="session-title">{{ mySessionId }}</h1>
           <input
             class="btn btn-large btn-danger"
             type="button"
@@ -35,20 +34,39 @@
             value="Leave session"
           />
         </div>
-        <div id="main-video" class="col-md-6">
+
+        <!-- <div id="main-video" class="col-3">
           <user-video :stream-manager="mainStreamManager" />
+        </div> -->
+        <div class="mt-5 mx-5 d-flex justify-content-center">
+          <b-button
+            v-if="userId == `host`"
+            @click="gameStart"
+            variant="danger"
+            class="mx-3"
+            >시작</b-button
+          >
+          <b-button v-else variant="danger" class="mx-3">준비</b-button>
         </div>
-        <div id="video-container" class="col-md-6">
+
+        <div id="video-container" class="container-fluid">
           <user-video
             :stream-manager="publisher"
             @click.native="updateMainVideoStreamManager(publisher)"
+            :userId="userId"
+            :myCard="myCard"
           />
-          <user-video
-            v-for="sub in subscribers"
-            :key="sub.stream.connection.connectionId"
-            :stream-manager="sub"
-            @click.native="updateMainVideoStreamManager(sub)"
-          />
+
+          <b-row>
+            <b-col
+              v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+            >
+              <user-video
+                :stream-manager="sub"
+                @click.native="updateMainVideoStreamManager(sub)"
+            /></b-col>
+          </b-row>
         </div>
         <joker-game session></joker-game>
       </div>
@@ -76,81 +94,112 @@ import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-
-import UserVideo from "@/components/WaitingRoom/UserVideo.vue";
 import JokerGame from "@/views/JokerGame.vue";
-axios.defaults.headers.post["Content-Type"] = "application/json";
+import UserVideo from "@/components/GameRoom/UserVideo.vue";
 
+axios.defaults.headers.post["Content-Type"] = "application/json";
 const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
-  name: "WaitingRoom",
+  name: "GameRoom",
   components: {
     UserVideo,
     JokerGame,
   },
   data() {
     return {
-      roomId: "",
-      sender: "",
+      // user 관련 data
+      userId: "",
+      roomId: null,
+      myCard: null,
+      // Message 관련 data
+      type: "",
       content: "",
-      stompClient: null,
       msg: [],
-
+      // GameMessage관련 data
+      hostId: null,
+      turn: null,
+      nowTurn: null,
+      players: null,
+      cardList: null,
+      winner: null,
+      candidate: null,
+      // EventMessage관련 data
+      eventType: null,
+      chooser: null,
+      chosen: null,
+      selectedCard: null,
+      // stomp관련 data
+      stompClient: null,
+      connected: false,
+      // OpenVidu관련 data
       OV: undefined,
       session: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
-
       mySessionId: "",
-      nickName: "",
     };
   },
   created() {
     this.roomId = this.$route.params.roomId;
     this.mySessionId = this.roomId;
-    this.connect();
   },
   methods: {
     connect() {
       const serverURL = "http://localhost:8080/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
       this.stompClient.connect(
-        {},
-        (frame) => {
-          // 소켓 연결 성공
-          // this.connected = true;
-          console.log("소켓 연결 성공", frame);
-          this.stompClient.subscribe("/sub/" + this.roomId, (res) => {
-            // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-            let jsonBody = JSON.parse(res.body);
-            let message = {
-              roomId: jsonBody.roomId,
-              sender: jsonBody.sender,
-              content: jsonBody.content,
-              type: jsonBody.type,
-            };
-            this.msg.push(message);
-          });
-        },
-        (error) => {
-          // 소켓 연결 실패
-          console.log("소켓 연결 실패", error);
-          this.connected = false;
-        }
+        { roomId: this.roomId, userId: this.userId },
+        this.onConnected,
+        this.onError
       );
+    },
+    onConnected(frame) {
+      // 소켓 연결 성공
+      console.log("소켓 연결 성공", frame);
+      this.connected = true;
+      this.stompClient.subscribe("/sub/" + this.roomId, this.onMessageReceived);
+    },
+    onError(error) {
+      // 소켓 연결 실패
+      console.log("소켓 연결 실패", error);
+      this.connected = false;
     },
     sendMessage() {
       let message = {
         roomId: this.roomId,
-        sender: this.sender,
+        userId: this.userId,
         content: this.content,
-        type: "JOIN",
+        type: this.type,
       };
       this.stompClient.send("/pub/message", JSON.stringify(message), {});
+    },
+    onMessageReceived(payload) {
+      // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
+      let jsonBody = JSON.parse(payload.body);
+      // let message = {
+      //   roomId: jsonBody.roomId,
+      //   userId: jsonBody.userId,
+      //   content: jsonBody.content,
+      //   type: jsonBody.type,
+      // };
+      // this.msg.push(message);
+      if (jsonBody.type == "START") {
+        this.gameMessageParser(jsonBody.content);
+      }
+    },
+    gameMessageParser(content) {
+      let gameMessage = JSON.parse(content);
+      this.hostId = gameMessage.hostId;
+      this.turn = gameMessage.turn;
+      this.nowTurn = gameMessage.nowTurn;
+      this.players = gameMessage.players;
+      this.cardList = gameMessage.cardList;
+      this.winner = gameMessage.winner;
+      this.candidate = gameMessage.candidate;
+      this.myCard = this.cardList[this.userId];
     },
     joinSession() {
       // --- Get an OpenVidu object ---
@@ -186,7 +235,9 @@ export default {
       // 'token' parameter should be retrieved and returned by your own backend
       this.getToken(this.mySessionId).then((token) => {
         this.session
-          .connect(token, { clientData: this.myUserName })
+          .connect(token, {
+            clientData: { userId: this.userId, myCard: this.myCard },
+          })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
 
@@ -207,6 +258,7 @@ export default {
             // --- Publish your stream ---
 
             this.session.publish(this.publisher);
+            this.connect();
           })
           .catch((error) => {
             console.log(
@@ -312,6 +364,11 @@ export default {
           .then((data) => resolve(data.token))
           .catch((error) => reject(error.response));
       });
+    },
+    gameStart() {
+      this.type = "START";
+      this.content = "";
+      this.sendMessage();
     },
   },
 };
