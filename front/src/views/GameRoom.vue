@@ -1,73 +1,49 @@
 <template>
-  <div class="">
-    <p>웨이팅룸 아이디:{{ roomId }}</p>
-    <div id="main-container" class="">
-      <div id="join" v-if="!session">
-        <div id="join-dialog" class="jumbotron vertical-center container">
-          <h1>Join a video session</h1>
-          <div class="form-group">
-            <p>
-              <label>아이디를 적으세요</label>
-              <input
-                v-model="userId"
-                class="form-control"
-                type="text"
-                required
-              />
-            </p>
-            <p class="text-center">
-              <button class="btn btn-lg btn-success" @click="joinSession()">
-                Join!
-              </button>
-            </p>
-          </div>
+  <div class="GameRoom">
+    <div id="setting-dialog" class="card" v-if="!session">
+      <h5 class="card-header">Join a video session</h5>
+      <div class="card-body">
+        <h5 class="card-title">아이디를 적으세요</h5>
+        <div class="card-text form-group">
+          <p>
+            <input v-model="userId" class="form-control" type="text" required />
+          </p>
+          <p class="text-center">
+            <button class="btn btn-lg btn-success" @click="joinSession()">
+              Join!
+            </button>
+          </p>
         </div>
       </div>
-
-      <div id="session" v-if="session">
-        <div id="session-header">
-          <input
-            class="btn btn-large btn-danger"
-            type="button"
-            id="buttonLeaveSession"
-            @click="leaveSession"
-            value="Leave session"
-          />
-        </div>
-
+    </div>
+    <div id="GameSession" v-if="session">
+      <div id="GameSession-header">
+        <b-row class="alert alert-secondary">
+          <b-col
+            ><h3>{{ room.roomTitle }}</h3></b-col
+          >
+          <b-col>
+            <b-button
+              v-if="userId == `host`"
+              @click="gameStart"
+              variant="danger"
+              >시작</b-button
+            >
+            <b-button v-else variant="danger">준비</b-button></b-col
+          >
+          <b-col>
+            <input
+              class="btn btn-large btn-danger"
+              type="button"
+              id="buttonLeaveSession"
+              @click="leaveSession"
+              value="Leave session" /></b-col
+        ></b-row>
+      </div>
+      <div id="GameSession-body">
         <!-- <div id="main-video" class="col-3">
           <user-video :stream-manager="mainStreamManager" />
         </div> -->
-        <div class="mt-5 mx-5 d-flex justify-content-center">
-          <b-button
-            v-if="userId == `host`"
-            @click="gameStart"
-            variant="danger"
-            class="mx-3"
-            >시작</b-button
-          >
-          <b-button v-else variant="danger" class="mx-3">준비</b-button>
-        </div>
-
-        <div id="video-container" class="container-fluid">
-          <!-- <user-video
-            :stream-manager="publisher"
-            @click.native="updateMainVideoStreamManager(publisher)"
-            :userId="userId"
-            :myCard="myCard"
-          /> -->
-
-          <!-- <b-row>
-            <b-col
-              v-for="sub in subscribers"
-              :key="sub.stream.connection.connectionId"
-            >
-              <user-video
-                :stream-manager="sub"
-                @click.native="updateMainVideoStreamManager(sub)"
-            /></b-col>
-          </b-row> -->
-        </div>
         <joker-game
           :publisher="publisher"
           :subscribers="subscribers"
@@ -75,6 +51,25 @@
           :myCard="myCard"
         ></joker-game>
       </div>
+      <!-- <div id="video-container" class="container-fluid">
+        <user-video
+          :stream-manager="publisher"
+          @click.native="updateMainVideoStreamManager(publisher)"
+          :userId="userId"
+          :myCard="myCard"
+        />
+
+        <b-row>
+          <b-col
+            v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+          >
+            <user-video
+              :stream-manager="sub"
+              @click.native="updateMainVideoStreamManager(sub)"
+          /></b-col>
+        </b-row>
+      </div> -->
     </div>
   </div>
 </template>
@@ -83,10 +78,11 @@
 import JokerGame from "@/views/JokerGame.vue";
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
 
+import axios from "axios";
+import { room } from "@/api/room.js";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import { OpenVidu } from "openvidu-browser";
-import axios from "axios";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":443";
@@ -102,8 +98,9 @@ export default {
     return {
       // user 관련 data
       userId: "",
-      roomId: null,
       myCard: null,
+      // room 관련 data
+      room: null,
       // Message 관련 data
       type: "",
       content: "",
@@ -134,8 +131,11 @@ export default {
     };
   },
   created() {
-    this.roomId = this.$route.params.roomId;
-    this.mySessionId = this.roomId;
+    let roomId = this.$route.params.roomId;
+    room(roomId, (response) => {
+      this.room = response.data;
+      this.mySessionId = this.room.roomId;
+    });
   },
   methods: {
     connect() {
@@ -143,7 +143,7 @@ export default {
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect(
-        { roomId: this.roomId, userId: this.userId },
+        { roomId: this.room.roomId, userId: this.userId },
         this.onConnected,
         this.onError
       );
@@ -152,7 +152,10 @@ export default {
       // 소켓 연결 성공
       console.log("소켓 연결 성공", frame);
       this.connected = true;
-      this.stompClient.subscribe("/sub/" + this.roomId, this.onMessageReceived);
+      this.stompClient.subscribe(
+        "/sub/" + this.room.roomId,
+        this.onMessageReceived
+      );
     },
     onError(error) {
       // 소켓 연결 실패
@@ -161,7 +164,7 @@ export default {
     },
     sendMessage() {
       let message = {
-        roomId: this.roomId,
+        roomId: this.room.roomId,
         userId: this.userId,
         content: this.content,
         type: this.type,
@@ -172,7 +175,7 @@ export default {
       // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
       let jsonBody = JSON.parse(payload.body);
       // let message = {
-      //   roomId: jsonBody.roomId,
+      //   roomId: jsonBody.room.roomId,
       //   userId: jsonBody.userId,
       //   content: jsonBody.content,
       //   type: jsonBody.type,

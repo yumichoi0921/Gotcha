@@ -10,4 +10,8 @@ function roomList(succes, fail) {
   api.get(`api/rooms`).then(succes).catch(fail);
 }
 
-export { createRoom, roomList };
+function room(roomId, succes, fail) {
+  api.get(`api/rooms/${roomId}`).then(succes).catch(fail);
+}
+
+export { createRoom, roomList, room };

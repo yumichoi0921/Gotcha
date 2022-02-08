@@ -1,6 +1,6 @@
 <template>
   <div v-if="streamManager">
-    <div class="card my-2" style="width: 270px">
+    <div class="card px-2">
       <ov-video :stream-manager="streamManager" class="mx-auto mt-2" />
       <div class="card-body">
         <div class="card-title alert alert-dark" role="alert">
