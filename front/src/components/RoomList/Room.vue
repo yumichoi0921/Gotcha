@@ -2,17 +2,17 @@
   <b-card bg-variant="light" class="rounded-lg shadow mx-3 my-4">
     <b-alert show variant="dark" class="rounded-pill">
       <div class="row">
-        <span class="col-6">{{ roomTitle }}</span>
+        <span class="col-6 Jua">{{ roomTitle }}</span>
         <span class="col-2"
           ><b-icon icon="lock" v-if="isPrivate"></b-icon>
           <b-icon icon="unlock" v-else></b-icon
         ></span>
-        <span class="col-4">{{ participant }} / {{ capacity }}</span>
+        <span class="col-4 Jua">{{ participant }} / {{ capacity }}</span>
       </div>
     </b-alert>
 
     <router-link :to="{ name: 'GameRoom', params: { roomId: roomId } }"
-      ><b-button pill class="col-6 mx-auto">Enter</b-button></router-link
+      ><b-button pill class="col-6 mx-auto Jua">Enter</b-button></router-link
     >
   </b-card>
 </template>

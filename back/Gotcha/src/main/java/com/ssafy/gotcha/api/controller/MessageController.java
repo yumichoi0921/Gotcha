@@ -8,15 +8,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.gotcha.game.model.ChatMessage;
 import com.ssafy.gotcha.game.model.GameMessage;
+import com.ssafy.gotcha.game.model.GameSession;
+import com.ssafy.gotcha.game.model.MessageType;
 import com.ssafy.gotcha.repository.GameSessionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,11 +39,10 @@ public class MessageController {
             break;
         case START : 
         	// testcode
-        	gameSessionRepository.findGameSessionById(gameSessionId).gameStart();
-        	GameMessage gameMessage = gameSessionRepository.findGameSessionById(gameSessionId).toGameMessage();
-        	ObjectMapper mapper = new ObjectMapper();
-        	String objectToJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameMessage);
-        	chatMessage.setContent(objectToJson);
+        	GameSession gameSession = gameSessionRepository.findGameSessionById(gameSessionId);
+        	gameSession.gameStart();
+        	chatMessage.setType(MessageType.GAME);
+        	chatMessage.setContent(gameSession.toGameMessage().toContent());
             break;
         case GAME : 
 //       
