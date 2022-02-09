@@ -5,8 +5,11 @@
         v-for="sub in subscribers"
         :key="sub.stream.connection.connectionId"
       >
-        <user-video :stream-manager="sub"
-      /></b-col>
+        <div id="PlayerInfo">
+          <user-video :stream-manager="sub" class="mb-0" />
+          <div>닉네임:</div>
+        </div>
+      </b-col>
     </div>
     <div id="PublisherSection" class="row">
       <div id="GameInfoSection" class="col-8">
@@ -38,7 +41,7 @@
                 >Primary</b-button
               > -->
             <b-row cols="6" class="">
-              <b-col v-for="(card, idx) in cards[myturn]" v-bind:key="idx">
+              <b-col v-for="(card, idx) in myCard" v-bind:key="idx">
                 <img
                   class="cardlist"
                   v-on:click="cardClick(card)"
@@ -51,11 +54,7 @@
 
       <div id="PublisherInfo" class="col">
         <div>
-          <user-video
-            :stream-manager="publisher"
-            :userId="userId"
-            :myCard="myCard"
-          />
+          <user-video :stream-manager="publisher" :userId="userId" />
         </div>
       </div>
     </div>
@@ -70,7 +69,7 @@ export default {
     publisher: Object,
     subscribers: Array,
     userId: String,
-    myCard: Array,
+    gameMessage: Object,
   },
   components: {
     UserVideo,
@@ -85,7 +84,27 @@ export default {
         ["CA", "C2", "H3", "D5"],
       ],
       myturn: 3,
+      hostId: null,
+      turn: null,
+      nowTurn: null,
+      players: null,
+      cardList: null,
+      winner: null,
+      candidate: null,
+      myCard: null,
     };
+  },
+  watch: {
+    gameMessage() {
+      this.hostId = this.gameMessage.hostId;
+      this.turn = this.gameMessage.turn;
+      this.nowTurn = this.gameMessage.nowTurn;
+      this.players = this.gameMessage.players;
+      this.cardList = this.gameMessage.cardList;
+      this.winner = this.gameMessage.winner;
+      this.candidate = this.gameMessage.candidate;
+      this.myCard = this.cardList[this.userId];
+    },
   },
   methods: {
     cardClick(card) {
@@ -102,5 +121,8 @@ export default {
   height: 70px;
   margin: 5px;
   float: left;
+}
+#PlayerInfo {
+  background-color: rgba(255, 216, 110, 0.938);
 }
 </style>
