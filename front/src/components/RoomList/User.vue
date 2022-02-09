@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <b-avatar variant="secondary" class="float-left ml-4"></b-avatar>
-    <b-button variant="warning" class="float-left ml-3 mr-5">logout</b-button>
+  <div id="User">
+    <b-avatar variant="secondary" class="mx-2"></b-avatar>
+    <b-button variant="warning" class="mx-2 Jua">logout</b-button>
   </div>
 </template>
 

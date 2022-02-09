@@ -1,14 +1,14 @@
 <template>
   <transition name="modal">
-    <div class="modal-mask">
+    <div id="CreateRoom" class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
             <slot name="header"></slot>
           </div>
+
           <div class="modal-body">
             <slot name="body">
-              <!-- <b-form @submit="onSubmit" @reset="onReset"> -->
               <b-form @submit.prevent="onSubmit" class="text-left">
                 <b-form-group
                   id="room-title-group"
@@ -139,7 +139,7 @@ export default {
         (response) => {
           const roomId = response.data.roomId;
           this.$router.push({
-            name: "WaitingRoom",
+            name: "GameRoom",
             params: { roomId: roomId },
           });
         }

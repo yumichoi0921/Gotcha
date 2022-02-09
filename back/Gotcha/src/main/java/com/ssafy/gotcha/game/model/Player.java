@@ -1,5 +1,8 @@
 package com.ssafy.gotcha.game.model;
 
+import java.util.List;
+import java.util.Objects;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +18,12 @@ public class Player {
 	**/
 	
 	private String userId; // User Entity의 아이디 -> 친구추가기능에서 쓰일수있으니까?
+	private String connectionId; // openVidu에 접속하면 개인별로 할당되는 connectionId
 	private String nickName; // User Entity의 닉네임 -> 창에 보여줘야돼
 	private boolean readyState; // 레디상태 체크
 	private boolean isActivated; // 활성화 여부(true: 게임 진행 가능 / false: 게임 진행 불가 상태)
-	private String connectionId; // openVidu에 접속하면 개인별로 할당되는 connectionId
 	// boolean isLeft; // 방 나갔는지 여부
+	// testcode
+	private String roomId;	// 유저가 속한 룸아이디
+	
 }

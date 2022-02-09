@@ -3,5 +3,8 @@ package com.ssafy.gotcha.game.model;
 public enum MessageType {
     CHAT,
     JOIN,
-    LEAVE
+    LEAVE,
+    READY,
+    START,
+    GAME
 }

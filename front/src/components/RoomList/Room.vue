@@ -1,30 +1,39 @@
 <template>
-  <b-card bg-variant="light" class="rounded-lg shadow mx-3 my-4">
-    <b-alert show variant="dark" class="rounded-pill">
-      <div class="row">
-        <span class="col-6">{{ roomTitle }}</span>
-        <span class="col-2"
-          ><b-icon icon="lock" v-if="isPrivate"></b-icon>
-          <b-icon icon="unlock" v-else></b-icon
-        ></span>
-        <span class="col-4">{{ participant }} / {{ capacity }}</span>
+  <div id="Room">
+    <b-card bg-variant="light" class="rounded-lg shadow m-4">
+      <div id="Room-body">
+        <b-alert show variant="dark" class="rounded-pill">
+          <b-row
+            ><b-col cols="6" class="Jua">{{ room.roomTitle }}</b-col>
+            <b-col cols="2" class="Jua"
+              ><b-icon icon="lock" v-if="room.isPrivate"></b-icon>
+              <b-icon icon="unlock" v-else></b-icon
+            ></b-col>
+            <b-col cols="4" class="Jua"
+              >{{ room.participant }} / {{ room.capacity }}</b-col
+            ></b-row
+          >
+        </b-alert>
       </div>
-    </b-alert>
-
-    <router-link :to="{ name: 'WaitingRoom', params: { roomId: roomId } }"
-      ><b-button pill class="col-6 mx-auto">Enter</b-button></router-link
-    >
-  </b-card>
+      <div id="Room-footer">
+        <router-link
+          :to="{
+            name: 'GameRoom',
+            params: { roomId: room.roomId },
+          }"
+          ><b-button pill class="col-6 mx-auto Jua"
+            >Enter</b-button
+          ></router-link
+        >
+      </div>
+    </b-card>
+  </div>
 </template>
 <script>
 export default {
   name: "Room",
   props: {
-    roomId: String,
-    roomTitle: String,
-    isPrivate: Boolean,
-    participant: Number,
-    capacity: Number,
+    room: Object,
   },
   data() {
     return {};

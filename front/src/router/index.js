@@ -2,7 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import RoomList from "../views/RoomList.vue";
-import WaitingRoom from "../views/WaitingRoom.vue";
+import GameRoom from "../views/GameRoom.vue";
+import JokerGame from "../views/JokerGame.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -18,8 +20,13 @@ const routes = [
   },
   {
     path: "/room/:roomId",
-    name: "WaitingRoom",
-    component: WaitingRoom,
+    name: "GameRoom",
+    component: GameRoom,
+  },
+  {
+    path: "/joker",
+    name: "JokerGame",
+    component: JokerGame,
   },
 ];
 
