@@ -5,9 +5,13 @@
         v-for="sub in subscribers"
         :key="sub.stream.connection.connectionId"
       >
-        <div id="PlayerInfo">
-          <user-video :stream-manager="sub" class="mb-0" />
-          <div>닉네임:</div>
+        <div id="PlayerInfo" class="card m-auto">
+          <div class="card-header">
+            <user-video :stream-manager="sub" />
+          </div>
+          <div class="card-body" v-if="cardList != null">
+            card X {{ cardList[getUserId(sub.stream.connection.data)].length }}
+          </div>
         </div>
       </b-col>
     </div>
@@ -23,24 +27,18 @@
         <div id="CardInfoSection" class="row">
           <div id="SubCardDeck" class="col">
             <b-alert show variant="primary">카드를 선택하세요</b-alert>
-            <b-row cols="6" class="">
-              <b-col v-for="(card, idx) in cards[myturn]" v-bind:key="idx">
+            <b-row cols="6" class="" v-if="cardList != null">
+              <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
                 <b-card
+                  class="cardlist my-3"
                   v-on:click="cardClick(card)"
                   :img-src="require('../assets/poker/backCard.jpg')"
-                  class="cardlist my-3"
-                >
-                  <!-- {{ card.shape }} {{ card.number }} -->
-                </b-card>
-              </b-col></b-row
-            >
+                ></b-card> </b-col
+            ></b-row>
           </div>
           <div id="PubCardDeck" class="col">
             <b-alert show variant="primary">내카드덱</b-alert>
-            <!-- <b-button variant="primary" v-on:click="makeDeck()"
-                >Primary</b-button
-              > -->
-            <b-row cols="6" class="">
+            <b-row cols="6" class="" v-if="cardList != null">
               <b-col v-for="(card, idx) in myCard" v-bind:key="idx">
                 <img
                   class="cardlist"
@@ -86,7 +84,9 @@ export default {
       myturn: 3,
       hostId: null,
       turn: null,
-      nowTurn: null,
+      // nowTurn: null,
+      picker: null,
+      picked: null,
       players: null,
       cardList: null,
       winner: null,
@@ -98,18 +98,26 @@ export default {
     gameMessage() {
       this.hostId = this.gameMessage.hostId;
       this.turn = this.gameMessage.turn;
-      this.nowTurn = this.gameMessage.nowTurn;
+      // this.nowTurn = this.gameMessage.nowTurn;
+      this.picker = this.gameMessage.picker;
+      this.picked = this.gameMessage.picked;
       this.players = this.gameMessage.players;
       this.cardList = this.gameMessage.cardList;
       this.winner = this.gameMessage.winner;
       this.candidate = this.gameMessage.candidate;
       this.myCard = this.cardList[this.userId];
+      console.log(this.gameMessage);
     },
   },
+  computed: {},
   methods: {
     cardClick(card) {
       console.log(card);
       alert(card);
+    },
+    getUserId(data) {
+      let clientData = JSON.parse(data);
+      return clientData.clientData.userId;
     },
   },
 };
