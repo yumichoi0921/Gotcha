@@ -58,7 +58,7 @@ public class GameSession {
 		// 첫번째 뽑는사람
 		picker = turn.get(0);
 		// 첫번째 뽑히는 사람
-		picked = turn.get(turn.size()-1);
+		picked = turn.get(turn.indexOf(picker)+1);
 	}
 
 	private void initCard() {
