@@ -32,13 +32,13 @@ public class StompHandler extends ChannelInterceptorAdapter {
         	case SUBSCRIBE:
 	        	break;
             case CONNECT:
-            	logger.info("Client with connectionId: {} connected", connectionId);
+            	logger.info("Client connected with connectionId: {}", connectionId);
             	String roomId = headerAccessor.getFirstNativeHeader("roomId");
             	String userId = headerAccessor.getFirstNativeHeader("userId");
             	playerService.connectPlayer(connectionId, roomId, userId);
                 break;
             case DISCONNECT:
-            	logger.info("Client with connectionId: {} disConnected", connectionId);
+            	logger.info("Client disConnected with connectionId: {}", connectionId);
             	playerService.disConnectPlayer(connectionId);            	
                 break;
             default:

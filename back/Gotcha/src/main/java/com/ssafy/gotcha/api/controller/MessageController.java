@@ -52,37 +52,6 @@ public class MessageController {
     }
 		template.convertAndSend("/sub/" + chatMessage.getRoomId(), chatMessage);
 		
-//		@MessageMapping("/message/game")
-//		public void sendMessage(@Payload gameMessage gameMessage) throws JsonProcessingException {
-//			String gameSessionId = chatMessage.getRoomId();
-//			switch (chatMessage.getType()) {
-//	    	case JOIN:
-////	        	System.out.println("join");
-//	    		template.convertAndSend("/sub/" + chatMessage.getRoomId(), chatMessage);
-//	        	break;
-//	        case LEAVE:
-//	            break;
-//	        case CHAT : 
-////	        	System.out.println("chat");
-//	        	template.convertAndSend("/sub/" + chatMessage.getRoomId(), chatMessage);
-//	            break;
-//	        case READY : 
-////	        	System.out.println("chat");
-//	            break;
-//	        case START : 
-////	        	System.out.println("chat");
-//	        	// testcode
-//	        	gameSessionRepository.findGameSessionById(gameSessionId).gameStart();
-//	        	GameMEssage gameMessage = gamese..togamesssage();
-//	        	new GameMessage 
-//	        	ObjectMapper mapper = new ObjectMapper();
-//	        	String jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameSessionRepository.findGameSessionById(gameSessionId));
-//	        	chatMessage.setContent(jsonInString);
-//	        	template.convertAndSend("/sub/" + chatMessage.getRoomId(), gameMessage);
-//	            break;
-//	        default:
-//	            break;
-//	    }
 		
 	}
 	
