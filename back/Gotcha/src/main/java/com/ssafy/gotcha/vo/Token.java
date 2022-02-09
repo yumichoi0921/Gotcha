@@ -1,4 +1,4 @@
-package com.ssafy.gotcha.entity;
+package com.ssafy.gotcha.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
