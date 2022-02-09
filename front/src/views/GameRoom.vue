@@ -48,7 +48,7 @@
           :publisher="publisher"
           :subscribers="subscribers"
           :userId="userId"
-          :myCard="myCard"
+          :gameMessage="gameMessage"
         ></joker-game>
       </div>
       <!-- <div id="video-container" class="container-fluid">
@@ -98,7 +98,7 @@ export default {
     return {
       // user 관련 data
       userId: "",
-      myCard: null,
+      // myCard: null,
       // room 관련 data
       room: null,
       // Message 관련 data
@@ -106,13 +106,13 @@ export default {
       content: "",
       msg: [],
       // GameMessage관련 data
-      hostId: null,
-      turn: null,
-      nowTurn: null,
-      players: null,
-      cardList: null,
-      winner: null,
-      candidate: null,
+      // hostId: null,
+      // turn: null,
+      // nowTurn: null,
+      // players: null,
+      // cardList: null,
+      // winner: null,
+      // candidate: null,
       // EventMessage관련 data
       eventType: null,
       chooser: null,
@@ -128,6 +128,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       mySessionId: "",
+      gameMessage: null,
     };
   },
   created() {
@@ -186,15 +187,15 @@ export default {
       }
     },
     gameMessageParser(content) {
-      let gameMessage = JSON.parse(content);
-      this.hostId = gameMessage.hostId;
-      this.turn = gameMessage.turn;
-      this.nowTurn = gameMessage.nowTurn;
-      this.players = gameMessage.players;
-      this.cardList = gameMessage.cardList;
-      this.winner = gameMessage.winner;
-      this.candidate = gameMessage.candidate;
-      this.myCard = this.cardList[this.userId];
+      this.gameMessage = JSON.parse(content);
+      // this.hostId = this.gameMessage.hostId;
+      // this.turn = this.gameMessage.turn;
+      // this.nowTurn = this.gameMessage.nowTurn;
+      // this.players = this.gameMessage.players;
+      // this.cardList = this.gameMessage.cardList;
+      // this.winner = this.gameMessage.winner;
+      // this.candidate = this.gameMessage.candidate;
+      // this.myCard = this.cardList[this.userId];
     },
     gameStart() {
       this.type = "START";
@@ -236,7 +237,7 @@ export default {
       this.getToken(this.mySessionId).then((token) => {
         this.session
           .connect(token, {
-            clientData: { userId: this.userId, myCard: this.myCard },
+            clientData: { userId: this.userId },
           })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
