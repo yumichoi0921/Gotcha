@@ -26,8 +26,8 @@
           >
         </div>
         <div id="CardInfoSection" class="row">
-          <div id="SubCardDeck" class="col">
-            <!-- <b-alert show variant="primary">카드를 선택하세요</b-alert> -->
+          <div id="SubCardDeck" class="col cardDeckForm">
+            <b-alert show variant="primary">상대방 카드덱</b-alert>
             <div>
               <b-row cols="6" class="" v-if="cardList != null">
                 <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
@@ -37,19 +37,10 @@
                     :src="require('../assets/poker/backCard.jpg')"
                   /> </b-col
               ></b-row>
-              <b-row><b-button>버튼</b-button></b-row>
+              <b-button>버튼</b-button>
             </div>
-            <!-- <b-row cols="6" class="" v-if="cardList != null">
-              <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
-                <img
-                  class="cardlist"
-                  v-on:click="cardClick(card)"
-                  :src="require('../assets/poker/backCard.jpg')"
-                /> </b-col
-            ></b-row>
-            <b-row><b-button>버튼</b-button></b-row> -->
           </div>
-          <div id="PubCardDeck" class="col">
+          <div id="PubCardDeck" class="col cardDeckForm">
             <b-alert show variant="primary">내카드덱</b-alert>
             <b-row cols="6" class="" v-if="cardList != null">
               <b-col v-for="(card, idx) in myCard" v-bind:key="idx">
@@ -88,13 +79,6 @@ export default {
 
   data() {
     return {
-      cards: [
-        ["CA", "C2", "H3", "D5"],
-        ["CA", "C2", "H3", "D5"],
-        ["CA", "C2", "H3", "D5"],
-        ["CA", "C2", "H3", "D5"],
-      ],
-      myturn: 3,
       hostId: null,
       turn: null,
       // nowTurn: null,
@@ -105,6 +89,7 @@ export default {
       winner: null,
       candidate: null,
       myCard: null,
+      chosenCard: "",
     };
   },
   watch: {
@@ -127,6 +112,8 @@ export default {
     cardClick(card) {
       console.log(card);
       alert(card);
+      this.chosenCard = card;
+      console.log("선택 카드:" + this.chosenCard);
     },
     getUserId(data) {
       let clientData = JSON.parse(data);
@@ -140,9 +127,13 @@ export default {
 .cardlist {
   width: 50px;
   height: 70px;
-  margin: 5px;
+  margin: 2px;
 }
 #PlayerInfo {
   background-color: rgba(255, 216, 110, 0.938);
+}
+.cardDeckForm {
+  background-color: rgba(255, 216, 110, 0.938);
+  margin: 10px;
 }
 </style>
