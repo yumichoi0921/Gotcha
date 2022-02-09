@@ -26,20 +26,9 @@
           >
         </div>
         <div id="CardInfoSection" class="row">
-          <div id="SubCardDeck" class="col">
-            <!-- <b-alert show variant="primary">카드를 선택하세요</b-alert> -->
-            <div>
-              <b-row cols="6" class="" v-if="cardList != null">
-                <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
-                  <img
-                    class="cardlist"
-                    v-on:click="cardClick(card)"
-                    :src="require('../assets/poker/backCard.jpg')"
-                  /> </b-col
-              ></b-row>
-              <b-row><b-button>버튼</b-button></b-row>
-            </div>
-            <!-- <b-row cols="6" class="" v-if="cardList != null">
+          <div id="SubCardDeck" class="col CardDeck px-1 mx-1">
+            <b-alert show variant="primary">카드를 선택하세요</b-alert>
+            <b-row cols="6" class="" v-if="cardList != null">
               <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
                 <img
                   class="cardlist"
@@ -47,9 +36,9 @@
                   :src="require('../assets/poker/backCard.jpg')"
                 /> </b-col
             ></b-row>
-            <b-row><b-button>버튼</b-button></b-row> -->
+            <b-button @click.prevent="sendGameMessage">버튼</b-button>
           </div>
-          <div id="PubCardDeck" class="col">
+          <div id="PubCardDeck" class="col CardDeck px-1 mx-1">
             <b-alert show variant="primary">내카드덱</b-alert>
             <b-row cols="6" class="" v-if="cardList != null">
               <b-col v-for="(card, idx) in myCard" v-bind:key="idx">
@@ -95,6 +84,7 @@ export default {
         ["CA", "C2", "H3", "D5"],
       ],
       myturn: 3,
+      gameSessionId: null,
       hostId: null,
       turn: null,
       // nowTurn: null,
@@ -109,6 +99,7 @@ export default {
   },
   watch: {
     gameMessage() {
+      this.gameSessionId = this.gameMessage.gameSessionId;
       this.hostId = this.gameMessage.hostId;
       this.turn = this.gameMessage.turn;
       // this.nowTurn = this.gameMessage.nowTurn;
@@ -119,7 +110,7 @@ export default {
       this.winner = this.gameMessage.winner;
       this.candidate = this.gameMessage.candidate;
       this.myCard = this.cardList[this.userId];
-      console.log(this.gameMessage);
+      console.log("조커게임 게임메시지 받음", this.gameMessage);
     },
   },
   computed: {},
@@ -132,17 +123,34 @@ export default {
       let clientData = JSON.parse(data);
       return clientData.clientData.userId;
     },
+    sendGameMessage() {
+      let message = {
+        gameSessionId: this.gameSessionId,
+        hostId: this.hostId,
+        turn: this.turn,
+        // this.nowTurn = this.gameMessage.nowTurn;
+        picker: this.picker,
+        picked: this.picked,
+        players: this.players,
+        cardList: this.cardList,
+        winner: this.winner,
+        candidate: this.candidate,
+      };
+      this.$emit("sendGameMessage", message);
+    },
   },
 };
 </script>
 
 <style>
 .cardlist {
-  width: 50px;
-  height: 70px;
-  margin: 5px;
+  width: 100%;
+  margin-bottom: 5px;
 }
 #PlayerInfo {
+  background-color: rgba(255, 216, 110, 0.938);
+}
+.CardDeck {
   background-color: rgba(255, 216, 110, 0.938);
 }
 </style>

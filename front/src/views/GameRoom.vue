@@ -49,27 +49,9 @@
           :subscribers="subscribers"
           :userId="userId"
           :gameMessage="gameMessage"
+          v-on:sendGameMessage="sendGameMessage"
         ></joker-game>
       </div>
-      <!-- <div id="video-container" class="container-fluid">
-        <user-video
-          :stream-manager="publisher"
-          @click.native="updateMainVideoStreamManager(publisher)"
-          :userId="userId"
-          :myCard="myCard"
-        />
-
-        <b-row>
-          <b-col
-            v-for="sub in subscribers"
-            :key="sub.stream.connection.connectionId"
-          >
-            <user-video
-              :stream-manager="sub"
-              @click.native="updateMainVideoStreamManager(sub)"
-          /></b-col>
-        </b-row>
-      </div> -->
     </div>
   </div>
 </template>
@@ -198,10 +180,16 @@ export default {
       // this.winner = this.gameMessage.winner;
       // this.candidate = this.gameMessage.candidate;
       // this.myCard = this.cardList[this.userId];
+      // console.log(this.gameMessage);
     },
     gameStart() {
       this.type = "START";
       this.content = "";
+      this.sendMessage();
+    },
+    sendGameMessage(message) {
+      this.type = "GAME";
+      this.content = JSON.stringify(message);
       this.sendMessage();
     },
     joinSession() {
