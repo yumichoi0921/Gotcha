@@ -10,7 +10,8 @@
             <user-video :stream-manager="sub" />
           </div>
           <div class="card-body" v-if="cardList != null">
-            card X {{ cardList[getUserId(sub.stream.connection.data)].length }}
+            <img :src="require('../assets/poker/miniCard.jpg')" />
+            X {{ cardList[getUserId(sub.stream.connection.data)].length }}
           </div>
         </div>
       </b-col>
@@ -26,15 +27,27 @@
         </div>
         <div id="CardInfoSection" class="row">
           <div id="SubCardDeck" class="col">
-            <b-alert show variant="primary">카드를 선택하세요</b-alert>
-            <b-row cols="6" class="" v-if="cardList != null">
+            <!-- <b-alert show variant="primary">카드를 선택하세요</b-alert> -->
+            <div>
+              <b-row cols="6" class="" v-if="cardList != null">
+                <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
+                  <img
+                    class="cardlist"
+                    v-on:click="cardClick(card)"
+                    :src="require('../assets/poker/backCard.jpg')"
+                  /> </b-col
+              ></b-row>
+              <b-row><b-button>버튼</b-button></b-row>
+            </div>
+            <!-- <b-row cols="6" class="" v-if="cardList != null">
               <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
-                <b-card
-                  class="cardlist my-3"
+                <img
+                  class="cardlist"
                   v-on:click="cardClick(card)"
-                  :img-src="require('../assets/poker/backCard.jpg')"
-                ></b-card> </b-col
+                  :src="require('../assets/poker/backCard.jpg')"
+                /> </b-col
             ></b-row>
+            <b-row><b-button>버튼</b-button></b-row> -->
           </div>
           <div id="PubCardDeck" class="col">
             <b-alert show variant="primary">내카드덱</b-alert>
@@ -128,7 +141,6 @@ export default {
   width: 50px;
   height: 70px;
   margin: 5px;
-  float: left;
 }
 #PlayerInfo {
   background-color: rgba(255, 216, 110, 0.938);
