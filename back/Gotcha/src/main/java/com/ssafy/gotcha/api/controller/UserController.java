@@ -62,17 +62,11 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //해당 인증 정보를 기반으로 jwt 토큰을 생성
         String jwt = tokenProvider.createToken(authentication);
-        System.out.println(jwt);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-
         //생성된 Token을 Response Header에 넣고, Token vo 객체를 이용해 Response Body에도 넣어서 리턴
         return new ResponseEntity<>(new Token(jwt), httpHeaders, HttpStatus.OK);
     }
 	
-	 @GetMapping("/test")
-	    public String test(){
-	        return "접근 가능 하지오오오오오오~~~";
-	    }
 
 }

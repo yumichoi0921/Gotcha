@@ -36,7 +36,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 public class User extends BaseEntity implements UserDetails{
-	//@Id -> Long
 	String userId;
 	String nickName;
 	String email;
@@ -67,7 +66,6 @@ public class User extends BaseEntity implements UserDetails{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		 return this.roles.stream()
 	                .map(SimpleGrantedAuthority::new)
-//	                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
 	                .collect(Collectors.toList());
 	}
 
@@ -78,25 +76,21 @@ public class User extends BaseEntity implements UserDetails{
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 }

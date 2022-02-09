@@ -57,7 +57,7 @@ public class TokenProvider implements InitializingBean {
 
         Long now = new Date().getTime();
 
-        Date Validity = new Date(now + this.tokenValidityInMilliseconds * 1000);
+        Date Validity = new Date(now + this.tokenValidityInMilliseconds);
 
         return Jwts.builder()
                 .setSubject(authentication.getName()) // 토큰 제목 (sub Claim)

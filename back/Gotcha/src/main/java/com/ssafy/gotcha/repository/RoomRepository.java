@@ -9,6 +9,5 @@ import com.ssafy.gotcha.entity.Room;
 public interface RoomRepository extends JpaRepository<Room, Long>{
 	@Transactional
 	void deleteByRoomId(String roomId);
-	//List<User> findByPasswordOrderByRoomId(String Password);
 	Room findByRoomId(String roomId);
 }
