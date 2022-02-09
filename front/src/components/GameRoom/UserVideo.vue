@@ -1,6 +1,6 @@
 <template>
   <div v-if="streamManager">
-    <div id="userInfo">
+    <div id="userCAM">
       <ov-video :stream-manager="streamManager" />
       <div>닉네임: {{ clientData.userId }}</div>
     </div>
@@ -38,8 +38,4 @@ export default {
   },
 };
 </script>
-<style>
-#userInfo {
-  background-color: rgba(255, 216, 110, 0.938);
-}
-</style>
+<style></style>
