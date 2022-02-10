@@ -14,7 +14,6 @@ public class GameMessage extends MessageContent {
 	private String gameSessionId; // 현재 게임방의 id
 	private String hostId;	// 게임방의 호스트 id
 	private List<String> turn;	// 게임 진행 순서(플레이어 id)
-//	private String nowTurn;	//	현재 순서인 플레이어 id
 	private String picker;	// 뽑는 사람 id
 	private String picked;	// 뽑히는 사람 id
 	private HashMap<String, Player> players; // 현재 게임방에 참가한 플레이어 리스트

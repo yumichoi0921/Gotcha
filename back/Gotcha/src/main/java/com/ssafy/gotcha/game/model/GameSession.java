@@ -22,7 +22,6 @@ public class GameSession {
 	// testcode;
 	private HashMap<String, List<String>> cardList; // 플레이어별 카드 리스트
 	private List<String> turn;	// 게임 순서 리스트
-//	private String nowTurn;	// 현재 순서
 	private String picker;	// 뽑는 사람 id
 	private String picked;	// 뽑히는 사람 id
 	private List<String> winner;	// 카드를 다 버린 플레이어
@@ -82,7 +81,6 @@ public class GameSession {
 				cardList.get(userId).add(cardsQueue.poll());
 			}
 		}
-
 	}
 	
 	public GameMessage toGameMessage() {
@@ -90,7 +88,6 @@ public class GameSession {
 				.gameSessionId(gameSessionId)
 				.hostId(hostId)
 				.turn(turn)
-//				.nowTurn(nowTurn)
 				.picker(picker)
 				.picked(picked)
 				.players(players)

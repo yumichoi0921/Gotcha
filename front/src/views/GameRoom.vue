@@ -49,27 +49,9 @@
           :subscribers="subscribers"
           :userId="userId"
           :gameMessage="gameMessage"
+          v-on:sendGameMessage="sendGameMessage"
         ></joker-game>
       </div>
-      <!-- <div id="video-container" class="container-fluid">
-        <user-video
-          :stream-manager="publisher"
-          @click.native="updateMainVideoStreamManager(publisher)"
-          :userId="userId"
-          :myCard="myCard"
-        />
-
-        <b-row>
-          <b-col
-            v-for="sub in subscribers"
-            :key="sub.stream.connection.connectionId"
-          >
-            <user-video
-              :stream-manager="sub"
-              @click.native="updateMainVideoStreamManager(sub)"
-          /></b-col>
-        </b-row>
-      </div> -->
     </div>
   </div>
 </template>
@@ -100,22 +82,14 @@ export default {
     return {
       // user 관련 data
       userId: "",
-      // myCard: null,
       // room 관련 data
       room: null,
       // Message 관련 data
       type: "",
       content: "",
+      // 깍두기
       msg: [],
-      // GameMessage관련 data
-      // hostId: null,
-      // turn: null,
-      // nowTurn: null,
-      // players: null,
-      // cardList: null,
-      // winner: null,
-      // candidate: null,
-      // EventMessage관련 data
+      // event 관련 data
       eventType: null,
       chooser: null,
       chosen: null,
@@ -190,18 +164,15 @@ export default {
     },
     gameMessageParser(content) {
       this.gameMessage = JSON.parse(content);
-      // this.hostId = this.gameMessage.hostId;
-      // this.turn = this.gameMessage.turn;
-      // this.nowTurn = this.gameMessage.nowTurn;
-      // this.players = this.gameMessage.players;
-      // this.cardList = this.gameMessage.cardList;
-      // this.winner = this.gameMessage.winner;
-      // this.candidate = this.gameMessage.candidate;
-      // this.myCard = this.cardList[this.userId];
     },
     gameStart() {
       this.type = "START";
       this.content = "";
+      this.sendMessage();
+    },
+    sendGameMessage(message) {
+      this.type = "GAME";
+      this.content = JSON.stringify(message);
       this.sendMessage();
     },
     joinSession() {
