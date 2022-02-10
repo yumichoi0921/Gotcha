@@ -82,22 +82,14 @@ export default {
     return {
       // user 관련 data
       userId: "",
-      // myCard: null,
       // room 관련 data
       room: null,
       // Message 관련 data
       type: "",
       content: "",
+      // 깍두기
       msg: [],
-      // GameMessage관련 data
-      // hostId: null,
-      // turn: null,
-      // nowTurn: null,
-      // players: null,
-      // cardList: null,
-      // winner: null,
-      // candidate: null,
-      // EventMessage관련 data
+      // event 관련 data
       eventType: null,
       chooser: null,
       chosen: null,
@@ -172,15 +164,6 @@ export default {
     },
     gameMessageParser(content) {
       this.gameMessage = JSON.parse(content);
-      // this.hostId = this.gameMessage.hostId;
-      // this.turn = this.gameMessage.turn;
-      // this.nowTurn = this.gameMessage.nowTurn;
-      // this.players = this.gameMessage.players;
-      // this.cardList = this.gameMessage.cardList;
-      // this.winner = this.gameMessage.winner;
-      // this.candidate = this.gameMessage.candidate;
-      // this.myCard = this.cardList[this.userId];
-      // console.log(this.gameMessage);
     },
     gameStart() {
       this.type = "START";

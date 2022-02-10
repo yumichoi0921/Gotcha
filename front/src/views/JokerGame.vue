@@ -77,17 +77,9 @@ export default {
 
   data() {
     return {
-      cards: [
-        ["CA", "C2", "H3", "D5"],
-        ["CA", "C2", "H3", "D5"],
-        ["CA", "C2", "H3", "D5"],
-        ["CA", "C2", "H3", "D5"],
-      ],
-      myturn: 3,
       gameSessionId: null,
       hostId: null,
       turn: null,
-      // nowTurn: null,
       picker: null,
       picked: null,
       players: null,
@@ -102,7 +94,6 @@ export default {
       this.gameSessionId = this.gameMessage.gameSessionId;
       this.hostId = this.gameMessage.hostId;
       this.turn = this.gameMessage.turn;
-      // this.nowTurn = this.gameMessage.nowTurn;
       this.picker = this.gameMessage.picker;
       this.picked = this.gameMessage.picked;
       this.players = this.gameMessage.players;
@@ -110,7 +101,6 @@ export default {
       this.winner = this.gameMessage.winner;
       this.candidate = this.gameMessage.candidate;
       this.myCard = this.cardList[this.userId];
-      console.log("조커게임 게임메시지 받음", this.gameMessage);
     },
   },
   computed: {},
@@ -128,7 +118,6 @@ export default {
         gameSessionId: this.gameSessionId,
         hostId: this.hostId,
         turn: this.turn,
-        // this.nowTurn = this.gameMessage.nowTurn;
         picker: this.picker,
         picked: this.picked,
         players: this.players,
