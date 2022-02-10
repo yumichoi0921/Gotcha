@@ -87,6 +87,7 @@ export default {
       winner: null,
       candidate: null,
       myCard: null,
+      chosenCard: "",
     };
   },
   watch: {
@@ -108,6 +109,8 @@ export default {
     cardClick(card) {
       console.log(card);
       alert(card);
+      this.chosenCard = card;
+      console.log("선택 카드:" + this.chosenCard);
     },
     getUserId(data) {
       let clientData = JSON.parse(data);
