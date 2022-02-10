@@ -45,6 +45,7 @@ public class MessageController {
         	chatMessage.setContent(gameSession.toGameMessage().toContent());
             break;
         case GAME : 
+        	
 //       
             break;
         default:
