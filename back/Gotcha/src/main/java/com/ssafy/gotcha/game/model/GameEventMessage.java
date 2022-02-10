@@ -6,7 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GameEventMessage extends MessageContent {
-	private String chooser;
-	private String chosen;
-	private int selectedCardIdx;
+	private String eventType;
+	private String picker;
+	private String picked;
+	private int selectedCard;
 }

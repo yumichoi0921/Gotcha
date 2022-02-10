@@ -6,5 +6,6 @@ public enum MessageType {
     LEAVE,
     READY,
     START,
-    GAME
+    GAME,
+    EVENT
 }
