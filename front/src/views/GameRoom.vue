@@ -49,7 +49,9 @@
           :subscribers="subscribers"
           :userId="userId"
           :gameMessage="gameMessage"
+          :eventMessage="eventMessage"
           v-on:sendGameMessage="sendGameMessage"
+          v-on:sendEventMessage="sendEventMessage"
         ></joker-game>
       </div>
     </div>
@@ -87,13 +89,11 @@ export default {
       // Message 관련 data
       type: "",
       content: "",
+      gameMessage: null,
+      eventMessage: null,
       // 깍두기
       msg: [],
-      // event 관련 data
-      eventType: null,
-      chooser: null,
-      chosen: null,
-      selectedCard: null,
+
       // stomp관련 data
       stompClient: null,
       connected: false,
@@ -104,7 +104,6 @@ export default {
       publisher: undefined,
       subscribers: [],
       mySessionId: "",
-      gameMessage: null,
     };
   },
   created() {
@@ -151,27 +150,32 @@ export default {
     onMessageReceived(payload) {
       // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
       let jsonBody = JSON.parse(payload.body);
-      // let message = {
-      //   roomId: jsonBody.room.roomId,
-      //   userId: jsonBody.userId,
-      //   content: jsonBody.content,
-      //   type: jsonBody.type,
-      // };
-      // this.msg.push(message);
       if (jsonBody.type == "GAME") {
         this.gameMessageParser(jsonBody.content);
+      } else if (jsonBody.type == "EVENT") {
+        this.eventMessageParser(jsonBody.content);
       }
-    },
-    gameMessageParser(content) {
-      this.gameMessage = JSON.parse(content);
     },
     gameStart() {
       this.type = "START";
       this.content = "";
       this.sendMessage();
     },
+    gameMessageParser(content) {
+      this.gameMessage = JSON.parse(content);
+      console.log("게임 메시지", this.gameMessage);
+    },
+    eventMessageParser(content) {
+      this.eventMessage = JSON.parse(content);
+      console.log("이벤트 메시지", this.eventMessage);
+    },
     sendGameMessage(message) {
       this.type = "GAME";
+      this.content = JSON.stringify(message);
+      this.sendMessage();
+    },
+    sendEventMessage(message) {
+      this.type = "EVENT";
       this.content = JSON.stringify(message);
       this.sendMessage();
     },
