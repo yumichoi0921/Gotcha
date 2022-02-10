@@ -76,6 +76,10 @@
           :userId="userId"
           :class="{ PickerEvent: picker === userId }"
         />
+        <div class="alert alert-secondary" role="alert" v-if="cardList != null">
+          <img :src="require('../assets/poker/miniCard.jpg')" /> X
+          {{ myCard.length }}
+        </div>
       </div>
     </div>
   </div>
@@ -186,9 +190,6 @@ export default {
         this.winner.push(this.picked); // winner에 추가
         this.candidate.splice(this.picked, 1); // candidate에서 삭제
         this.turn.shift();
-      } else {
-        this.turn.shift();
-        this.turn.push(this.picked);
       }
       // 도둑 찾았는지 확인
       if (this.turn.length == 1) {
