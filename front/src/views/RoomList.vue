@@ -8,8 +8,8 @@
             pill
             variant="danger"
             @click="showModal = true"
-            class="float-right mr-3"
-            >makingRoom</b-button
+            class="float-right mr-3 Jua"
+            >Create Room</b-button
           ></b-col
         >
       </b-row>
@@ -62,5 +62,8 @@ export default {
 <style>
 .header {
   background-color: rgba(255, 216, 110, 0.938);
+  width: 96.5%;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>
