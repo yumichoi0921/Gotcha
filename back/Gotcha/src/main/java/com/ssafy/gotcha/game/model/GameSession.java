@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 import lombok.Getter;
@@ -20,10 +21,10 @@ public class GameSession {
 	private String hostId;
 //	private GameManager gameMgr; // 선택된 게임을 진행할 Mgr.  TODO: 추가해야함.
 	// testcode;
-	private HashMap<String, List<String>> cardList; // 플레이어별 카드 리스트
-	private List<String> turn;	// 게임 순서 리스트
-	private String picker;	// 뽑는 사람 id
-	private String picked;	// 뽑히는 사람 id
+	private HashMap<String, List<Card>> cardList; // 플레이어별 카드 리스트
+	private List<String> turn; // 게임 순서 리스트
+	private String picker; // 뽑는 사람 id
+	private String picked; // 뽑히는 사람 id
 
 	public GameSession(String gameSessionId, Player hostPlayer) {
 		this.gameSessionId = gameSessionId;
@@ -46,44 +47,48 @@ public class GameSession {
 		// 첫번째 뽑는사람
 		picker = turn.get(0);
 		// 첫번째 뽑히는 사람
-		picked = turn.get(turn.indexOf(picker)+1);
+		picked = turn.size() > 1? picked = turn.get(turn.indexOf(picker) + 1) : picker;
+//		picked = turn.get(turn.indexOf(picker) + 1);
 	}
 
 	private void initCard() {
 		// 플레이어별 카드덱 초기화
-		cardList = new HashMap<String, List<String>>();
+		cardList = new HashMap<String, List<Card>>();
 		for (String userId : players.keySet()) {
-			cardList.put(userId, new ArrayList<String>());
+			cardList.put(userId, new ArrayList<Card>());
 		}
 		// 카드 셔플
-		List<String> cards = Arrays.asList("SA", "SJ", "SQ", "SK", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9",
-				"S10", "HA", "HJ", "HQ", "HK", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "DA", "DJ", "DQ",
-				"DK", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "CA", "CJ", "CQ", "CK", "C2", "C3", "C4",
-				"C5", "C6", "C7", "C8", "C9", "C10", "JOKER");
+		String[] shape = { "S", "H", "D", "C" };
+		String[] number = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "A", "J", "Q", "K" };
+		List<Card> cards = new ArrayList<Card>();
+		for (int i = 0; i < shape.length; i++) {
+			for (int j = 0; j < number.length; j++) {
+				cards.add(Card.builder().shape(shape[i]).number(number[j]).build());
+			}
+		}
+		cards.add(Card.builder().shape("").number("JOKER").build());
 		Collections.shuffle(cards);
-		Queue<String> cardsQueue = new LinkedList<>(cards);
-		// 카드 배분
+		Queue<Card> cardsQueue = new LinkedList<>(cards);
+
+		// 카드 배분 & 초기 중복 제거
 		cardDistribution: while (!cardsQueue.isEmpty()) {
 			for (String userId : cardList.keySet()) {
 				if (cardsQueue.isEmpty())
 					break cardDistribution;
-				cardList.get(userId).add(cardsQueue.poll());
+				Card card = cardsQueue.poll();
+				if (cardList.get(userId).contains(card)) {
+					cardList.get(userId).remove(card);
+				} else {
+					cardList.get(userId).add(card);
+				}
 			}
 		}
 	}
-	
-	public GameMessage toGameMessage() {
-		return GameMessage.builder()
-				.gameSessionId(gameSessionId)
-				.hostId(hostId)
-				.turn(turn)
-				.picker(picker)
-				.picked(picked)
-				.players(players)
-				.cardList(cardList)
-				.build();
-	}
 
+	public GameMessage toGameMessage() {
+		return GameMessage.builder().gameSessionId(gameSessionId).hostId(hostId).turn(turn).picker(picker)
+				.picked(picked).players(players).cardList(cardList).build();
+	}
 
 // TODO: 구현해야함
 //	public void setGameManager(String TYPE) {

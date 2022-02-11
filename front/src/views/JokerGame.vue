@@ -47,7 +47,9 @@
                   class="cardlist"
                   v-on:click="picker == userId ? cardClick(card) : ''"
                   :class="{
-                    CardEvent: card == selectedCard,
+                    CardEvent:
+                      card.number === selectedCard.number &&
+                      card.shape === selectedCard.shape,
                   }"
                   :src="require('../assets/poker/backCard.jpg')"
                 /> </b-col
@@ -59,15 +61,27 @@
           <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
             <b-alert show variant="primary">내카드덱</b-alert>
             <b-row cols="6" class="" v-if="cardList != null">
-              <b-col v-for="(card, idx) in myCard" v-bind:key="idx">
+              <b-col
+                v-for="(card, idx) in myCard"
+                v-bind:key="idx"
+                class="focus-in-contract-bck"
+              >
                 <img
-                  class="cardlist focus-in-contract-bck"
+                  class="cardlist"
                   v-on:click="cardClick(card)"
                   :class="[
-                    { CardEvent: card === selectedCard },
-                    { blurOutContract: card === matchedCard },
+                    {
+                      CardEvent:
+                        card.number === selectedCard.number &&
+                        card.shape === selectedCard.shape,
+                    },
                   ]"
-                  :src="require('@/assets/poker/poker' + card + '.jpg')"
+                  :src="
+                    require('@/assets/poker/poker' +
+                      card.shape +
+                      card.number +
+                      '.jpg')
+                  "
                 /> </b-col
             ></b-row>
           </div>
@@ -125,8 +139,8 @@ export default {
       eventType: null,
       // picker: null,
       // picked: null,
-      selectedCard: null,
-      matchedCard: null,
+      selectedCard: { number: null, shape: null },
+      matchedCard: { number: "", shape: "" },
     };
   },
   watch: {
@@ -155,20 +169,24 @@ export default {
       this.eventType = "CARDCLICK";
       this.selectedCard = card;
       this.sendEventMessage();
-      alert("선택카드 " + card);
+      alert("선택카드 " + card.shape + card.number);
     },
     gameLogic() {
-      // 선택한 카드 인덱스
-      let selectedCardIdx = this.cardList[this.picked].indexOf(
-        this.selectedCard
-      );
       // picked의 카드리스트에서 선택한 카드 삭제
-      this.cardList[this.picked].splice(selectedCardIdx, 1);
+      for (let i = 0; i < this.cardList[this.picked].length; i++) {
+        let card = this.cardList[this.picked][i];
+        if (
+          this.selectedCard.number === card.number &&
+          this.selectedCard.shape === card.shape
+        ) {
+          this.cardList[this.picked].splice(i, 1);
+        }
+      }
+
       // 선택한 카드와 picker의 카드리스트 숫자 매칭 확인
       let matched = false; // 매칭플래그
-      let cardNum = this.selectedCard.substr(1); // 선택한 카드 숫자
-      for (var i = 0; i < this.cardList[this.picker].length; i++) {
-        if (cardNum == this.cardList[this.picker][i].substr(1)) {
+      for (let i = 0; i < this.cardList[this.picker].length; i++) {
+        if (this.selectedCard.number == this.cardList[this.picker][i].number) {
           // 매칭되면
           alert("중복됨");
           this.matchedCard = this.cardList[this.picker][i]; // 매칭되는 카드
@@ -203,9 +221,9 @@ export default {
         this.picker = this.turn[0];
         this.picked = this.turn[1];
         // 고른 카드 초기화
-        this.selectedCard = null;
+        this.selectedCard = { number: null, shape: null };
         // 매칭되는 카드 초기화
-        this.matchedCard = null;
+        this.matchedCard = { number: "", shape: "" };
         // 이벤트 메시지 보내기
         // this.sendEventMessage();
       }
