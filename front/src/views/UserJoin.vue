@@ -14,6 +14,7 @@
               </h4>
               <div class="card-body" style="background-color: #fff0f5">
                 <form
+                  id="JoinFrom"
                   data-toggle="validator"
                   role="form"
                   method="post"
@@ -320,6 +321,9 @@ export default {
           })
           .catch(() => {});
       }
+    },
+    reset() {
+      document.getElementById("JoinFrom").reset();
     },
   },
 };
