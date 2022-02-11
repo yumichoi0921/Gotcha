@@ -29,17 +29,16 @@
             <b-col cols="2">
               <div class="clock"></div>
             </b-col>
-            <b-col class="align-self-center"
-              >여기는 잼민이의 메시지가 나오는 곳입니다아
+            <b-col class="align-self-center">
+              <h3>{{ timeCounter }}</h3>
+              여기는 잼민이의 메시지가 나오는 곳입니다아
             </b-col>
             <b-col cols="2"
               ><img :src="require('../assets/jammin.gif')" height="100" />
             </b-col>
           </b-alert>
         </div>
-        <div class="row">
-          <h3>{{ timeCounter }}</h3>
-        </div>
+        <div class="row"></div>
         <div id="CardInfoSection" class="row">
           <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
             <b-alert show variant="primary"
@@ -246,6 +245,7 @@ export default {
         picked: this.picked,
         players: this.players,
         cardList: this.cardList,
+        timeCounter: this.timeCounter,
       };
       this.$emit("sendGameMessage", message);
     },
