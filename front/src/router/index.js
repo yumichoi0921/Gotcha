@@ -5,7 +5,7 @@ import RoomList from "../views/RoomList.vue";
 import GameRoom from "../views/GameRoom.vue";
 import JokerGame from "../views/JokerGame.vue";
 import UserLogin from "../views/UserLogin.vue";
-
+import UserJoin from "../views/UserJoin.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -13,6 +13,11 @@ const routes = [
     path: "/login",
     name: "UserLogin",
     component: UserLogin,
+  },
+  {
+    path: "/join",
+    name: "Userjoin",
+    component: UserJoin,
   },
   {
     path: "/",

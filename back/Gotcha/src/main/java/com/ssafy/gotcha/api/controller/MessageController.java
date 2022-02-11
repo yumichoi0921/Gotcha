@@ -45,6 +45,8 @@ public class MessageController {
         	chatMessage.setContent(gameSession.toGameMessage().toContent());
             break;
         case GAME : 
+        	System.out.println(chatMessage.getContent());
+
 //       
             break;
         case EVENT : 
