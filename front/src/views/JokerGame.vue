@@ -224,6 +224,8 @@ export default {
       }
       // 도둑 찾았는지 확인
       if (this.turn.length == 1) {
+        this.timerStop(this.timer);
+        // 게임 종료 메시지 브로드캐스팅하기
         alert("게임 끝");
       } else {
         // picker, picked 변경
