@@ -8,7 +8,7 @@ public interface UserService {
 	
 	User getUserByUserId(String userId);
 	
-	User findByNickNamechek(String nickName);
+	User findByNickNamecheck(String nickName);
 	
 	
 }

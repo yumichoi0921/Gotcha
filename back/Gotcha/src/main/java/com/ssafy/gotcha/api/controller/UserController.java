@@ -83,7 +83,7 @@ public class UserController {
 	@ApiOperation(value = "닉네임 중복 체크")
 	@GetMapping("/nickNameCheck")
 	public ResponseEntity<Boolean> nickNameCheck(String nickName) {
-		if (userService.findByNickNamechek(nickName) != null) {
+		if (userService.findByNickNamecheck(nickName) != null) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
