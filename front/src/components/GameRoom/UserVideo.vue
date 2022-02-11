@@ -1,8 +1,7 @@
 <template>
   <div v-if="streamManager">
-    <ov-video :stream-manager="streamManager" />
+    <ov-video :stream-manager="streamManager" class="rounded-top" />
     <h5 class="card-title">닉네임: {{ clientData.userId }}</h5>
-    <!-- <div id="userCAM"></div> -->
   </div>
 </template>
 

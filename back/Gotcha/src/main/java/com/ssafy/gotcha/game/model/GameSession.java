@@ -24,8 +24,6 @@ public class GameSession {
 	private List<String> turn;	// 게임 순서 리스트
 	private String picker;	// 뽑는 사람 id
 	private String picked;	// 뽑히는 사람 id
-	private List<String> winner;	// 카드를 다 버린 플레이어
-	private List<String> candidate;	// 카드를 가지고 있는 플레이어
 
 	public GameSession(String gameSessionId, Player hostPlayer) {
 		this.gameSessionId = gameSessionId;
@@ -37,15 +35,6 @@ public class GameSession {
 	public void gameStart() {
 		initCard();
 		initTurn();
-		initWinnerAndCandidate();
-	}
-
-	private void initWinnerAndCandidate() {
-		winner = new ArrayList<String>();
-		candidate = new ArrayList<String>();
-		for (String userId : players.keySet()) {
-			candidate.add(userId);
-		}
 	}
 
 	private void initTurn() {
@@ -92,8 +81,6 @@ public class GameSession {
 				.picked(picked)
 				.players(players)
 				.cardList(cardList)
-				.winner(winner)
-				.candidate(candidate)
 				.build();
 	}
 
