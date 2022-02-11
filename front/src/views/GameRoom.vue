@@ -69,8 +69,8 @@ import SockJS from "sockjs-client";
 import { OpenVidu } from "openvidu-browser";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
-// const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":443";
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
+//const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 // docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-server-kms:2.20.0
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     connect() {
-      const serverURL = "http://localhost:8080/ws";
+      const serverURL = "https://i6b102.p.ssafy.io/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect(
