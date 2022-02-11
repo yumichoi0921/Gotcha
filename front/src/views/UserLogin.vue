@@ -5,7 +5,12 @@
         <div class="row justify-content-center align-items-center">
           <div class="col-sm-6">
             <div class="card">
-              <h4 class="card-header">로그인</h4>
+              <h4
+                class="card-header Jua center"
+                style="background-color: rgb(224, 224, 221)"
+              >
+                로그인
+              </h4>
               <div class="card-body">
                 <form
                   data-toggle="validator"
@@ -16,7 +21,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>ID</label>
+                        <label class="Jua">ID</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -37,7 +42,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Password</label>
+                        <label class="Jua">Password</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -56,10 +61,10 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="btn">
                       <button
                         type="button"
-                        class="btn btn-primary btn-lg btn-block"
+                        class="btn btn-primary btn-lg btn-block Jua"
                         @click="login()"
                       >
                         Login
@@ -67,11 +72,13 @@
                     </div>
                   </div>
                 </form>
-                <div class="form-group">
+                <div class="form-group center">
                   <div class="clear"></div>
                   <br />
-                  <i class="fa fa-user fa-fw" />처음 방문하십니까?
-                  <a href="/join">회원가입</a>
+                  <i class="fa fa-user fa-fw" /><span class="Jua fontsize18"
+                    >처음 방문하십니까?
+                  </span>
+                  <a class="Jua fontsize18" href="/join">회원가입</a>
                   <br />
                 </div>
               </div>
@@ -118,4 +125,20 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#login {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.asd {
+  background-color: rgb(224, 224, 221);
+}
+
+.fontsize18 {
+  font-size: 18px;
+}
+</style>
