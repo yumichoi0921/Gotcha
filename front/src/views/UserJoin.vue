@@ -1,13 +1,13 @@
 <template>
   <!-- 회원가입 Form -->
   <div class="wrapper">
-    <div id="login">
+    <div id="join">
       <div class="container">
         <div class="row justify-content-center align-items-center">
           <div class="col-sm-6">
             <div class="card">
               <h4
-                class="card-header Jua"
+                class="card-header Jua center"
                 style="color: #616264; background-color: #ffc0cb"
               >
                 회원가입
@@ -162,7 +162,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <div class="row center">
                     <div class="btn">
                       <button
                         type="button"
@@ -182,11 +182,13 @@
                     </div>
                   </div>
                 </form>
-                <div class="form-group">
+                <div class="form-group center">
                   <div class="clear"></div>
                   <br />
 
-                  <a class="Jua" style="color: #616264" href="/login">로그인</a>
+                  <a class="Jua" style="color: #616264" href="/login"
+                    >로그인하러 가기</a
+                  >
                   <br />
                 </div>
               </div>
@@ -323,4 +325,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.btn {
+  margin: auto;
+}
+#join {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+</style>
