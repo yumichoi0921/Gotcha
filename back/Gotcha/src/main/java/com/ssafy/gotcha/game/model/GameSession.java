@@ -21,10 +21,13 @@ public class GameSession {
 	private String hostId;
 //	private GameManager gameMgr; // 선택된 게임을 진행할 Mgr.  TODO: 추가해야함.
 	// testcode;
+
 	private HashMap<String, List<Card>> cardList; // 플레이어별 카드 리스트
 	private List<String> turn; // 게임 순서 리스트
 	private String picker; // 뽑는 사람 id
 	private String picked; // 뽑히는 사람 id
+	private int timeCounter; // 타이머
+
 
 	public GameSession(String gameSessionId, Player hostPlayer) {
 		this.gameSessionId = gameSessionId;
@@ -85,9 +88,10 @@ public class GameSession {
 		}
 	}
 
+
 	public GameMessage toGameMessage() {
 		return GameMessage.builder().gameSessionId(gameSessionId).hostId(hostId).turn(turn).picker(picker)
-				.picked(picked).players(players).cardList(cardList).build();
+				.picked(picked).players(players).cardList(cardList).timeCounter(30).build();
 	}
 
 // TODO: 구현해야함
