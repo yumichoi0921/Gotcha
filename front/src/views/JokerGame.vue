@@ -64,11 +64,7 @@
           <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
             <b-alert show variant="primary">내카드덱</b-alert>
             <b-row cols="6" class="" v-if="cardList != null">
-              <b-col
-                v-for="(card, idx) in myCard"
-                v-bind:key="idx"
-                class="focus-in-contract-bck"
-              >
+              <b-col v-for="(card, idx) in myCard" v-bind:key="idx" class="">
                 <img
                   class="cardlist"
                   v-on:click="cardClick(card)"
@@ -79,6 +75,7 @@
                         card.shape === selectedCard.shape,
                     },
                   ]"
+                  v-animate-css="gameStartCardEvent"
                   :src="
                     require('@/assets/poker/poker' +
                       card.shape +
@@ -90,10 +87,6 @@
           </div>
         </div>
       </div>
-      <!-- :class="[{ CardEvent: card === 'selectedCard' }, { blur-out-contract: card
-      === 'matchedCard' }]" -->
-      <!-- blur-out-contract -->
-      <!-- :class="{ CardEvent: card == selectedCard, }"  -->
       <div id="PublisherInfo" class="col">
         <div class="Info rounded">
           <user-video
@@ -113,6 +106,7 @@
 
 <script>
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
+
 export default {
   name: "JokerGame",
   components: {
@@ -138,14 +132,19 @@ export default {
       picked: null,
       players: null,
       cardList: null,
+      timeCounter: null,
       // eventMessage 관련 data
       eventType: null,
-      // picker: null,
-      // picked: null,
-
+      // 게임 로직 관련 data
       selectedCard: { number: null, shape: null },
       matchedCard: { number: "", shape: "" },
-      timeCounter: 30,
+      // 게임 시작 카드 이벤트 관련 data
+      gameStartCardEvent: {
+        classes: "slideInDown",
+        delay: 100,
+        duration: 2500,
+      },
+      timer: null,
     };
   },
   watch: {
@@ -157,9 +156,10 @@ export default {
       this.picked = this.gameMessage.picked;
       this.players = this.gameMessage.players;
       this.cardList = this.gameMessage.cardList;
-      this.myCard = this.cardList[this.userId];
       this.timeCounter = this.gameMessage.timeCounter;
-      this.start();
+      this.myCard = this.cardList[this.userId];
+      this.timerStop(this.timer); // 게임메시지 받을 때마다 타이머 멈추고
+      this.timerStart(); // 타이머 다시 시작
     },
     eventMessage() {
       this.eventType = this.eventMessage.eventType;
@@ -176,9 +176,11 @@ export default {
       this.eventType = "CARDCLICK";
       this.selectedCard = card;
       this.sendEventMessage();
-      alert("선택카드 " + card.shape + card.number);
+      // alert("선택카드 " + card.shape + card.number);
     },
     gameLogic() {
+      // 타이머 종료
+      this.timerStop(this.timer);
       // picked의 카드리스트에서 선택한 카드 삭제
       for (let i = 0; i < this.cardList[this.picked].length; i++) {
         let card = this.cardList[this.picked][i];
@@ -195,7 +197,7 @@ export default {
       for (let i = 0; i < this.cardList[this.picker].length; i++) {
         if (this.selectedCard.number == this.cardList[this.picker][i].number) {
           // 매칭되면
-          alert("중복됨");
+          // alert("중복됨");
           this.matchedCard = this.cardList[this.picker][i]; // 매칭되는 카드
           this.cardList[this.picker].splice(i, 1); // picker 카드리스트에서 삭제
           matched = true; // 매칭플래그 true;
@@ -222,6 +224,8 @@ export default {
       }
       // 도둑 찾았는지 확인
       if (this.turn.length == 1) {
+        this.timerStop(this.timer);
+        // 게임 종료 메시지 브로드캐스팅하기
         alert("게임 끝");
       } else {
         // picker, picked 변경
@@ -231,6 +235,8 @@ export default {
         this.selectedCard = { number: null, shape: null };
         // 매칭되는 카드 초기화
         this.matchedCard = { number: "", shape: "" };
+        // 타이머 초기화
+        this.timeCounter = 30;
         // 이벤트 메시지 보내기
         // this.sendEventMessage();
       }
@@ -258,20 +264,23 @@ export default {
       };
       this.$emit("sendEventMessage", message);
     },
-    start() {
+    timerStart() {
       console.log("타이머 시작");
       // 1초에 한번씩 start 호출
-      var interval = setInterval(() => {
+      this.timer = setInterval(() => {
         this.timeCounter--; //1찍 감소
-        if (this.timeCounter <= 0) this.timerStop(interval);
+        if (this.timeCounter <= 0) {
+          this.timerStop(this.timer);
+          if (this.picker == this.userId) {
+            this.selectedCard = this.cardList[this.picked][0];
+            this.gameLogic();
+          }
+        }
       }, 1000);
     },
     timerStop: function (Timer) {
       clearInterval(Timer);
-      this.TimeCounter = 0;
-      //alert("자동으로 선택됩니다.");
-      this.selectedCard = this.cardList[this.picked][0];
-      this.gameLogic();
+      console.log("타이머 종료");
     },
   },
 };
@@ -380,62 +389,6 @@ export default {
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-.focus-in-contract-bck {
-  animation: focus-in-contract-bck 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-/* ----------------------------------------------
- * Generated by Animista on 2022-2-11 11:12:17
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info. 
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation focus-in-contract-bck
- * ----------------------------------------
- */
-@keyframes focus-in-contract-bck {
-  0% {
-    letter-spacing: 1em;
-    transform: translateZ(300px);
-    filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateZ(12px);
-    filter: blur(0);
-    opacity: 1;
-  }
-}
-
-.blurOutContract {
-  animation: blurOutContract 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-}
-
-/* ----------------------------------------------
- * Generated by Animista on 2022-2-11 11:20:39
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info. 
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation blur-out-contract
- * ----------------------------------------
- */
-@keyframes blurOutContract {
-  0% {
-    filter: blur(0.01);
-  }
-  100% {
-    letter-spacing: -0.5em;
-    filter: blur(12px) opacity(0%);
   }
 }
 </style>
