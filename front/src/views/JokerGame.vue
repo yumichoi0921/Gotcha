@@ -87,10 +87,6 @@
           </div>
         </div>
       </div>
-      <!-- :class="[{ CardEvent: card === 'selectedCard' }, { blur-out-contract: card
-      === 'matchedCard' }]" -->
-      <!-- blur-out-contract -->
-      <!-- :class="{ CardEvent: card == selectedCard, }"  -->
       <div id="PublisherInfo" class="col">
         <div class="Info rounded">
           <user-video
