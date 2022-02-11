@@ -4,10 +4,16 @@ import Home from "../views/Home.vue";
 import RoomList from "../views/RoomList.vue";
 import GameRoom from "../views/GameRoom.vue";
 import JokerGame from "../views/JokerGame.vue";
+import UserLogin from "../views/UserLogin.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/login",
+    name: "UserLogin",
+    component: UserLogin,
+  },
   {
     path: "/",
     name: "Home",

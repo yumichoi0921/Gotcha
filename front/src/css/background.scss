@@ -4,22 +4,22 @@
   font-family: "Jua", sans-serif;
 }
 
-@property --hue {
-  initial-value: 0;
-  syntax: "<number>";
-  inherits: false;
-}
+// @property --hue {
+//   initial-value: 0;
+//   syntax: "<number>";
+//   inherits: false;
+// }
 
-@property --eval {
-  initial-value: 0;
-  syntax: "<number>";
-  inherits: false;
-}
+// @property --eval {
+//   initial-value: 0;
+//   syntax: "<number>";
+//   inherits: false;
+// }
 
 body {
   // width: 100%;
-  height: 100%v;
-  overflow: auto;
+  height: 120vh;
+  overflow: hidden;
   background-color: black;
   display: flex;
   align-items: center;
