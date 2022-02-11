@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.gotcha.api.jwt.JwtFilter;
@@ -24,6 +25,7 @@ import com.ssafy.gotcha.api.request.UserLoginPostReq;
 import com.ssafy.gotcha.api.request.UserRegisterPostReq;
 import com.ssafy.gotcha.api.response.BaseResponseBody;
 import com.ssafy.gotcha.api.service.UserService;
+import com.ssafy.gotcha.api.service.UserServiceImpl;
 import com.ssafy.gotcha.entity.User;
 import com.ssafy.gotcha.vo.Token;
 
@@ -67,6 +69,26 @@ public class UserController {
         //생성된 Token을 Response Header에 넣고, Token vo 객체를 이용해 Response Body에도 넣어서 리턴
         return new ResponseEntity<>(new Token(jwt), httpHeaders, HttpStatus.OK);
     }
+	
+	@ApiOperation(value = "아이디 중복 체크")
+	@GetMapping("/userIdCheck")
+	public ResponseEntity<Boolean> userIdCheck(String userId) {
+		if (userService.getUserByUserId(userId) != null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+	
+	
+	@ApiOperation(value = "닉네임 중복 체크")
+	@GetMapping("/nickNameCheck")
+	public ResponseEntity<Boolean> nickNameCheck(String nickName) {
+		if (userService.findByNickNamechek(nickName) != null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+	
 	
 
 }
