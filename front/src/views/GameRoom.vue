@@ -91,9 +91,6 @@ export default {
       content: "",
       gameMessage: null,
       eventMessage: null,
-      // 깍두기
-      msg: [],
-
       // stomp관련 data
       stompClient: null,
       connected: false,
@@ -145,18 +142,12 @@ export default {
         content: this.content,
         type: this.type,
       };
-      // if (this.type == "GAME") {
-      //   console.log("보낼때 게임메시지 객체", message);
-      //   console.log("보낼때 게임메시지 json 문자열", JSON.stringify(message));
-      // }
       this.stompClient.send("/pub/message", JSON.stringify(message), {});
     },
     onMessageReceived(payload) {
       // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
       let jsonBody = JSON.parse(payload.body);
       if (jsonBody.type == "GAME") {
-        // console.log("받음 게임메시지 payload.body", payload.body);
-        // console.log("받음 게임메시지 jsonBody.content", jsonBody.content);
         this.gameMessageParser(jsonBody.content);
       } else if (jsonBody.type == "EVENT") {
         this.eventMessageParser(jsonBody.content);
