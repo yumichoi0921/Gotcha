@@ -4,17 +4,17 @@
   font-family: "Jua", sans-serif;
 }
 
-// @property --hue {
-//   initial-value: 0;
-//   syntax: "<number>";
-//   inherits: false;
-// }
+@property --hue {
+  initial-value: 0;
+  syntax: "<number>";
+  inherits: false;
+}
 
-// @property --eval {
-//   initial-value: 0;
-//   syntax: "<number>";
-//   inherits: false;
-// }
+@property --eval {
+  initial-value: 0;
+  syntax: "<number>";
+  inherits: false;
+}
 
 body {
   // width: 100%;

@@ -6,8 +6,13 @@
         <div class="row justify-content-center align-items-center">
           <div class="col-sm-6">
             <div class="card">
-              <h4 class="card-header">회원가입</h4>
-              <div class="card-body">
+              <h4
+                class="card-header Jua"
+                style="color: #616264; background-color: #ffc0cb"
+              >
+                회원가입
+              </h4>
+              <div class="card-body" style="background-color: #fff0f5">
                 <form
                   data-toggle="validator"
                   role="form"
@@ -17,7 +22,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>ID</label>
+                        <label class="Jua">ID</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -30,7 +35,12 @@
                             class="form-control"
                             v-model="user.userId"
                             placeholder="아이디를 입력해주세요."
-                          /><button type="button" @click="userIdCheck()">
+                          /><button
+                            type="button"
+                            class="btn btn-outline-light Jua"
+                            @click="userIdCheck()"
+                            style="background-color: #bea3c9"
+                          >
                             중복 확인
                           </button>
                         </div>
@@ -42,7 +52,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>닉네임</label>
+                        <label class="Jua">닉네임</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -55,7 +65,12 @@
                             v-model="user.nickName"
                             placeholder="닉네임을 입력해주세요."
                             class="form-control"
-                          /><button type="button" @click="nickNameCheck()">
+                          /><button
+                            type="button"
+                            class="btn btn-outline-light Jua"
+                            style="background-color: #bea3c9"
+                            @click="nickNameCheck()"
+                          >
                             중복 확인
                           </button>
                         </div>
@@ -67,7 +82,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>이메일</label>
+                        <label class="Jua">이메일</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -81,7 +96,10 @@
                             class="form-control"
                           />@
 
-                          <select v-model="emailinput.email2" class="emailcom">
+                          <select
+                            v-model="emailinput.email2"
+                            class="custom-select"
+                          >
                             <option
                               value=""
                               selected="selected"
@@ -102,7 +120,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>비밀번호</label>
+                        <label class="Jua">비밀번호</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -125,7 +143,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>비밀번호 확인</label>
+                        <label class="Jua">비밀번호 확인</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -145,13 +163,21 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="btn">
                       <button
                         type="button"
-                        class="btn btn-primary btn-lg btn-block"
+                        class="btn btn-outline-light Jua"
+                        style="background-color: #ba4160"
                         @click="join()"
                       >
-                        Join
+                        Join</button
+                      ><button
+                        type="button"
+                        class="btn btn-outline-light Jua"
+                        style="background-color: #ba4160"
+                        @click="reset()"
+                      >
+                        reset
                       </button>
                     </div>
                   </div>
@@ -160,7 +186,7 @@
                   <div class="clear"></div>
                   <br />
 
-                  <a href="/login">로그인</a>
+                  <a class="Jua" style="color: #616264" href="/login">로그인</a>
                   <br />
                 </div>
               </div>
@@ -244,8 +270,7 @@ export default {
     userIdCheck() {
       if (this.user.userId == "") {
         alert("아이디를 입력하세요.");
-      }
-      if (this.usercheck.userIdCheck == true) {
+      } else if (this.usercheck.userIdCheck == true) {
         alert("이미 확인되었습니다.");
       } else {
         axios({
@@ -275,8 +300,7 @@ export default {
     nickNameCheck() {
       if (this.user.nickName == "") {
         alert("닉네임을 입력하세요.");
-      }
-      if (this.usercheck.nickNameCheck == true) {
+      } else if (this.usercheck.nickNameCheck == true) {
         alert("이미 확인되었습니다.");
       } else {
         axios({
@@ -307,4 +331,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.btn {
+  align-items: center;
+}
+</style>
