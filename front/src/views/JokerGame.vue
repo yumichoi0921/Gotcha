@@ -1,5 +1,6 @@
 <template>
   <div id="JockerGame">
+    <div class="modal"></div>
     <div id="SubscriberSection" class="row row-cols-5 mb-3">
       <b-col
         v-for="sub in subscribers"
@@ -31,6 +32,9 @@
               >여기는 잼민이의 메시지가 나오는 곳입니다아</b-alert
             ></b-col
           >
+        </div>
+        <div class="row">
+          <h3>{{ timeCounter }}</h3>
         </div>
         <div id="CardInfoSection" class="row">
           <div id="SubCardDeck" class="col CardDeck px-1 mx-1">
@@ -115,6 +119,7 @@ export default {
       // picker: null,
       // picked: null,
       selectedCard: "",
+      timeCounter: 30,
     };
   },
   watch: {
@@ -129,6 +134,8 @@ export default {
       this.winner = this.gameMessage.winner;
       this.candidate = this.gameMessage.candidate;
       this.myCard = this.cardList[this.userId];
+      this.timeCounter = this.gameMessage.timeCounter;
+      this.start();
     },
     eventMessage() {
       this.eventType = this.eventMessage.eventType;
@@ -148,6 +155,7 @@ export default {
       alert("선택카드 " + card);
     },
     gameLogic() {
+      //  this.timeCounter = 100;
       // 선택한 카드 인덱스
       let selectedCardIdx = this.cardList[this.picked].indexOf(
         this.selectedCard
@@ -186,9 +194,6 @@ export default {
         this.winner.push(this.picked); // winner에 추가
         this.candidate.splice(this.picked, 1); // candidate에서 삭제
         this.turn.shift();
-      } else {
-        this.turn.shift();
-        this.turn.push(this.picked);
       }
       // 도둑 찾았는지 확인
       if (this.turn.length == 1) {
@@ -215,6 +220,7 @@ export default {
         cardList: this.cardList,
         winner: this.winner,
         candidate: this.candidate,
+        timeCounter: 20,
       };
       this.$emit("sendGameMessage", message);
     },
@@ -226,6 +232,21 @@ export default {
         selectedCard: this.selectedCard,
       };
       this.$emit("sendEventMessage", message);
+    },
+    start() {
+      console.log("타이머 시작");
+      // 1초에 한번씩 start 호출
+      var interval = setInterval(() => {
+        this.timeCounter--; //1찍 감소
+        if (this.timeCounter <= 0) this.timerStop(interval);
+      }, 1000);
+    },
+    timerStop: function (Timer) {
+      clearInterval(Timer);
+      this.TimeCounter = 0;
+      //alert("자동으로 선택됩니다.");
+      this.selectedCard = this.cardList[this.picked][0];
+      this.gameLogic();
     },
   },
 };

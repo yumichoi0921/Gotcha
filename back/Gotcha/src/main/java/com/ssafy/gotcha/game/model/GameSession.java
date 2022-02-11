@@ -26,6 +26,7 @@ public class GameSession {
 	private String picked;	// 뽑히는 사람 id
 	private List<String> winner;	// 카드를 다 버린 플레이어
 	private List<String> candidate;	// 카드를 가지고 있는 플레이어
+	private int timeCounter;
 
 	public GameSession(String gameSessionId, Player hostPlayer) {
 		this.gameSessionId = gameSessionId;
@@ -94,6 +95,7 @@ public class GameSession {
 				.cardList(cardList)
 				.winner(winner)
 				.candidate(candidate)
+				.timeCounter(30)
 				.build();
 	}
 

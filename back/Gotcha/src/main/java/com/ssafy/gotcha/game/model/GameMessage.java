@@ -20,4 +20,5 @@ public class GameMessage extends MessageContent {
 	private HashMap<String, List<String>> cardList; // 현재 게임방에 참가한 플레이어 리스트
 	private List<String> winner;	// 카드를 다 버린 플레이어
 	private List<String> candidate;	// 카드를 가지고 있는 플레이어
+	private int timeCounter;
 }
