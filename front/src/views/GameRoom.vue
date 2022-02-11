@@ -91,9 +91,6 @@ export default {
       content: "",
       gameMessage: null,
       eventMessage: null,
-      // 깍두기
-      msg: [],
-
       // stomp관련 data
       stompClient: null,
       connected: false,
