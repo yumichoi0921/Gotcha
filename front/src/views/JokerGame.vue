@@ -274,7 +274,7 @@ export default {
       this.TimeCounter = 0;
       //alert("자동으로 선택됩니다.");
       this.selectedCard = this.cardList[this.picked][0];
-      this.gameLogic();
+      if (this.userId == this.picker) this.gameLogic();
     },
   },
 };
