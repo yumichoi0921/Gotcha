@@ -323,8 +323,4 @@ export default {
 };
 </script>
 
-<style>
-.btn {
-  align-items: center;
-}
-</style>
+<style></style>
