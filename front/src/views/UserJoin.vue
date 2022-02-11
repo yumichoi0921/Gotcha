@@ -220,14 +220,6 @@ export default {
       },
     };
   },
-  watch: {
-    inputId() {
-      let pw = document.getElementById("inputId").value;
-      if (pw.length < 8 || pw.length > 20) {
-        return false;
-      }
-    },
-  },
 
   methods: {
     join() {
