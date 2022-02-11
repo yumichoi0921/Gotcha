@@ -2,6 +2,7 @@ package com.ssafy.gotcha.game.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,5 +18,5 @@ public class GameMessage extends MessageContent {
 	private String picker;	// 뽑는 사람 id
 	private String picked;	// 뽑히는 사람 id
 	private HashMap<String, Player> players; // 현재 게임방에 참가한 플레이어 리스트
-	private HashMap<String, List<String>> cardList; // 현재 게임방에 참가한 플레이어 리스트
+	private HashMap<String, List<Card>> cardList; // 현재 게임방에 참가한 플레이어의 카드
 }
