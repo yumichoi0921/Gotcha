@@ -75,7 +75,7 @@
                         card.shape === selectedCard.shape,
                     },
                   ]"
-                  v-animate-css="gameStartEvent"
+                  v-animate-css="gameStartCardEvent"
                   :src="
                     require('@/assets/poker/poker' +
                       card.shape +
@@ -106,6 +106,7 @@
 
 <script>
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
+
 export default {
   name: "JokerGame",
   components: {
@@ -131,18 +132,19 @@ export default {
       picked: null,
       players: null,
       cardList: null,
-      timeCounter: 30,
+      timeCounter: null,
       // eventMessage 관련 data
       eventType: null,
       // 게임 로직 관련 data
       selectedCard: { number: null, shape: null },
       matchedCard: { number: "", shape: "" },
-      // 게임 이벤트 관련 data
-      gameStartEvent: {
+      // 게임 시작 카드 이벤트 관련 data
+      gameStartCardEvent: {
         classes: "slideInDown",
         delay: 100,
         duration: 2500,
       },
+      timer: null,
     };
   },
   watch: {
@@ -154,9 +156,10 @@ export default {
       this.picked = this.gameMessage.picked;
       this.players = this.gameMessage.players;
       this.cardList = this.gameMessage.cardList;
-      this.myCard = this.cardList[this.userId];
       this.timeCounter = this.gameMessage.timeCounter;
-      this.start();
+      this.myCard = this.cardList[this.userId];
+      this.timerStop(this.timer); // 게임메시지 받을 때마다 타이머 멈추고
+      this.timerStart(); // 타이머 다시 시작
     },
     eventMessage() {
       this.eventType = this.eventMessage.eventType;
@@ -173,9 +176,11 @@ export default {
       this.eventType = "CARDCLICK";
       this.selectedCard = card;
       this.sendEventMessage();
-      alert("선택카드 " + card.shape + card.number);
+      // alert("선택카드 " + card.shape + card.number);
     },
     gameLogic() {
+      // 타이머 종료
+      this.timerStop(this.timer);
       // picked의 카드리스트에서 선택한 카드 삭제
       for (let i = 0; i < this.cardList[this.picked].length; i++) {
         let card = this.cardList[this.picked][i];
@@ -192,7 +197,7 @@ export default {
       for (let i = 0; i < this.cardList[this.picker].length; i++) {
         if (this.selectedCard.number == this.cardList[this.picker][i].number) {
           // 매칭되면
-          alert("중복됨");
+          // alert("중복됨");
           this.matchedCard = this.cardList[this.picker][i]; // 매칭되는 카드
           this.cardList[this.picker].splice(i, 1); // picker 카드리스트에서 삭제
           matched = true; // 매칭플래그 true;
@@ -228,6 +233,8 @@ export default {
         this.selectedCard = { number: null, shape: null };
         // 매칭되는 카드 초기화
         this.matchedCard = { number: "", shape: "" };
+        // 타이머 초기화
+        this.timeCounter = 30;
         // 이벤트 메시지 보내기
         // this.sendEventMessage();
       }
@@ -255,20 +262,23 @@ export default {
       };
       this.$emit("sendEventMessage", message);
     },
-    start() {
+    timerStart() {
       console.log("타이머 시작");
       // 1초에 한번씩 start 호출
-      var interval = setInterval(() => {
+      this.timer = setInterval(() => {
         this.timeCounter--; //1찍 감소
-        if (this.timeCounter <= 0) this.timerStop(interval);
+        if (this.timeCounter <= 0) {
+          this.timerStop(this.timer);
+          if (this.picker == this.userId) {
+            this.selectedCard = this.cardList[this.picked][0];
+            this.gameLogic();
+          }
+        }
       }, 1000);
     },
     timerStop: function (Timer) {
       clearInterval(Timer);
-      this.TimeCounter = 0;
-      //alert("자동으로 선택됩니다.");
-      this.selectedCard = this.cardList[this.picked][0];
-      this.gameLogic();
+      console.log("타이머 종료");
     },
   },
 };
