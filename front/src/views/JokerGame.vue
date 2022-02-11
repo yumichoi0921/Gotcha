@@ -1,5 +1,6 @@
 <template>
   <div id="JockerGame">
+    <div class="modal"></div>
     <div id="SubscriberSection" class="row row-cols-5 mb-3">
       <b-col
         v-for="sub in subscribers"
@@ -35,6 +36,9 @@
               ><img :src="require('../assets/jammin.gif')" height="100" />
             </b-col>
           </b-alert>
+        </div>
+        <div class="row">
+          <h3>{{ timeCounter }}</h3>
         </div>
         <div id="CardInfoSection" class="row">
           <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
@@ -139,8 +143,10 @@ export default {
       eventType: null,
       // picker: null,
       // picked: null,
+
       selectedCard: { number: null, shape: null },
       matchedCard: { number: "", shape: "" },
+      timeCounter: 30,
     };
   },
   watch: {
@@ -153,6 +159,8 @@ export default {
       this.players = this.gameMessage.players;
       this.cardList = this.gameMessage.cardList;
       this.myCard = this.cardList[this.userId];
+      this.timeCounter = this.gameMessage.timeCounter;
+      this.start();
     },
     eventMessage() {
       this.eventType = this.eventMessage.eventType;
@@ -249,6 +257,21 @@ export default {
         selectedCard: this.selectedCard,
       };
       this.$emit("sendEventMessage", message);
+    },
+    start() {
+      console.log("타이머 시작");
+      // 1초에 한번씩 start 호출
+      var interval = setInterval(() => {
+        this.timeCounter--; //1찍 감소
+        if (this.timeCounter <= 0) this.timerStop(interval);
+      }, 1000);
+    },
+    timerStop: function (Timer) {
+      clearInterval(Timer);
+      this.TimeCounter = 0;
+      //alert("자동으로 선택됩니다.");
+      this.selectedCard = this.cardList[this.picked][0];
+      this.gameLogic();
     },
   },
 };
