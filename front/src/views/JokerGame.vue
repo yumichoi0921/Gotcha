@@ -92,6 +92,7 @@
           <user-video
             :stream-manager="publisher"
             :userId="userId"
+            :picked="picked"
             :class="{ PickerEvent: picker === userId }"
           />
           <div v-if="cardList != null">
