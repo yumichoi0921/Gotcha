@@ -21,7 +21,7 @@ public class PlayerRepository {
 		players = new LinkedHashMap<>();
 	}
 	
-    public void create(String connectionId, String roomId, String userId) {
+    public Player create(String connectionId, String roomId, String userId) {
     	Player player = Player.builder()
 				.userId(userId)
 				.nickName(userId)
@@ -31,6 +31,7 @@ public class PlayerRepository {
 				.roomId(roomId)
 				.build();
     	players.put(connectionId, player);
+    	return player;
     }
 
     public void remove(String connectionId) {
