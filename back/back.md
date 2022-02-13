@@ -1,4 +1,4 @@
 backend
 1. 안현호
 
-test: jenkins test 27
+test: jenkins test 28
