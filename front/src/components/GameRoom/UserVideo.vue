@@ -1,6 +1,11 @@
 <template>
   <div v-if="streamManager">
-    <ov-video :stream-manager="streamManager" class="rounded-top" />
+    <ov-video
+      :stream-manager="streamManager"
+      :picked="picked"
+      :userId="userId"
+      class="rounded-top"
+    />
     <h5 class="card-title">닉네임: {{ clientData.userId }}</h5>
   </div>
 </template>
@@ -17,6 +22,7 @@ export default {
   props: {
     streamManager: Object,
     userId: String,
+    picked: String,
   },
   data() {
     return {};
