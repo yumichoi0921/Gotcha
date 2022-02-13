@@ -42,17 +42,26 @@
         <div id="CardInfoSection" class="row">
           <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
             <b-alert show variant="primary"
-              >{{ picked }} 카드를 선택하세요</b-alert
+              ><div v-if="picked == userId">
+                {{ picker }}가 나의 카드를 선택중입니다.
+              </div>
+              <div v-else-if="picker == userId">
+                {{ picked }}의 카드를 선택하세요
+              </div>
+              <div v-else>{{ picked }}의 카드덱입니다.</div>
+            </b-alert>
+
+            <b-row
+              cols="6"
+              class=""
+              v-if="cardList != null && picked != userId"
             >
-            <b-row cols="6" class="" v-if="cardList != null">
               <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
                 <img
                   class="cardlist"
                   v-on:click="picker == userId ? cardClick(card) : ''"
                   :class="{
-                    CardEvent:
-                      card.number === selectedCard.number &&
-                      card.shape === selectedCard.shape,
+                    CardEvent: isSameCard(card, selectedCard),
                   }"
                   :src="require('../assets/poker/backCard.jpg')"
                 /> </b-col
@@ -63,16 +72,18 @@
           </div>
           <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
             <b-alert show variant="primary">내카드덱</b-alert>
-            <b-row cols="6" class="" v-if="cardList != null">
-              <b-col v-for="(card, idx) in myCard" v-bind:key="idx" class="">
+            <transition-group
+              tag="div"
+              name="card"
+              class="row row-cols-6"
+              v-if="cardList != null"
+            >
+              <b-col v-for="card in myCard" v-bind:key="card">
                 <img
                   class="cardlist"
-                  v-on:click="cardClick(card)"
                   :class="[
                     {
-                      CardEvent:
-                        card.number === selectedCard.number &&
-                        card.shape === selectedCard.shape,
+                      CardEvent: isSameCard(card, selectedCard),
                     },
                   ]"
                   v-animate-css="gameStartCardEvent"
@@ -83,7 +94,7 @@
                       '.jpg')
                   "
                 /> </b-col
-            ></b-row>
+            ></transition-group>
           </div>
         </div>
       </div>
@@ -118,6 +129,7 @@ export default {
     userId: String,
     gameMessage: Object,
     eventMessage: Object,
+    statusMessage: String,
   },
 
   data() {
@@ -137,7 +149,7 @@ export default {
       eventType: null,
       // 게임 로직 관련 data
       selectedCard: { number: null, shape: null },
-      matchedCard: { number: "", shape: "" },
+      matchedCard: { number: null, shape: null },
       // 게임 시작 카드 이벤트 관련 data
       gameStartCardEvent: {
         classes: "slideInDown",
@@ -158,12 +170,19 @@ export default {
       this.cardList = this.gameMessage.cardList;
       this.timeCounter = this.gameMessage.timeCounter;
       this.myCard = this.cardList[this.userId];
+      // console.log(this.selectedCard);
       this.timerStop(this.timer); // 게임메시지 받을 때마다 타이머 멈추고
       this.timerStart(); // 타이머 다시 시작
     },
     eventMessage() {
       this.eventType = this.eventMessage.eventType;
       this.selectedCard = this.eventMessage.selectedCard;
+    },
+    statusMessage() {
+      if (this.statusMessage == "END") {
+        this.timerStop(this.timer);
+        alert("게임 끝");
+      }
     },
   },
   computed: {},
@@ -226,7 +245,7 @@ export default {
       if (this.turn.length == 1) {
         this.timerStop(this.timer);
         // 게임 종료 메시지 브로드캐스팅하기
-        alert("게임 끝");
+        this.sendStatusMessage("END");
       } else {
         // picker, picked 변경
         this.picker = this.turn[0];
@@ -234,13 +253,15 @@ export default {
         // 고른 카드 초기화
         this.selectedCard = { number: null, shape: null };
         // 매칭되는 카드 초기화
-        this.matchedCard = { number: "", shape: "" };
+        this.matchedCard = { number: null, shape: null };
         // 타이머 초기화
         this.timeCounter = 30;
-        // 이벤트 메시지 보내기
-        // this.sendEventMessage();
+        // cardList 셔플
+        for (const key in this.cardList) {
+          this.shuffle(this.cardList[key]);
+        }
+        this.sendGameMessage();
       }
-      this.sendGameMessage();
     },
     sendGameMessage() {
       let message = {
@@ -264,6 +285,9 @@ export default {
       };
       this.$emit("sendEventMessage", message);
     },
+    sendStatusMessage(message) {
+      this.$emit("sendStatusMessage", message);
+    },
     timerStart() {
       console.log("타이머 시작");
       // 1초에 한번씩 start 호출
@@ -281,6 +305,23 @@ export default {
     timerStop: function (Timer) {
       clearInterval(Timer);
       console.log("타이머 종료");
+    },
+    shuffle: function (array) {
+      array.sort(() => Math.random() - 0.5);
+    },
+    isSameCard: function (card1, card2) {
+      if (card1.number === card2.number && card1.shape === card2.shape) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    beforeEnter(el) {
+      el.style.transitionDelay = 100 * parseInt(el.dataset.index, 10) + "ms";
+    },
+    // 트랜지션을 완료하거나 취소할 때는 딜레이를 제거합니다.
+    afterEnter(el) {
+      el.style.transitionDelay = "";
     },
   },
 };
@@ -390,5 +431,22 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.card-enter-active,
+.card-leave-active,
+.card-move {
+  transition: opacity 2s, transform 2s;
+}
+.card-leave-active {
+  position: absolute;
+}
+.card-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.card-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

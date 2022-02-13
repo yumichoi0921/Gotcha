@@ -25,7 +25,7 @@
           <b-col>
             <b-button
               v-if="userId == `host`"
-              @click="gameStart"
+              @click="sendStatusMessage('START')"
               variant="danger"
               >시작</b-button
             >
@@ -50,8 +50,10 @@
           :userId="userId"
           :gameMessage="gameMessage"
           :eventMessage="eventMessage"
+          :statusMessage="statusMessage"
           v-on:sendGameMessage="sendGameMessage"
           v-on:sendEventMessage="sendEventMessage"
+          v-on:sendStatusMessage="sendStatusMessage"
         ></joker-game>
       </div>
     </div>
@@ -91,6 +93,7 @@ export default {
       content: "",
       gameMessage: null,
       eventMessage: null,
+      statusMessage: null,
       // stomp관련 data
       stompClient: null,
       connected: false,
@@ -152,20 +155,19 @@ export default {
         this.gameMessageParser(jsonBody.content);
       } else if (jsonBody.type == "EVENT") {
         this.eventMessageParser(jsonBody.content);
+      } else if (jsonBody.type == "START" || jsonBody.type == "END") {
+        this.statusMessageParser(jsonBody.content);
       }
     },
-    gameStart() {
-      this.type = "START";
-      this.content = "";
+    // gameStart() {
+    //   this.type = "START";
+    //   this.content = "";
+    //   this.sendMessage();
+    // },
+    sendStatusMessage(message) {
+      this.type = message;
+      this.content = message;
       this.sendMessage();
-    },
-    gameMessageParser(content) {
-      this.gameMessage = JSON.parse(content);
-      console.log("게임 메시지", this.gameMessage);
-    },
-    eventMessageParser(content) {
-      this.eventMessage = JSON.parse(content);
-      console.log("이벤트 메시지", this.eventMessage);
     },
     sendGameMessage(message) {
       this.type = "GAME";
@@ -176,6 +178,18 @@ export default {
       this.type = "EVENT";
       this.content = JSON.stringify(message);
       this.sendMessage();
+    },
+    gameMessageParser(content) {
+      this.gameMessage = JSON.parse(content);
+      console.log("게임 메시지", this.gameMessage);
+    },
+    eventMessageParser(content) {
+      this.eventMessage = JSON.parse(content);
+      console.log("이벤트 메시지", this.eventMessage);
+    },
+    statusMessageParser(content) {
+      this.statusMessage = content;
+      console.log("게임상태 메시지", this.statusMessage);
     },
     joinSession() {
       // --- Get an OpenVidu object ---
