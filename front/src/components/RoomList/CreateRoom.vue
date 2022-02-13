@@ -19,12 +19,14 @@
                     id="room-title"
                     v-model="form.roomTitle"
                     placeholder="방제목을 입력하세요"
-                    :state="roomTitleValidation"
                     required
                   ></b-form-input>
-                  <b-form-invalid-feedback :state="roomTitleValidation">
+                  <p class="Jua" v-if="errorBag.form.roomTitle">
+                    {{ errorBag.form.roomTitle[0] }}
+                  </p>
+                  <!-- <b-form-invalid-feedback :state="roomTitleValidation">
                     방제목은 2-10자까지 가능합니다.
-                  </b-form-invalid-feedback>
+                  </b-form-invalid-feedback> -->
                 </b-form-group>
 
                 <b-form-group
@@ -40,7 +42,6 @@
                       v-model="form.password"
                       placeholder="비공개방 체크를 먼저 해주세요"
                       :readonly="!form.isPrivate"
-                      :state="roomPwdValidation"
                       required
                     ></b-form-input>
                     <b-form-checkbox
@@ -51,9 +52,12 @@
                       <p class="h3"><b-icon icon="lock"></b-icon></p>
                     </b-form-checkbox>
                   </b-form>
-                  <b-form-invalid-feedback :state="roomPwdValidation">
+                  <p class="Jua" v-if="errorBag.form.password">
+                    {{ errorBag.form.password[0] }}
+                  </p>
+                  <!-- <b-form-invalid-feedback :state="roomPwdValidation">
                     비밀번호는 2-4자까지 가능합니다.
-                  </b-form-invalid-feedback>
+                  </b-form-invalid-feedback> -->
                 </b-form-group>
 
                 <b-form-group
@@ -94,6 +98,8 @@
 
 <script>
 import { createRoom } from "@/api/room.js";
+import validator from "@/api/validator.js";
+
 export default {
   name: "CreateRoom",
   components: {},
@@ -109,41 +115,60 @@ export default {
         { text: "4", value: 4 },
         { text: "6", value: 6 },
       ],
+      errorBag: {
+        form: {
+          roomTitle: "",
+          password: "",
+        },
+      },
     };
   },
-  computed: {
-    roomTitleValidation() {
-      return (
-        this.form.roomTitle.length >= 2 && this.form.roomTitle.length <= 10
+  // computed: {
+  //   roomTitleValidation() {
+  //     return (
+  //       this.form.roomTitle.length >= 2 && this.form.roomTitle.length <= 10
+  //     );
+  //   },
+  //   roomPwdValidation() {
+  //     return this.form.password.length >= 2 && this.form.password.length <= 4;
+  //   },
+  // },
+  watch: {
+    "form.roomTitle"(val) {
+      this.errorBag.form.roomTitle = validator.validateRoomTitle("방제목", val);
+    },
+    "form.password"(val) {
+      this.errorBag.form.password = validator.validateRoomPassword(
+        "비밀번호",
+        val
       );
     },
-    roomPwdValidation() {
-      return this.form.password.length >= 2 && this.form.password.length <= 4;
-    },
-  },
-  watch: {
     "form.isPrivate"() {
       this.form.password = "";
     },
   },
   methods: {
     onSubmit() {
-      createRoom(
-        {
-          hostId: "testId",
-          roomTitle: this.form.roomTitle,
-          password: this.form.password,
-          isPrivate: this.form.isPrivate,
-          capacity: this.form.capacity,
-        },
-        (response) => {
-          const roomId = response.data.roomId;
-          this.$router.push({
-            name: "GameRoom",
-            params: { roomId: roomId },
-          });
-        }
-      );
+      if (this.errorBag.form.roomTitle[0] || this.errorBag.form.password[0]) {
+        alert("방 생성 조건을 만족하지 않았습니다.");
+      } else {
+        createRoom(
+          {
+            hostId: "testId",
+            roomTitle: this.form.roomTitle,
+            password: this.form.password,
+            isPrivate: this.form.isPrivate,
+            capacity: this.form.capacity,
+          },
+          (response) => {
+            const roomId = response.data.roomId;
+            this.$router.push({
+              name: "GameRoom",
+              params: { roomId: roomId },
+            });
+          }
+        );
+      }
     },
   },
 };
