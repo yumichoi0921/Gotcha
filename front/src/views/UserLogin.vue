@@ -3,87 +3,83 @@
     <div id="login">
       <div class="container">
         <div class="row justify-content-center align-items-center">
-          <div class="col-sm-6">
-            <div class="card">
-              <h4
-                class="card-header Jua center"
-                style="background-color: rgb(224, 224, 221)"
+          <b-card
+            class="shadow p-3 mb-5 rounded"
+            id="card"
+            style="color: #616264; background-color: #ffcea0"
+          >
+            <h2 class="Jua" id="LoginTitle">Login</h2>
+            <div class="card-body">
+              <form
+                data-toggle="validator"
+                role="form"
+                method="post"
+                action="#"
               >
-                로그인
-              </h4>
-              <div class="card-body">
-                <form
-                  data-toggle="validator"
-                  role="form"
-                  method="post"
-                  action="#"
-                >
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="Jua">ID</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="fa fa-user" aria-hidden="true" />
-                            </span>
-                          </div>
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="user.userId"
-                            placeholder="아이디를 입력해주세요."
-                          />
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="Jua">ID</label>
+                      <div class="input-group input-group-lg">
+                        <div class="input-group-prepend">
+                          <i class="fa fa-user" aria-hidden="true" />
                         </div>
-                        <div class="help-block with-errors text-danger"></div>
+                        <input
+                          type="text"
+                          class="form-control shadow-sm"
+                          v-model="user.userId"
+                          placeholder="아이디를 입력해주세요."
+                        />
                       </div>
+                      <div class="help-block with-errors text-danger"></div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="Jua">Password</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="fa fa-lock" aria-hidden="true" />
-                            </span>
-                          </div>
-                          <input
-                            type="password"
-                            v-model="user.password"
-                            placeholder="비밀번호를 입력해주세요."
-                            class="form-control"
-                          />
-                        </div>
-                        <div class="help-block with-errors text-danger"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="btn">
-                      <button
-                        type="button"
-                        class="btn btn-primary btn-lg btn-block Jua"
-                        @click="login()"
-                      >
-                        Login
-                      </button>
-                    </div>
-                  </div>
-                </form>
-                <div class="form-group center">
-                  <div class="clear"></div>
-                  <br />
-                  <i class="fa fa-user fa-fw" /><span class="Jua fontsize18"
-                    >처음 방문하십니까?
-                  </span>
-                  <a class="Jua fontsize18" href="/join">회원가입</a>
-                  <br />
                 </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="Jua">Password</label>
+                      <div class="input-group input-group-lg shadow-sm">
+                        <div class="input-group-prepend">
+                          <i class="fa fa-lock" aria-hidden="true" />
+                        </div>
+                        <input
+                          type="password"
+                          v-model="user.password"
+                          placeholder="비밀번호를 입력해주세요."
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="help-block with-errors text-danger"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="btn">
+                    <button
+                      type="button"
+                      class="btn btn-light btn-lg Jua shadow"
+                      @click="login()"
+                      style="background-color: #ff8989"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <div class="form-group center">
+                <div class="clear"></div>
+                <br />
+                <i class="fa fa-user fa-fw" /><span class="Jua fontsize18"
+                  >처음 방문하십니까?
+                </span>
+                <a class="Jua fontsize18" style="color: #ff8989" href="/join"
+                  >회원가입</a
+                >
+                <br />
               </div>
             </div>
-          </div>
+          </b-card>
         </div>
       </div>
     </div>
@@ -105,6 +101,7 @@ export default {
       },
     };
   },
+
   created() {
     window.onSignIn = this.onSignIn;
   },
@@ -114,11 +111,15 @@ export default {
   methods: {
     ...mapActions(memberStore, ["userConfirm"]),
     async login() {
-      await this.userConfirm(this.user);
-      sessionStorage.getItem("access-token");
-      if (this.isLogin) {
-        alert("로그인 성공, 대기실로 이동합니다.");
-        this.$router.push({ name: "Home" });
+      if (this.user.userId == "" || this.user.password == "") {
+        alert("아이디 또는 비밀번호를 입력해 주세요.");
+      } else {
+        await this.userConfirm(this.user);
+        sessionStorage.getItem("access-token");
+        if (this.isLogin) {
+          alert("로그인 성공, 대기실로 이동합니다.");
+          this.$router.push({ name: "Home" });
+        }
       }
     },
   },
@@ -126,6 +127,13 @@ export default {
 </script>
 
 <style>
+#LoginTitle {
+  padding-block: 2%;
+  padding-left: 5%;
+}
+#card {
+  width: 800px;
+}
 #login {
   text-align: left;
 }

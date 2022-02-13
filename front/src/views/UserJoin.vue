@@ -45,6 +45,9 @@
                             중복 확인
                           </button>
                         </div>
+                        <p class="Jua" v-if="errorBag.user.userId">
+                          {{ errorBag.user.userId[0] }}
+                        </p>
                         <!-- {{ idlength }} -->
                         <div class="help-block with-errors text-danger"></div>
                       </div>
@@ -75,6 +78,9 @@
                             중복 확인
                           </button>
                         </div>
+                        <p class="Jua" v-if="errorBag.user.nickName">
+                          {{ errorBag.user.nickName[0] }}
+                        </p>
                         <div class="help-block with-errors text-danger"></div>
                       </div>
                     </div>
@@ -114,6 +120,9 @@
                             <option value="ssafy.com">ssafy.com</option>
                           </select>
                         </div>
+                        <p class="Jua" v-if="errorBag.user.email">
+                          {{ errorBag.user.email[0] }}
+                        </p>
                         <div class="help-block with-errors text-danger"></div>
                       </div>
                     </div>
@@ -137,6 +146,9 @@
                           />
                           <!-- <div>{{ ing }}</div> -->
                         </div>
+                        <p class="Jua" v-if="errorBag.user.password">
+                          {{ errorBag.user.password[0] }}
+                        </p>
                         <div class="help-block with-errors text-danger"></div>
                       </div>
                     </div>
@@ -159,6 +171,9 @@
                             class="form-control"
                           />
                         </div>
+                        <p class="Jua" v-if="errorBag.user.passwordCheck">
+                          {{ errorBag.user.passwordCheck[0] }}
+                        </p>
                         <div class="help-block with-errors text-danger"></div>
                       </div>
                     </div>
@@ -202,6 +217,7 @@
 </template>
 <script>
 import axios from "axios";
+import validator from "@/api/validator.js";
 export default {
   name: "Join",
   data() {
@@ -221,14 +237,48 @@ export default {
         nickNameCheck: false,
         userIdCheck: false,
       },
+      errorBag: {
+        user: {
+          userId: "",
+          nickName: "",
+          email: "",
+          password: "",
+          passwordCheck: "",
+        },
+      },
     };
+  },
+
+  watch: {
+    "user.userId"(val) {
+      this.errorBag.user.userId = validator.validateId("아이디", val);
+    },
+    "user.nickName"(val) {
+      this.errorBag.user.nickName = validator.validateNickname("닉네임", val);
+    },
+    "emailinput.email1"(val) {
+      this.errorBag.user.email = validator.validateEmail("이메일", val);
+    },
+    "user.password"(val) {
+      this.errorBag.user.password = validator.validatePassword("비밀번호", val);
+    },
+    "usercheck.passwordCheck"(val) {
+      this.errorBag.user.passwordCheck = validator.validatePwCheck(
+        "비밀번호",
+        val,
+        this.user.password
+      );
+    },
   },
 
   methods: {
     join() {
       this.user.email = this.emailinput.email1 + "@" + this.emailinput.email2;
-      if (this.user.userId == "") {
-        alert("아이디를 입력하세요.");
+      /*if (this.user.userId == "") {
+        this.errorBag.user.userId = validator.validateId(
+          "아이디",
+          this.user.userId
+        );
       } else if (this.user.nickName == "") {
         alert("닉네임을 입력하세요.");
       } else if (this.emailinput.email1 == "" || this.emailinput.email2 == "") {
@@ -244,6 +294,17 @@ export default {
         this.usercheck.nickNameCheck == false
       ) {
         alert("중복 확인을 해주세요.");
+      }*/
+      if (
+        this.errorBag.user.userId[0] ||
+        this.errorBag.user.nickName[0] ||
+        this.errorBag.user.email[0] ||
+        this.errorBag.user.password[0] ||
+        this.errorBag.user.passwordCheck[0] ||
+        this.usercheck.userIdCheck == false ||
+        this.usercheck.nickNameCheck == false
+      ) {
+        alert("회원가입 조건을 만족하지 않았습니다.");
       } else {
         axios
           .post(
@@ -338,5 +399,9 @@ export default {
 }
 .center {
   text-align: center;
+}
+
+p {
+  color: red;
 }
 </style>
