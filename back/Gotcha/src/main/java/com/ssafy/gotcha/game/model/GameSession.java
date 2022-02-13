@@ -31,8 +31,8 @@ public class GameSession {
 
 	public GameSession(String gameSessionId, Player hostPlayer) {
 		this.gameSessionId = gameSessionId;
+		this.hostId = hostPlayer.getUserId();
 		players = new HashMap<String, Player>();
-//		players.put(hostPlayer.getUserId(), hostPlayer); TODO: host입장 할 때 connectionId를 알 수 없어서 일단 보류.. 방생성과 openVidu 세션생성 순서 제대로 정의되면 추후 수정
 	}
 
 	// test code
