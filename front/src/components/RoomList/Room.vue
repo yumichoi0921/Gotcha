@@ -20,7 +20,7 @@
       </div>
       <div id="Room-footer">
         <router-link
-          v-if="!room.isPrivate"
+          v-if="!room.isFull && !room.isPrivate"
           :to="{
             name: 'GameRoom',
             params: { roomId: room.roomId },
@@ -32,11 +32,24 @@
             >Enter</b-button
           >
         </router-link>
-        <b-button @click="notMove" v-else pill class="col-6 mx-auto Jua"
+        <b-button
+          @click="secretModal"
+          v-else-if="!room.isFull && room.isPrivate"
+          >Enter</b-button
+        >
+        <b-button @click="gameRunning" v-else pill class="col-6 mx-auto Jua"
           >게임진행중</b-button
         >
       </div>
     </b-card>
+    <div v-show="isShow">
+      <b-form @submit.prevent="onSubmit">
+        <b-form-input label="비밀번호" v-model="password"></b-form-input>
+        <b-button type="submit" variant="danger" class="mx-3 Jua"
+          >확인</b-button
+        ></b-form
+      >
+    </div>
   </div>
 </template>
 <script>
@@ -46,11 +59,28 @@ export default {
     room: Object,
   },
   data() {
-    return {};
+    return {
+      isShow: false,
+      password: "",
+    };
   },
   methods: {
-    notMove() {
+    gameRunning() {
       alert("게임진행중입니다.");
+    },
+    secretModal() {
+      this.isShow = !this.isShow;
+    },
+    onSubmit() {
+      if (this.password != this.room.password) {
+        alert("비번이 다름니다");
+      } else {
+        alert("비번 맞음");
+        this.$router.push({
+          name: "GameRoom",
+          params: { roomId: this.room.roomId },
+        });
+      }
     },
   },
 };

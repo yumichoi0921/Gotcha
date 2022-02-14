@@ -20,6 +20,7 @@ const roomStore = {
     getRoomList: ({ commit }) => {
       roomList(
         ({ data }) => {
+          console.log(data);
           commit("SET_ROOMS", data);
         },
         (error) => {
