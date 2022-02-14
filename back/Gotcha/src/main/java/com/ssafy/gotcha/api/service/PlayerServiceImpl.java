@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.gotcha.entity.Room;
+import com.ssafy.gotcha.game.model.GameSession;
 import com.ssafy.gotcha.game.model.Player;
 import com.ssafy.gotcha.repository.GameSessionRepository;
 import com.ssafy.gotcha.repository.PlayerRepository;
@@ -43,13 +44,21 @@ public class PlayerServiceImpl {
 		
 		if(room.getParticipant() <= 1) {
 			roomRepository.deleteByRoomId(gameSessionId); // 1명이었다면 방 제거
+			playerRepository.remove(connectionId);
 		} else {
+			GameSession gs = gameSessionRepository.findGameSessionById(gameSessionId);
+			
+			System.out.println(gs.getCardList());
+			gs.getPlayers().remove(userId);
+			if(gs.getCardList() != null) {
+				gs.getCardList().remove(userId);
+			}
+			playerRepository.remove(connectionId);
+			
 			room.setParticipant(room.getParticipant()-1); // 수용량을 1 감소 시킴.
 			roomRepository.save(room); // 그리고 저장
 		}
-		gameSessionRepository.findGameSessionById(gameSessionId).getCardList().remove(userId); // TODO: 여기서 NPE 발생함
-		gameSessionRepository.findGameSessionById(gameSessionId).getPlayers().remove(userId);
-		playerRepository.remove(connectionId);
+		
 		
 	}
 
