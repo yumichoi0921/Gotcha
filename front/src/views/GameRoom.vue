@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div id="GameSession" v-if="session">
+    <div id="GameSession" v-if="session" class="gs">
       <div id="GameSession-header">
         <b-row class="alert alert-secondary">
           <b-col
@@ -353,4 +353,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.gs {
+  margin-top: 80px;
+}
+</style>

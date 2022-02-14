@@ -17,13 +17,15 @@
       </div>
       <div id="Room-footer">
         <router-link
+          v-if="!room.isPrivate"
           :to="{
             name: 'GameRoom',
             params: { roomId: room.roomId },
           }"
-          ><b-button pill class="col-6 mx-auto Jua"
-            >Enter</b-button
-          ></router-link
+          ><b-button pill class="col-6 mx-auto Jua">Enter</b-button>
+        </router-link>
+        <b-button @click="notMove" v-else pill class="col-6 mx-auto Jua"
+          >게임진행중</b-button
         >
       </div>
     </b-card>
@@ -37,6 +39,11 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    notMove() {
+      alert("게임진행중입니다.");
+    },
   },
 };
 </script>

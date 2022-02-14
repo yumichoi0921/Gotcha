@@ -1,5 +1,13 @@
 <template>
   <div class="wrapper">
+    <img style="margin-bottom: 10px" src="@/assets/jammin.gif" />
+    <div
+      id="title"
+      class="card shadow p-3 mb-4 rounded-pill MainTitle"
+      style="color: #616264; background-color: #fff6a0"
+    >
+      <h1 class="Jua">GotCha에 오신 것을 환영합니다!</h1>
+    </div>
     <div id="login">
       <div class="container">
         <div class="row justify-content-center align-items-center">
@@ -72,7 +80,6 @@
                 <a class="Jua fontsize18" style="color: #ff8989" href="/join"
                   >회원가입</a
                 >
-                <br />
               </div>
             </div>
           </b-card>
@@ -124,11 +131,13 @@ export default {
 
 <style>
 #LoginTitle {
-  padding-block: 2%;
-  padding-left: 5%;
+  /* padding-block: 2%;
+  padding-left: 5%; */
+  text-align: center;
 }
 #card {
   width: 800px;
+  height: 450px;
 }
 #login {
   text-align: left;
