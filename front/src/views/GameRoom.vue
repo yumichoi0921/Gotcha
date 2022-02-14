@@ -25,12 +25,11 @@
           <b-col>
             <b-button
               v-if="userId == `host`"
-              @click="sendStatusMessage('START')"
+              @click="sendStatusMessage('START', 'START')"
               variant="danger"
               >시작</b-button
             >
-            <b-button v-else variant="danger">준비</b-button></b-col
-          >
+          </b-col>
           <b-col>
             <input
               class="btn btn-large btn-danger"
@@ -62,7 +61,6 @@
 
 <script>
 import JokerGame from "@/views/JokerGame.vue";
-import UserVideo from "@/components/GameRoom/UserVideo.vue";
 
 import axios from "axios";
 import { room } from "@/api/room.js";
@@ -71,15 +69,13 @@ import SockJS from "sockjs-client";
 import { OpenVidu } from "openvidu-browser";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 // docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-server-kms:2.20.0
-//const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
+const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   name: "GameRoom",
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    UserVideo,
     JokerGame,
   },
   data() {
@@ -156,17 +152,12 @@ export default {
       } else if (jsonBody.type == "EVENT") {
         this.eventMessageParser(jsonBody.content);
       } else if (jsonBody.type == "START" || jsonBody.type == "END") {
-        this.statusMessageParser(jsonBody.content);
+        this.statusMessageParser(jsonBody);
       }
     },
-    // gameStart() {
-    //   this.type = "START";
-    //   this.content = "";
-    //   this.sendMessage();
-    // },
-    sendStatusMessage(message) {
-      this.type = message;
-      this.content = message;
+    sendStatusMessage(type, content) {
+      this.type = type;
+      this.content = content;
       this.sendMessage();
     },
     sendGameMessage(message) {

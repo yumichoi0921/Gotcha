@@ -1,128 +1,141 @@
 <template>
   <div id="JockerGame">
-    <div class="modal"></div>
-    <div id="SubscriberSection" class="row row-cols-5 mb-3">
-      <b-col
-        v-for="sub in subscribers"
-        :key="sub.stream.connection.connectionId"
-      >
-        <div id="PlayerInfo">
-          <div class="Info rounded">
-            <user-video
-              :stream-manager="sub"
-              :class="{
-                PickerEvent: picker === getUserId(sub.stream.connection.data),
-              }"
-            />
-            <div v-if="cardList != null">
-              <img :src="require('../assets/poker/miniCard.jpg')" /> X
-              {{ cardList[getUserId(sub.stream.connection.data)].length }}
+    <div id="Game" v-if="!isGameEnd">
+      <div id="SubscriberSection" class="row row-cols-5 mb-3">
+        <b-col
+          v-for="sub in subscribers"
+          :key="sub.stream.connection.connectionId"
+        >
+          <div id="PlayerInfo">
+            <div class="Info rounded">
+              <user-video
+                :stream-manager="sub"
+                :class="{
+                  PickerEvent: picker === getUserId(sub.stream.connection.data),
+                }"
+              />
+              <div v-if="cardList != null">
+                <img :src="require('../assets/poker/miniCard.jpg')" /> X
+                {{ cardList[getUserId(sub.stream.connection.data)].length }}
+              </div>
+            </div>
+          </div>
+        </b-col>
+      </div>
+      <div id="PublisherSection" class="row">
+        <div id="GameInfoSection" class="col-8">
+          <div id="JamminMessage" class="row h-30">
+            <b-alert show variant="secondary" class="row mx-1 w-100">
+              <b-col cols="2">
+                <div class="clock"></div>
+              </b-col>
+              <b-col class="align-self-center">
+                <h3>{{ timeCounter }}</h3>
+                여기는 잼민이의 메시지가 나오는 곳입니다아
+              </b-col>
+              <b-col cols="2"
+                ><img :src="require('../assets/jammin.gif')" height="100" />
+              </b-col>
+            </b-alert>
+          </div>
+          <div class="row"></div>
+          <div id="CardInfoSection" class="row">
+            <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
+              <b-alert show variant="primary"
+                ><div v-if="picked == userId">
+                  {{ picker }}가 나의 카드를 선택중입니다.
+                </div>
+                <div v-else-if="picker == userId">
+                  {{ picked }}의 카드를 선택하세요
+                </div>
+                <div v-else-if="picked != null">
+                  {{ picked }}의 카드덱입니다.
+                </div>
+                <div v-else>상대방의 카드덱</div>
+              </b-alert>
+
+              <b-row
+                cols="6"
+                class=""
+                v-if="cardList != null && picked != userId"
+              >
+                <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
+                  <img
+                    class="cardlist"
+                    v-on:click="picker == userId ? cardClick(card) : ''"
+                    :class="{
+                      CardEvent: isSameCard(card, selectedCard),
+                    }"
+                    :src="require('../assets/poker/backCard.jpg')"
+                  /> </b-col
+              ></b-row>
+              <b-button v-if="picker == userId" @click.prevent="gameLogic"
+                >카드 선택</b-button
+              >
+            </div>
+            <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
+              <b-alert show variant="primary">내 카드덱</b-alert>
+              <transition-group
+                tag="div"
+                name="card"
+                class="row row-cols-6"
+                v-if="cardList != null"
+              >
+                <b-col v-for="(card, idx) in myCard" v-bind:key="card.number">
+                  <img
+                    class="cardlist"
+                    :class="[
+                      {
+                        CardEvent: isSameCard(myCard[idx], selectedCard),
+                      },
+                    ]"
+                    v-animate-css="gameStartCardEvent"
+                    :src="
+                      require('@/assets/poker/poker' +
+                        card.shape +
+                        card.number +
+                        '.jpg')
+                    "
+                  /> </b-col
+              ></transition-group>
             </div>
           </div>
         </div>
-      </b-col>
+        <div id="PublisherInfo" class="col">
+          <div class="Info rounded">
+            <user-video
+              :stream-manager="publisher"
+              :userId="userId"
+              :picked="picked"
+              :class="{ PickerEvent: picker === userId }"
+            />
+            <div v-if="cardList != null">
+              <img :src="require('../assets/poker/miniCard.jpg')" /> X
+              {{ myCard.length }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="PublisherSection" class="row">
-      <div id="GameInfoSection" class="col-8">
-        <div id="JamminMessage" class="row h-30">
-          <b-alert show variant="secondary" class="row mx-1 w-100">
-            <b-col cols="2">
-              <div class="clock"></div>
-            </b-col>
-            <b-col class="align-self-center">
-              <h3>{{ timeCounter }}</h3>
-              여기는 잼민이의 메시지가 나오는 곳입니다아
-            </b-col>
-            <b-col cols="2"
-              ><img :src="require('../assets/jammin.gif')" height="100" />
-            </b-col>
-          </b-alert>
-        </div>
-        <div class="row"></div>
-        <div id="CardInfoSection" class="row">
-          <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
-            <b-alert show variant="primary"
-              ><div v-if="picked == userId">
-                {{ picker }}가 나의 카드를 선택중입니다.
-              </div>
-              <div v-else-if="picker == userId">
-                {{ picked }}의 카드를 선택하세요
-              </div>
-              <div v-else>{{ picked }}의 카드덱입니다.</div>
-            </b-alert>
-
-            <b-row
-              cols="6"
-              class=""
-              v-if="cardList != null && picked != userId"
-            >
-              <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
-                <img
-                  class="cardlist"
-                  v-on:click="picker == userId ? cardClick(card) : ''"
-                  :class="{
-                    CardEvent: isSameCard(card, selectedCard),
-                  }"
-                  :src="require('../assets/poker/backCard.jpg')"
-                /> </b-col
-            ></b-row>
-            <b-button v-if="picker == userId" @click.prevent="gameLogic"
-              >카드 선택</b-button
-            >
-          </div>
-          <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
-            <b-alert show variant="primary">내카드덱</b-alert>
-            <transition-group
-              tag="div"
-              name="card"
-              class="row row-cols-6"
-              v-if="cardList != null"
-            >
-              <b-col v-for="(card, idx) in myCard" v-bind:key="card.number">
-                <img
-                  class="cardlist"
-                  :class="[
-                    {
-                      CardEvent: isSameCard(myCard[idx], selectedCard),
-                    },
-                  ]"
-                  v-animate-css="gameStartCardEvent"
-                  :src="
-                    require('@/assets/poker/poker' +
-                      card.shape +
-                      card.number +
-                      '.jpg')
-                  "
-                /> </b-col
-            ></transition-group>
-          </div>
-        </div>
-      </div>
-      <div id="PublisherInfo" class="col">
-        <div class="Info rounded">
-          <user-video
-            :stream-manager="publisher"
-            :userId="userId"
-            :picked="picked"
-            :class="{ PickerEvent: picker === userId }"
-          />
-          <div v-if="cardList != null">
-            <img :src="require('../assets/poker/miniCard.jpg')" /> X
-            {{ myCard.length }}
-          </div>
-        </div>
-      </div>
+    <div v-else>
+      <game-result
+        :dodukId="dodukId"
+        :publisher="publisher"
+        :subscribers="subscribers"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
+import GameResult from "@/components/GameRoom/GameResult.vue";
 
 export default {
   name: "JokerGame",
   components: {
     UserVideo,
+    GameResult,
   },
   props: {
     publisher: Object,
@@ -130,7 +143,7 @@ export default {
     userId: String,
     gameMessage: Object,
     eventMessage: Object,
-    statusMessage: String,
+    statusMessage: Object,
   },
 
   data() {
@@ -151,13 +164,16 @@ export default {
       // 게임 로직 관련 data
       selectedCard: { number: null, shape: null },
       matchedCard: { number: null, shape: null },
+      timer: null,
       // 게임 시작 카드 이벤트 관련 data
       gameStartCardEvent: {
         classes: "slideInDown",
         delay: 100,
         duration: 2500,
       },
-      timer: null,
+      // 게임 결과 관련 data
+      isGameEnd: false,
+      dodukId: null,
     };
   },
   watch: {
@@ -180,9 +196,10 @@ export default {
       this.selectedCard = this.eventMessage.selectedCard;
     },
     statusMessage() {
-      if (this.statusMessage == "END") {
+      if (this.statusMessage.type == "END") {
         this.timerStop(this.timer);
-        alert("게임 끝");
+        this.isGameEnd = true;
+        this.dodukId = this.statusMessage.content;
       }
     },
   },
@@ -246,7 +263,8 @@ export default {
       if (this.turn.length == 1) {
         this.timerStop(this.timer);
         // 게임 종료 메시지 브로드캐스팅하기
-        this.sendStatusMessage("END");
+        // let content = { dodukId: this.turn[0] };
+        this.sendStatusMessage("END", this.turn[0]);
       } else {
         // picker, picked 변경
         this.picker = this.turn[0];
@@ -286,8 +304,8 @@ export default {
       };
       this.$emit("sendEventMessage", message);
     },
-    sendStatusMessage(message) {
-      this.$emit("sendStatusMessage", message);
+    sendStatusMessage(type, content) {
+      this.$emit("sendStatusMessage", type, content);
     },
     timerStart() {
       console.log("타이머 시작");
