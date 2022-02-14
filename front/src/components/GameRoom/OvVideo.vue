@@ -16,15 +16,7 @@ export default {
       emotionModel: null,
       timerId: 0,
       pickedName: "",
-      emotions: {
-        angry: 0,
-        disgusted: 0,
-        fearful: 0,
-        happy: 0,
-        neutral: 0,
-        sad: 0,
-        surprised: 0,
-      },
+
       maxEmotion: null,
     };
   },
@@ -60,7 +52,6 @@ export default {
         this.detections = await faceapi
           .detectSingleFace(this.$el, new faceapi.TinyFaceDetectorOptions())
           .withFaceExpressions();
-        console.log(this.picked + " /" + this.user.userId);
         if (this.detections && this.picked == this.user.userId) {
           let maxval = 0;
           for (let emo in this.detections.expressions) {
@@ -72,7 +63,7 @@ export default {
 
           this.SET_EMOTION(this.maxEmotion);
         }
-      }, 2500);
+      }, 2000);
 
       // setTimeout(() => {
       //   console.log("끝내자");
