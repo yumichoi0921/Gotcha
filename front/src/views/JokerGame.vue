@@ -155,7 +155,7 @@ export default {
       hostId: null,
       turn: null,
       picker: null,
-      picked: "before",
+      picked: null,
       players: null,
       cardList: null,
       timeCounter: null,
@@ -455,7 +455,7 @@ export default {
 .card-enter-active,
 .card-leave-active,
 .card-move {
-  transition: opacity 2s, transform 2s;
+  transition: opacity 2s, transform 1s;
 }
 .card-leave-active {
   position: absolute;

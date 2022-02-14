@@ -265,7 +265,7 @@ export default {
               msg = "회원가입 되었습니다.";
             }
             alert(msg);
-            this.$router.push("/login");
+            this.$router.push("/");
           })
           .catch(() => {});
       }
