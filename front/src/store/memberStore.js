@@ -34,7 +34,8 @@ const memberStore = {
   actions: {
     async userConfirm({ commit }, user) {
       await login(user, (response) => {
-        console.log(response);
+        // console.log(response);
+
         if (response.status === 200) {
           let token = response.data["token"];
           commit("SET_IS_LOGIN", true);
