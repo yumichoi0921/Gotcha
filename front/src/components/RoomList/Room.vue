@@ -4,8 +4,8 @@
       <div id="Room-body">
         <b-alert show variant="dark" class="rounded-pill">
           <b-row
-            ><b-col cols="6" class="Jua">{{ room.roomTitle }}</b-col>
-            <b-col cols="2" class="Jua"
+            ><b-col class="Jua">{{ room.roomTitle }}</b-col>
+            <b-col cols="1" class="Jua"
               ><b-icon icon="lock" v-if="room.isPrivate"></b-icon>
               <b-icon icon="unlock" v-else></b-icon
             ></b-col>
