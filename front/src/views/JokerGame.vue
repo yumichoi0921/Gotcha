@@ -173,11 +173,7 @@ export default {
       console.log(this.$store.state.emotion);
     },
     emotion() {
-      console.log("이모션 인식!!!!");
-      if (this.picked == this.user.userId) {
-        console.log("emotion 바뀌고 내차례-> " + this.emotion);
-        this.jamminMessag = "열받쮸";
-      }
+      this.emotionCheck();
     },
   },
   computed: {
@@ -185,6 +181,14 @@ export default {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
+    emotionCheck() {
+      console.log("#############이모션 인식!!!!");
+      if (this.picked == this.user.userId) {
+        console.log("emotion 바뀌고 내차례-> " + this.emotion);
+        this.jamminMessag = "열받쮸";
+      }
+    },
+
     getUserId(data) {
       let clientData = JSON.parse(data);
       return clientData.clientData.userId;
