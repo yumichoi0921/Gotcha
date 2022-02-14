@@ -4,7 +4,7 @@
 
 <script>
 import * as faceapi from "face-api.js";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 const gameStore = "gameStore";
 const memberStore = "memberStore";
 
@@ -44,7 +44,7 @@ export default {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
-    ...mapGetters(gameStore, ["emotion"]),
+    ...mapState(gameStore, ["emotion"]),
 
     async init() {
       await faceapi.nets.faceExpressionNet.load("../models");

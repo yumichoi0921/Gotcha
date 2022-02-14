@@ -107,7 +107,7 @@
 
 <script>
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
-import { mapGetters, mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 const gameStore = "gameStore";
 const memberStore = "memberStore";
 export default {
@@ -172,8 +172,8 @@ export default {
     "$store.state.emotion": function () {
       console.log(this.$store.state.emotion);
     },
-    emotion() {
-      console.log("이모션 인식!!!!");
+    emotion(value) {
+      console.log("이모션 인식!!!!" + value);
       if (this.picked == this.user.userId) {
         console.log("emotion 바뀌고 내차례-> " + this.emotion);
         this.jamminMessag = "열받쮸";
@@ -181,8 +181,12 @@ export default {
     },
   },
   computed: {
+    ...mapState(gameStore, ["emotion"]),
     ...mapGetters(gameStore, ["emotion"]),
     ...mapState(memberStore, ["user"]),
+    emotion() {
+      return this.$store.getters["emotion"];
+    },
   },
   methods: {
     getUserId(data) {
