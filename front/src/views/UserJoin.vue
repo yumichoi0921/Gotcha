@@ -10,7 +10,7 @@
       <h1 class="Jua">GotCha에 오신 것을 환영합니다!</h1>
     </div> -->
     <div id="join">
-      <div class="container">
+      <div class="container Jua">
         <div class="row justify-content-center align-items-center">
           <div
             class="card shadow"
@@ -160,7 +160,7 @@
                     <button
                       type="button"
                       class="btn btn-light btn-lg Jua shadow"
-                      style="background-color: #ff8989"
+                      style="background-color: hsl(44, 92%, 61%)"
                       @click="join()"
                     >
                       Join</button
@@ -273,7 +273,7 @@ export default {
               msg = "회원가입 되었습니다.";
             }
             alert(msg);
-            this.$router.push("/login");
+            this.$router.push("/");
           })
           .catch(() => {});
       }
