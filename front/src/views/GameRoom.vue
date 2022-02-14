@@ -24,7 +24,7 @@
           >
           <b-col>
             <b-button
-              v-if="userId == `host`"
+              v-if="userId == hostId"
               @click="gameStart"
               variant="danger"
               >시작</b-button
@@ -101,6 +101,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       mySessionId: "",
+      hostId: "",
     };
   },
   created() {
@@ -108,6 +109,7 @@ export default {
     room(roomId, (response) => {
       this.room = response.data;
       this.mySessionId = this.room.roomId;
+      this.hostId = this.room.hostId;
     });
   },
   methods: {
