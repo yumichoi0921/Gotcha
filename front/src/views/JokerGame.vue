@@ -107,7 +107,9 @@
 
 <script>
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
-
+import { mapGetters, mapState } from "vuex";
+const gameStore = "gameStore";
+const memberStore = "memberStore";
 export default {
   name: "JokerGame",
   components: {
@@ -146,6 +148,7 @@ export default {
         duration: 2500,
       },
       timer: null,
+      jamminMessag: "",
     };
   },
   watch: {
@@ -166,8 +169,21 @@ export default {
       this.eventType = this.eventMessage.eventType;
       this.selectedCard = this.eventMessage.selectedCard;
     },
+    "$store.state.emotion": function () {
+      console.log(this.$store.state.emotion);
+    },
+    emotion() {
+      console.log("이모션 인식!!!!");
+      if (this.picked == this.user.userId) {
+        console.log("emotion 바뀌고 내차례-> " + this.emotion);
+        this.jamminMessag = "열받쮸";
+      }
+    },
   },
-  computed: {},
+  computed: {
+    ...mapGetters(gameStore, ["emotion"]),
+    ...mapState(memberStore, ["user"]),
+  },
   methods: {
     getUserId(data) {
       let clientData = JSON.parse(data);
