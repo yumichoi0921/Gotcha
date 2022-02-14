@@ -65,7 +65,13 @@ public class RoomController {
 	public ResponseEntity<? extends BaseResponseBody> modifyRoom(@PathVariable("roomId") String roomId,
 			@RequestBody RoomModifyPostReq modifyInfo) {
 		Room room = roomService.modifyRoom(roomId, modifyInfo);
-
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+	@GetMapping(value = "{/roomId}")
+	public ResponseEntity<String> checkAcess(@PathVariable("roomId") String roomId) {
+		Room room = roomService.getRoom(roomId);
+		return (room.getCapacity() > room.getParticipant()) ? ResponseEntity.status(200).body("possible")
+				: ResponseEntity.status(200).body("impossible");
 	}
 }
