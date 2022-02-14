@@ -131,6 +131,9 @@
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
 import GameResult from "@/components/GameRoom/GameResult.vue";
 
+import { mapGetters, mapState } from "vuex";
+const gameStore = "gameStore";
+const memberStore = "memberStore";
 export default {
   name: "JokerGame",
   components: {
@@ -165,6 +168,7 @@ export default {
       selectedCard: { number: null, shape: null },
       matchedCard: { number: null, shape: null },
       timer: null,
+      jamminMessag: "",
       // 게임 시작 카드 이벤트 관련 data
       gameStartCardEvent: {
         classes: "slideInDown",
@@ -202,8 +206,21 @@ export default {
         this.dodukId = this.statusMessage.content;
       }
     },
+    "$store.state.emotion": function () {
+      console.log(this.$store.state.emotion);
+    },
+    emotion() {
+      console.log("이모션 인식!!!!");
+      if (this.picked == this.user.userId) {
+        console.log("emotion 바뀌고 내차례-> " + this.emotion);
+        this.jamminMessag = "열받쮸";
+      }
+    },
   },
-  computed: {},
+  computed: {
+    ...mapGetters(gameStore, ["emotion"]),
+    ...mapState(memberStore, ["user"]),
+  },
   methods: {
     getUserId(data) {
       let clientData = JSON.parse(data);

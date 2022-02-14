@@ -4,8 +4,15 @@
       class="card shadow p-3 mb-4 rounded-pill MainTitle"
       style="color: #616264; background-color: #fff6a0"
     >
-      <img :src="require('../../assets/jammin.gif')" height="100" />
-      <h2 class="Jua">도둑은 {{ dodukId }}이쥬</h2>
+      <div class="row mx-auto">
+        <img :src="require('../../assets/jammin.gif')" height="100" />
+      </div>
+      <div class="row mx-auto">
+        <h2 class="Jua align-middle">도둑은 {{ dodukId }}쥬</h2>
+        <b-button pill class="col-6 mx-auto Jua" @click="refresh"
+          >세션으로 돌아가기</b-button
+        >
+      </div>
     </div>
 
     <div
@@ -24,7 +31,6 @@
         v-if="dodukId == getUserId(publisher.stream.connection.data)"
       />
     </div>
-    <b-button @click="refresh">세션으로 돌아가기</b-button>
   </div>
 </template>
 
