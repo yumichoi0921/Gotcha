@@ -161,6 +161,12 @@ export default {
       this.content = "";
       this.sendMessage();
     },
+    gameEnd() {
+      // TODO: 게임 끝나는 부분에서 호출해주세요!!!!
+      this.type = "END";
+      this.content = "";
+      this.sendMessage();
+    },
     gameMessageParser(content) {
       this.gameMessage = JSON.parse(content);
       console.log("게임 메시지", this.gameMessage);
