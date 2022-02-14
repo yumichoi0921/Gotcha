@@ -29,6 +29,7 @@
                           class="form-control shadow-sm"
                           v-model="user.userId"
                           placeholder="아이디를 입력해주세요."
+                          @keyup.enter="login()"
                         />
                       </div>
                       <div class="help-block with-errors text-danger"></div>
@@ -48,6 +49,7 @@
                           v-model="user.password"
                           placeholder="비밀번호를 입력해주세요."
                           class="form-control"
+                          @keyup.enter="login()"
                         />
                       </div>
                       <div class="help-block with-errors text-danger"></div>

@@ -12,7 +12,7 @@
               >
                 회원가입
               </h4>
-              <div class="card-body" style="background-color: #fff0f5">
+              <div class="card-body" style="background-color: #feced1">
                 <form
                   id="JoinFrom"
                   data-toggle="validator"
@@ -25,11 +25,7 @@
                       <div class="form-group">
                         <label class="Jua">ID</label>
                         <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="fa fa-user" aria-hidden="true" />
-                            </span>
-                          </div>
+                          <div class="input-group-prepend"></div>
                           <input
                             type="text"
                             id="inputId"
@@ -58,11 +54,7 @@
                       <div class="form-group">
                         <label class="Jua">닉네임</label>
                         <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="fa fa-lock" aria-hidden="true" />
-                            </span>
-                          </div>
+                          <div class="input-group-prepend"></div>
                           <input
                             type="text"
                             id="inputNickName"
@@ -91,11 +83,7 @@
                       <div class="form-group">
                         <label class="Jua">이메일</label>
                         <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="fa fa-lock" aria-hidden="true" />
-                            </span>
-                          </div>
+                          <div class="input-group-prepend"></div>
                           <input
                             type="text"
                             v-model="emailinput.email1"
@@ -132,11 +120,7 @@
                       <div class="form-group">
                         <label class="Jua">비밀번호</label>
                         <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="fa fa-lock" aria-hidden="true" />
-                            </span>
-                          </div>
+                          <div class="input-group-prepend"></div>
                           <input
                             type="password"
                             id="inputpassword"
@@ -158,11 +142,7 @@
                       <div class="form-group">
                         <label class="Jua">비밀번호 확인</label>
                         <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="fa fa-lock" aria-hidden="true" />
-                            </span>
-                          </div>
+                          <div class="input-group-prepend"></div>
                           <input
                             type="password"
                             v-model="usercheck.passwordCheck"
@@ -182,15 +162,15 @@
                     <div class="btn">
                       <button
                         type="button"
-                        class="btn btn-outline-light Jua"
-                        style="background-color: #ba4160"
+                        class="btn btn-light btn-lg Jua shadow"
+                        style="background-color: #ff8989"
                         @click="join()"
                       >
                         Join</button
                       ><button
                         type="button"
-                        class="btn btn-outline-light Jua"
-                        style="background-color: #ba4160"
+                        class="btn btn-light btn-lg Jua shadow"
+                        style="background-color: #ff8989"
                         @click="reset()"
                       >
                         reset
