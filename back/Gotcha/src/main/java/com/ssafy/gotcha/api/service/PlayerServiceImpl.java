@@ -30,6 +30,7 @@ public class PlayerServiceImpl {
 			roomRepository.save(room);
 			return true;
 		} else {
+			System.out.println("인원수 초과! 입장 불가");
 			// TODO: 입장 불가능 하다는 메세지 전송해줘야하는 부분 -> 여기서 message를 보내줘야되는건지..
 			return false;
 		}
