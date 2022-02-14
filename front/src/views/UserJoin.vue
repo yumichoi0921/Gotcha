@@ -171,7 +171,7 @@
                 <div class="clear"></div>
                 <br />
 
-                <a class="Jua" style="color: #616264" href="/login"
+                <a class="Jua" style="color: #616264" href="/"
                   >로그인하러 가기</a
                 >
                 <br />
@@ -242,27 +242,6 @@ export default {
   methods: {
     join() {
       this.user.email = this.emailinput.email1 + "@" + this.emailinput.email2;
-      /*if (this.user.userId == "") {
-        this.errorBag.user.userId = validator.validateId(
-          "아이디",
-          this.user.userId
-        );
-      } else if (this.user.nickName == "") {
-        alert("닉네임을 입력하세요.");
-      } else if (this.emailinput.email1 == "" || this.emailinput.email2 == "") {
-        alert("이메일을 입력하세요.");
-      } else if (this.user.password == "") {
-        alert("비밀번호를 입력하세요.");
-      } else if (this.user.password != this.usercheck.passwordCheck) {
-        alert("비밀번호가 일치하지 않습니다.");
-        document.getElementById("inputpassword").value = "";
-        document.getElementById("passcheck").value = "";
-      } else if (
-        this.usercheck.userIdCheck == false ||
-        this.usercheck.nickNameCheck == false
-      ) {
-        alert("중복 확인을 해주세요.");
-      }*/
       if (
         this.errorBag.user.userId[0] ||
         this.errorBag.user.nickName[0] ||
@@ -353,6 +332,8 @@ export default {
     },
     reset() {
       document.getElementById("JoinFrom").reset();
+      document.getElementById("inputId").readOnly = false;
+      document.getElementById("inputNickName").readOnly = false;
     },
   },
 };

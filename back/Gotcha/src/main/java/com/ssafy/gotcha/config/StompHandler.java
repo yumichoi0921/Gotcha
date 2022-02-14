@@ -35,10 +35,7 @@ public class StompHandler extends ChannelInterceptorAdapter {
             	logger.info("Client connected with connectionId: {}", connectionId);
             	String roomId = headerAccessor.getFirstNativeHeader("roomId");
             	String userId = headerAccessor.getFirstNativeHeader("userId");
-            	if(!playerService.connectPlayer(connectionId, roomId, userId)) {
-            		// 인원수 다 참.
-            		// TODO : 더 못들어온다는 메세지 발송. 다시 room 페이지로 redirect 해준다거나....       		
-            	}
+            	playerService.connectPlayer(connectionId, roomId, userId);
                 break;
             case DISCONNECT:
             	logger.info("Client disConnected with connectionId: {}", connectionId);
