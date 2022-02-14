@@ -130,7 +130,7 @@ export default {
       hostId: null,
       turn: null,
       picker: null,
-      picked: null,
+      picked: "before",
       players: null,
       cardList: null,
       timeCounter: null,
