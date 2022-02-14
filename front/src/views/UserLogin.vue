@@ -19,7 +19,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label class="Jua">ID</label>
+                      <h3 class="Jua">ID</h3>
                       <div class="input-group input-group-lg">
                         <div class="input-group-prepend">
                           <i class="fa fa-user" aria-hidden="true" />
@@ -39,7 +39,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label class="Jua">Password</label>
+                      <h3 class="Jua">Password</h3>
                       <div class="input-group input-group-lg shadow-sm">
                         <div class="input-group-prepend">
                           <i class="fa fa-lock" aria-hidden="true" />
