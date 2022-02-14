@@ -1,17 +1,36 @@
 <template>
   <div id="RoomList">
+    <div
+      id="title"
+      class="card shadow p-3 mb-4 rounded-pill MainTitle title"
+      style="color: #616264; background-color: #fff6a0"
+    >
+      <h1 class="Jua">Gotcha 방 대기실</h1>
+    </div>
     <div id="RoomList-header" class="header py-3">
       <b-row>
         <b-col><user class="float-left ml-2"></user></b-col>
         <b-col>
-          <b-button
-            pill
-            variant="danger"
-            @click="showModal = true"
-            class="float-right mr-3 Jua"
-            >Create Room</b-button
-          ></b-col
-        >
+          <b-row>
+            <b-col></b-col>
+            <b-col>
+              <b-button
+                class="float-right mr-3 Jua"
+                pill
+                variant="primary"
+                @click="refresh()"
+                >새로고침</b-button
+              >
+              <b-button
+                pill
+                variant="danger"
+                @click="showModal = true"
+                class="float-right mr-3 Jua"
+                >Create Room</b-button
+              ></b-col
+            >
+          </b-row>
+        </b-col>
       </b-row>
       <create-room v-if="showModal" @close="showModal = false"> </create-room>
     </div>
@@ -55,6 +74,9 @@ export default {
 
   methods: {
     ...mapActions(roomStore, ["getRoomList"]),
+    refresh() {
+      this.$router.go();
+    },
   },
 };
 </script>
@@ -63,7 +85,10 @@ export default {
 .header {
   background-color: rgba(255, 216, 110, 0.938);
   width: 96.5%;
-  margin-right: auto;
-  margin-left: auto;
+  margin: auto;
+  border-radius: 10px;
+}
+.title {
+  margin-top: 40px;
 }
 </style>
