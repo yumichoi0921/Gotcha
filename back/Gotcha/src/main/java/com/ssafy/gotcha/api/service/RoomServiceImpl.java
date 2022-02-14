@@ -41,13 +41,12 @@ public class RoomServiceImpl implements RoomService {
 						.createdAt(LocalDateTime.now())
 						.isPrivate(roomRegisterPostReq.isPrivate())
 						.capacity(roomRegisterPostReq.getCapacity())
-						.participant(1)
+						.participant(0)
 						.isFull(false)
 						.isRun(false)
 						.build();
 		
-		gameSessionRepository.createGameSession(gameSessionId, host.toPlayer());
-		
+		gameSessionRepository.createGameSession(gameSessionId, host.getUserId());
 		return roomRepository.save(room);
 	}
 

@@ -2,7 +2,13 @@
   <div id="app">
     <div id="nav">
       <img src="@/assets/jammin.gif" />
-      <h1 class="Jua">GotCha에 오신 것을 환영합니다!</h1>
+      <div
+        id="title"
+        class="card shadow p-3 mb-4 rounded-pill MainTitle"
+        style="color: #616264; background-color: #fff6a0"
+      >
+        <h1 class="Jua">GotCha에 오신 것을 환영합니다!</h1>
+      </div>
     </div>
     <router-view />
   </div>
@@ -23,6 +29,10 @@ export default {
   color: #2c3e50;
   width: 75%;
   height: 100%;
+  margin: auto;
+}
+.MainTitle {
+  width: 60%;
   margin: auto;
 }
 /* 

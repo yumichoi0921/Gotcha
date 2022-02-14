@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.gotcha.api.response.RoomGetRes;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,4 +44,18 @@ public class Room extends BaseEntity {
 	@ApiModelProperty(value = "게임 실행 여부")
 	@JsonProperty("isRun")
 	boolean isRun;
+	
+	public RoomGetRes toRoomGetRes() {
+		return RoomGetRes.builder()
+				.roomId(roomId)
+				.password(password)
+				.roomTitle(roomTitle)
+				.createdAt(createdAt)
+				.capacity(capacity)
+				.participant(participant)
+				.isFull(isFull)
+				.isPrivate(isPrivate)
+				.isRun(isRun)
+				.build();
+	}
 }

@@ -103,6 +103,7 @@
           <user-video
             :stream-manager="publisher"
             :userId="userId"
+            :picked="picked"
             :class="{ PickerEvent: picker === userId }"
           />
           <div v-if="cardList != null">
@@ -272,7 +273,7 @@ export default {
         picked: this.picked,
         players: this.players,
         cardList: this.cardList,
-        timeCounter: this.timeCounter,
+        timeCounter: 30,
       };
       this.$emit("sendGameMessage", message);
     },
