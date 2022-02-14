@@ -1,6 +1,6 @@
 <template>
   <div id="Room">
-    <b-card bg-variant="light" class="rounded-lg shadow m-4">
+    <b-card style="background-color: #feebce" class="rounded-lg shadow m-4">
       <div id="Room-body">
         <b-alert show variant="dark" class="rounded-pill">
           <b-row
