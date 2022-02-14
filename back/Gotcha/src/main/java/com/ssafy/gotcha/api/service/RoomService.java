@@ -12,4 +12,7 @@ public interface RoomService {
 	Room getRoom(String roomId);
 	void deleteRoom(String roomId);
 	Room modifyRoom(String roomId, RoomModifyPostReq modifyInfo);
+	Room changeIsFull(String roomId, boolean isFull);
+	Room changeIsRun(String roomId, boolean isRun);
+
 }
