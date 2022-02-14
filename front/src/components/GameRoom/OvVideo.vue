@@ -1,12 +1,10 @@
 <template>
   <video autoplay width="100%" ref="myWebCam" />
-  <!-- <button @click="startExpressDetection">버튼</button> -->
 </template>
 
 <script>
 import * as faceapi from "face-api.js";
 
-//import * as tf from "@tensorflow/tfjs";
 export default {
   name: "OvVideo",
   data() {
@@ -15,6 +13,16 @@ export default {
       emotionModel: null,
       timerId: 0,
       pickedName: "",
+      emotions: {
+        angry: 0,
+        disgusted: 0,
+        fearful: 0,
+        happy: 0,
+        neutral: 0,
+        sad: 0,
+        surprised: 0,
+      },
+      maxEmotion: "",
     };
   },
   props: {
@@ -22,22 +30,18 @@ export default {
     picked: String,
     userId: String,
   },
+  emits: ["maxEmotion"],
 
   mounted() {
     this.streamManager.addVideoElement(this.$el);
     console.log("비디오:" + this.$el);
     console.log("myWebCam:" + this.$refs.myWebCam);
     this.init();
-    // this.$emit("video");
-    // this.startExpressDetection();
   },
   methods: {
     async init() {
-      console.log("왜안나와");
-
       await faceapi.nets.faceExpressionNet.load("../models");
       await faceapi.loadTinyFaceDetectorModel("../models");
-      console.log("뭔데:" + faceapi.nets);
     },
     startExpressDetection() {
       console.log("얼굴인식되니");
@@ -51,6 +55,16 @@ export default {
             new faceapi.TinyFaceDetectorOptions()
           )
           .withFaceExpressions();
+        if (this.detections) {
+          let maxval = 0;
+          for (let emo in this.detections.expressions) {
+            if (this.detections.expressions[emo] > maxval) {
+              maxval = this.detections.expressions[emo];
+              this.maxEmotion = emo;
+            }
+          }
+        }
+        this.$emit("maxEmotion", this.maxEmotion);
         console.log(this.detections);
       }, 2500);
 
