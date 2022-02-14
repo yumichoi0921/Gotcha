@@ -1,13 +1,10 @@
-package com.ssafy.gotcha.entity;
+package com.ssafy.gotcha.api.response;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ssafy.gotcha.api.response.RoomGetRes;
+import com.ssafy.gotcha.entity.Room;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,14 +12,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "RoomRegisterPostReq : 방 정보", description = "방 정보의 상세 정보를 나타낸다.")
-public class Room extends BaseEntity {
+public class RoomGetRes {
 	@ApiModelProperty(value = "방 아이디(세션 아이디)")
 	String roomId; // sessionId
 	@ApiModelProperty(value = "방 비밀번호")
@@ -44,18 +39,12 @@ public class Room extends BaseEntity {
 	@ApiModelProperty(value = "게임 실행 여부")
 	@JsonProperty("isRun")
 	boolean isRun;
+	@ApiModelProperty(value = "hostID")
+	String hostId;
 	
-	public RoomGetRes toRoomGetRes() {
-		return RoomGetRes.builder()
-				.roomId(roomId)
-				.password(password)
-				.roomTitle(roomTitle)
-				.createdAt(createdAt)
-				.capacity(capacity)
-				.participant(participant)
-				.isFull(isFull)
-				.isPrivate(isPrivate)
-				.isRun(isRun)
-				.build();
+	public static RoomGetRes of(Room room, String hostId) {
+		RoomGetRes res = room.toRoomGetRes();
+		res.setHostId(hostId);
+		return res;
 	}
 }
