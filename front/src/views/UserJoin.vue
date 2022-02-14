@@ -4,189 +4,177 @@
     <div id="join">
       <div class="container">
         <div class="row justify-content-center align-items-center">
-          <div class="col-sm-6">
-            <div class="card">
-              <h4
-                class="card-header Jua center"
-                style="color: #616264; background-color: #ffc0cb"
+          <div
+            class="card shadow"
+            style="background-color: #ffcea0"
+            id="JoinCard"
+          >
+            <h3 class="Jua" id="JoinTitle">회원가입</h3>
+            <div class="card-body">
+              <form
+                id="JoinFrom"
+                data-toggle="validator"
+                role="form"
+                method="post"
+                action="#"
               >
-                회원가입
-              </h4>
-              <div class="card-body" style="background-color: #feced1">
-                <form
-                  id="JoinFrom"
-                  data-toggle="validator"
-                  role="form"
-                  method="post"
-                  action="#"
-                >
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="Jua">ID</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend"></div>
-                          <input
-                            type="text"
-                            id="inputId"
-                            class="form-control"
-                            v-model="user.userId"
-                            placeholder="아이디를 입력해주세요."
-                          /><button
-                            type="button"
-                            class="btn btn-outline-light Jua"
-                            @click="userIdCheck()"
-                            style="background-color: #bea3c9"
-                          >
-                            중복 확인
-                          </button>
-                        </div>
-                        <p class="Jua" v-if="errorBag.user.userId">
-                          {{ errorBag.user.userId[0] }}
-                        </p>
-                        <!-- {{ idlength }} -->
-                        <div class="help-block with-errors text-danger"></div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="Jua">ID</label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          id="inputId"
+                          class="form-control"
+                          v-model="user.userId"
+                          placeholder="아이디를 입력해주세요."
+                        /><button
+                          type="button"
+                          class="btn btn-light Jua"
+                          @click="userIdCheck()"
+                          style="background-color: #ff8989"
+                        >
+                          중복 확인
+                        </button>
                       </div>
+                      <p class="Jua" v-if="errorBag.user.userId">
+                        {{ errorBag.user.userId[0] }}
+                      </p>
+                      <!-- {{ idlength }} -->
+                      <div class="help-block with-errors text-danger"></div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="Jua">닉네임</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend"></div>
-                          <input
-                            type="text"
-                            id="inputNickName"
-                            v-model="user.nickName"
-                            placeholder="닉네임을 입력해주세요."
-                            class="form-control"
-                          /><button
-                            type="button"
-                            class="btn btn-outline-light Jua"
-                            style="background-color: #bea3c9"
-                            @click="nickNameCheck()"
-                          >
-                            중복 확인
-                          </button>
-                        </div>
-                        <p class="Jua" v-if="errorBag.user.nickName">
-                          {{ errorBag.user.nickName[0] }}
-                        </p>
-                        <div class="help-block with-errors text-danger"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="Jua">이메일</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend"></div>
-                          <input
-                            type="text"
-                            v-model="emailinput.email1"
-                            placeholder="이메일을 입력해주세요."
-                            class="form-control"
-                          />@
-
-                          <select
-                            v-model="emailinput.email2"
-                            class="custom-select"
-                          >
-                            <option
-                              value=""
-                              selected="selected"
-                              hidden="hidden"
-                            >
-                              이메일 선택
-                            </option>
-                            <option value="naver.com">naver.com</option>
-                            <option value="hanmail.net">hanmail.net</option>
-                            <option value="gmail.com">gmail.com</option>
-                            <option value="ssafy.com">ssafy.com</option>
-                          </select>
-                        </div>
-                        <p class="Jua" v-if="errorBag.user.email">
-                          {{ errorBag.user.email[0] }}
-                        </p>
-                        <div class="help-block with-errors text-danger"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="Jua">비밀번호</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend"></div>
-                          <input
-                            type="password"
-                            id="inputpassword"
-                            v-model="user.password"
-                            placeholder="비밀번호를 입력해주세요."
-                            class="form-control"
-                          />
-                          <!-- <div>{{ ing }}</div> -->
-                        </div>
-                        <p class="Jua" v-if="errorBag.user.password">
-                          {{ errorBag.user.password[0] }}
-                        </p>
-                        <div class="help-block with-errors text-danger"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="Jua">비밀번호 확인</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend"></div>
-                          <input
-                            type="password"
-                            v-model="usercheck.passwordCheck"
-                            id="passcheck"
-                            placeholder="비밀번호를 입력해주세요."
-                            class="form-control"
-                          />
-                        </div>
-                        <p class="Jua" v-if="errorBag.user.passwordCheck">
-                          {{ errorBag.user.passwordCheck[0] }}
-                        </p>
-                        <div class="help-block with-errors text-danger"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row center">
-                    <div class="btn">
-                      <button
-                        type="button"
-                        class="btn btn-light btn-lg Jua shadow"
-                        style="background-color: #ff8989"
-                        @click="join()"
-                      >
-                        Join</button
-                      ><button
-                        type="button"
-                        class="btn btn-light btn-lg Jua shadow"
-                        style="background-color: #ff8989"
-                        @click="reset()"
-                      >
-                        reset
-                      </button>
-                    </div>
-                  </div>
-                </form>
-                <div class="form-group center">
-                  <div class="clear"></div>
-                  <br />
-
-                  <a class="Jua" style="color: #616264" href="/login"
-                    >로그인하러 가기</a
-                  >
-                  <br />
                 </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="Jua">닉네임</label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          id="inputNickName"
+                          v-model="user.nickName"
+                          placeholder="닉네임을 입력해주세요."
+                          class="form-control"
+                        /><button
+                          type="button"
+                          class="btn btn-light Jua"
+                          style="background-color: #ff8989"
+                          @click="nickNameCheck()"
+                        >
+                          중복 확인
+                        </button>
+                      </div>
+                      <p class="Jua" v-if="errorBag.user.nickName">
+                        {{ errorBag.user.nickName[0] }}
+                      </p>
+                      <div class="help-block with-errors text-danger"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="Jua">이메일</label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          v-model="emailinput.email1"
+                          placeholder="이메일을 입력해주세요."
+                          class="form-control"
+                        />@
+
+                        <select
+                          v-model="emailinput.email2"
+                          class="custom-select"
+                        >
+                          <option value="" selected="selected" hidden="hidden">
+                            이메일 선택
+                          </option>
+                          <option value="naver.com">naver.com</option>
+                          <option value="hanmail.net">hanmail.net</option>
+                          <option value="gmail.com">gmail.com</option>
+                          <option value="ssafy.com">ssafy.com</option>
+                        </select>
+                      </div>
+                      <p class="Jua" v-if="errorBag.user.email">
+                        {{ errorBag.user.email[0] }}
+                      </p>
+                      <div class="help-block with-errors text-danger"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="Jua">비밀번호</label>
+                      <div class="input-group">
+                        <input
+                          type="password"
+                          id="inputpassword"
+                          v-model="user.password"
+                          placeholder="비밀번호를 입력해주세요."
+                          class="form-control"
+                        />
+                        <!-- <div>{{ ing }}</div> -->
+                      </div>
+                      <p class="Jua" v-if="errorBag.user.password">
+                        {{ errorBag.user.password[0] }}
+                      </p>
+                      <div class="help-block with-errors text-danger"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="Jua">비밀번호 확인</label>
+                      <div class="input-group">
+                        <input
+                          type="password"
+                          v-model="usercheck.passwordCheck"
+                          id="passcheck"
+                          placeholder="비밀번호를 입력해주세요."
+                          class="form-control"
+                        />
+                      </div>
+                      <p class="Jua" v-if="errorBag.user.passwordCheck">
+                        {{ errorBag.user.passwordCheck[0] }}
+                      </p>
+                      <div class="help-block with-errors text-danger"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row center">
+                  <div class="btn">
+                    <button
+                      type="button"
+                      class="btn btn-light btn-lg Jua shadow"
+                      style="background-color: #ff8989"
+                      @click="join()"
+                    >
+                      Join</button
+                    ><button
+                      type="button"
+                      class="btn btn-light btn-lg Jua shadow"
+                      style="background-color: #ff8989"
+                      @click="reset()"
+                    >
+                      reset
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <div class="form-group center">
+                <div class="clear"></div>
+                <br />
+
+                <a class="Jua" style="color: #616264" href="/login"
+                  >로그인하러 가기</a
+                >
+                <br />
               </div>
             </div>
           </div>
@@ -371,6 +359,17 @@ export default {
 </script>
 
 <style>
+#JoinFrom {
+  width: 700px;
+  margin: auto;
+}
+#JoinCard {
+  width: 800px;
+}
+#JoinTitle {
+  padding-top: 8%;
+  padding-left: 5%;
+}
 .btn {
   margin: auto;
 }

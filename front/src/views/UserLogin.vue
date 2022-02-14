@@ -21,9 +21,6 @@
                     <div class="form-group">
                       <h3 class="Jua">ID</h3>
                       <div class="input-group input-group-lg">
-                        <div class="input-group-prepend">
-                          <i class="fa fa-user" aria-hidden="true" />
-                        </div>
                         <input
                           type="text"
                           class="form-control shadow-sm"
@@ -41,9 +38,6 @@
                     <div class="form-group">
                       <h3 class="Jua">Password</h3>
                       <div class="input-group input-group-lg shadow-sm">
-                        <div class="input-group-prepend">
-                          <i class="fa fa-lock" aria-hidden="true" />
-                        </div>
                         <input
                           type="password"
                           v-model="user.password"
