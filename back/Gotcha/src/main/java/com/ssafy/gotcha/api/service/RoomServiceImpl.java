@@ -46,7 +46,7 @@ public class RoomServiceImpl implements RoomService {
 						.isRun(false)
 						.build();
 		
-		gameSessionRepository.createGameSession(gameSessionId, host.toPlayer());
+		gameSessionRepository.createGameSession(gameSessionId, host.getUserId());
 		return roomRepository.save(room);
 	}
 
