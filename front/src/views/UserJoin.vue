@@ -353,6 +353,8 @@ export default {
     },
     reset() {
       document.getElementById("JoinFrom").reset();
+      document.getElementById("inputId").readOnly = false;
+      document.getElementById("inputNickName").readOnly = false;
     },
   },
 };
