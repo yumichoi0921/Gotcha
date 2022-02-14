@@ -4,7 +4,6 @@
       :stream-manager="streamManager"
       :picked="picked"
       :userId="userId"
-      @maxEmotion="maxEmotion"
       class="rounded-top"
     />
     <h5 class="card-title">닉네임: {{ clientData.userId }}</h5>
@@ -42,12 +41,6 @@ export default {
     getConnectionData() {
       const { connection } = this.streamManager.stream;
       return JSON.parse(connection.data);
-    },
-  },
-  watch: {
-    maxEmotion() {
-      console.log("maxEmotion:" + this.maxEmotion);
-      this.maxEmo = this.maxEmotion;
     },
   },
 };

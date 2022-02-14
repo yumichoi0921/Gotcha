@@ -53,7 +53,7 @@ export default {
     if (!val) {
       errors.push(`${key}이 비어있습니다.`);
     } else {
-      if (val.length < 2 || val.length > 4) {
+      if (val.length < 2 || val.length > 10) {
         errors.push(`${key}은 2자 이상, 4자 이하여야 합니다.`);
       }
     }
