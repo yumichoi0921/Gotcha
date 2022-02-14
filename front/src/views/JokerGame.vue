@@ -78,12 +78,12 @@
               class="row row-cols-6"
               v-if="cardList != null"
             >
-              <b-col v-for="card in myCard" v-bind:key="card">
+              <b-col v-for="(card, idx) in myCard" v-bind:key="card.number">
                 <img
                   class="cardlist"
                   :class="[
                     {
-                      CardEvent: isSameCard(card, selectedCard),
+                      CardEvent: isSameCard(myCard[idx], selectedCard),
                     },
                   ]"
                   v-animate-css="gameStartCardEvent"
