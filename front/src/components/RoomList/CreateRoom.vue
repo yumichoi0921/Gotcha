@@ -2,18 +2,15 @@
   <transition name="modal">
     <div id="CreateRoom" class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container">
-          <div class="modal-header">
-            <slot name="header"></slot>
-          </div>
-
+        <div class="modal-container" style="background-color: #feced1">
           <div class="modal-body">
             <slot name="body">
               <b-form @submit.prevent="onSubmit" class="text-left">
                 <b-form-group
-                  id="room-title-group"
+                  id="room-title-group \"
                   label="방제목"
                   label-for="RoomTitle"
+                  class="Jua"
                 >
                   <b-form-input
                     id="room-title"
@@ -34,6 +31,7 @@
                   label="비밀번호"
                   label-for="RoomPassword"
                   inline
+                  class="Jua"
                 >
                   <b-form inline>
                     <b-form-input
@@ -60,11 +58,7 @@
                   </b-form-invalid-feedback> -->
                 </b-form-group>
 
-                <b-form-group
-                  id="room-capacity-group"
-                  label="인원"
-                  label-for="RoomCapacity"
-                >
+                <b-form-group id="room-capacity-group" label="인원" class="Jua">
                   <b-form-select
                     id="room-capacity"
                     v-model="form.capacity"
@@ -76,19 +70,19 @@
                 </b-form-group>
 
                 <div class="mt-5 mx-5 d-flex justify-content-center">
-                  <b-button type="reset" @click="$emit('close')" class="mx-3">
+                  <b-button
+                    type="reset"
+                    @click="$emit('close')"
+                    class="mx-3 Jua"
+                  >
                     돌아가기</b-button
                   >
-                  <b-button type="submit" variant="danger" class="mx-3"
+                  <b-button type="submit" variant="danger" class="mx-3 Jua"
                     >방만들기</b-button
                   >
                 </div>
               </b-form>
             </slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer"> </slot>
           </div>
         </div>
       </div>
