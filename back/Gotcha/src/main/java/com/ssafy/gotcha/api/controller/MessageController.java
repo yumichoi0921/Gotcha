@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.gotcha.api.service.RoomService;
 import com.ssafy.gotcha.game.model.ChatMessage;
 import com.ssafy.gotcha.game.model.GameMessage;
 import com.ssafy.gotcha.game.model.GameSession;
@@ -25,41 +26,45 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class MessageController {
 	private final SimpMessagingTemplate template;
-	
-	//test code
+
+	// test code
 	@Autowired
 	private GameSessionRepository gameSessionRepository;
-	
+
+	@Autowired
+	private RoomService roomService;
+
 	@MessageMapping("/message")
 	public void sendMessage(@Payload ChatMessage chatMessage) throws JsonProcessingException {
 		String gameSessionId = chatMessage.getRoomId();
 		switch (chatMessage.getType()) {
-        case READY : 
+		case READY:
 
-            break;
-        case START : 
-        	// testcode
-        	GameSession gameSession = gameSessionRepository.findGameSessionById(gameSessionId);
-        	gameSession.gameStart();
-        	chatMessage.setType(MessageType.GAME);
-        	chatMessage.setContent(gameSession.toGameMessage().toContent());
-            break;
-        case GAME : 
-
+			break;
+		case START:
+			// testcode
+			GameSession gameSession = gameSessionRepository.findGameSessionById(gameSessionId);
+			gameSession.gameStart();
+			chatMessage.setType(MessageType.GAME);
+			chatMessage.setContent(gameSession.toGameMessage().toContent());
+			roomService.changeIsRun(gameSessionId, true);
+			break;
+		case GAME:
+			System.out.println(chatMessage.getContent());
 //       
-            break;
-        case EVENT : 
-//          
-               break;
-        case END : 
-//          
-               break;
-        default:
-            break;
-    }
+			break;
+		case EVENT:
+//           
+			break;
+		case END:
+			roomService.changeIsRun(gameSessionId, false);
+			break;
+			
+		default:
+			break;
+		}
 		template.convertAndSend("/sub/" + chatMessage.getRoomId(), chatMessage);
-		
-		
+
 	}
-	
+
 }

@@ -11,7 +11,7 @@ import com.ssafy.gotcha.repository.PlayerRepository;
 import com.ssafy.gotcha.repository.RoomRepository;
 
 @Service
-public class PlayerServiceImpl {
+public class PlayerServiceImpl implements PlayerService {
 	@Autowired
 	private PlayerRepository playerRepository;
 	@Autowired
@@ -19,14 +19,20 @@ public class PlayerServiceImpl {
 	@Autowired
 	private RoomRepository roomRepository;
 
+	@Override
 	public boolean connectPlayer(String connectionId, String roomId, String userId) {
 		// 해당 방에 들어갈 수 있는 지 체크
 		Room room = roomRepository.findByRoomId(roomId);
 		int participant = room.getParticipant();
-		if (room.getCapacity() > participant) { // 현재원이 수용량보다 작다면
+		int capacity = room.getCapacity();
+		if (capacity > participant) { // 현재원이 수용량보다 작다면
 			Player player = playerRepository.create(connectionId, roomId, userId);
 			gameSessionRepository.findGameSessionById(roomId).getPlayers().put(userId, player);
-			room.setParticipant(participant + 1); // 해당 방 인원수 증가
+			participant += 1; // 해당 방 인원수 증가
+			if (capacity == participant) { // 다 차면
+				room.setFull(true);
+			}
+			room.setParticipant(participant); 
 			roomRepository.save(room);
 			return true;
 		} else {
@@ -36,31 +42,33 @@ public class PlayerServiceImpl {
 		}
 	}
 
+	@Override
 	public void disConnectPlayer(String connectionId) {
 		Player player = playerRepository.get(connectionId);
 		String userId = player.getUserId();
 		String gameSessionId = player.getRoomId();
 		Room room = roomRepository.findByRoomId(gameSessionId); // 해당 커넥션의 방을 찾아서
-		
-		
-		if(room.getParticipant() <= 1) {
+		int capacity = room.getCapacity();
+		int participant = room.getParticipant();
+		if (participant <= 1) {
 			roomRepository.deleteByRoomId(gameSessionId); // 1명이었다면 방 제거
 			playerRepository.remove(connectionId);
 		} else {
 			GameSession gs = gameSessionRepository.findGameSessionById(gameSessionId);
-			
-			System.out.println(gs.getCardList());
+
 			gs.getPlayers().remove(userId);
-			if(gs.getCardList() != null) {
+			if (gs.getCardList() != null) {
 				gs.getCardList().remove(userId);
 			}
 			playerRepository.remove(connectionId);
-			
-			room.setParticipant(room.getParticipant()-1); // 수용량을 1 감소 시킴.
+			participant -= 1; // 해당 방 인원수 감소
+			if (capacity > participant) { // 다 안찼다면
+				room.setFull(false);
+			}
+			room.setParticipant(participant); // 수용량을 1 감소 시킴.
 			roomRepository.save(room); // 그리고 저장
 		}
-		
-		
+
 	}
 
 }

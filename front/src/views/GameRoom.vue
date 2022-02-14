@@ -16,7 +16,7 @@
         </div>
       </div>
     </div> -->
-    <div id="GameSession" v-if="session">
+    <div id="GameSession" v-if="session" class="gs">
       <div id="GameSession-header">
         <b-row class="alert alert-secondary">
           <b-col
@@ -170,6 +170,12 @@ export default {
       this.content = content;
       this.sendMessage();
     },
+    // gameEnd() {
+    //   // TODO: 게임 끝나는 부분에서 호출해주세요!!!!
+    //   this.type = "END";
+    //   this.content = "";
+    //   this.sendMessage();
+    // },
     sendGameMessage(message) {
       this.type = "GAME";
       this.content = JSON.stringify(message);
@@ -360,4 +366,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.gs {
+  margin-top: 80px;
+}
+</style>

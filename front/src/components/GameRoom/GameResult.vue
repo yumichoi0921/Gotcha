@@ -9,10 +9,10 @@
       </div>
       <div class="row mx-auto">
         <h2 class="Jua align-middle">도둑은 {{ dodukId }}쥬</h2>
-        <b-button pill class="col-6 mx-auto Jua" @click="refresh"
-          >세션으로 돌아가기</b-button
-        >
       </div>
+      <b-button pill class="col-6 mx-auto Jua" @click="refresh"
+        >세션으로 돌아가기</b-button
+      >
     </div>
 
     <div

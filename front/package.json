@@ -14,7 +14,7 @@
     "@tensorflow/tfjs-core": "^3.13.0",
     "axios": "^0.25.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "face-api.js": "^0.22.2",
