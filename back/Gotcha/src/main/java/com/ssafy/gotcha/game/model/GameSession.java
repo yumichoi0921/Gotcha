@@ -69,7 +69,7 @@ public class GameSession {
 				cards.add(Card.builder().shape(shape[i]).number(number[j]).build());
 			}
 		}
-		cards.add(Card.builder().shape("").number("JOKER").build());
+		cards.add(Card.builder().shape("JOKER").number("JOKER").build());
 		Collections.shuffle(cards);
 		Queue<Card> cardsQueue = new LinkedList<>(cards);
 

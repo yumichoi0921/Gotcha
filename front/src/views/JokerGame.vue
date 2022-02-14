@@ -1,119 +1,140 @@
 <template>
   <div id="JockerGame">
-    <div class="modal"></div>
-    <div id="SubscriberSection" class="row row-cols-5 mb-3">
-      <b-col
-        v-for="sub in subscribers"
-        :key="sub.stream.connection.connectionId"
-      >
-        <div id="PlayerInfo">
-          <div class="Info rounded">
-            <user-video
-              :stream-manager="sub"
-              :class="{
-                PickerEvent: picker === getUserId(sub.stream.connection.data),
-              }"
-            />
-            <div v-if="cardList != null">
-              <img :src="require('../assets/poker/miniCard.jpg')" /> X
-              {{ cardList[getUserId(sub.stream.connection.data)].length }}
+    <div id="Game" v-if="!isGameEnd">
+      <div id="SubscriberSection" class="row row-cols-5 mb-3">
+        <b-col
+          v-for="sub in subscribers"
+          :key="sub.stream.connection.connectionId"
+        >
+          <div id="PlayerInfo">
+            <div class="Info rounded">
+              <user-video
+                :stream-manager="sub"
+                :class="{
+                  PickerEvent: picker === getUserId(sub.stream.connection.data),
+                }"
+              />
+              <div v-if="cardList != null">
+                <img :src="require('../assets/poker/miniCard.jpg')" /> X
+                {{ cardList[getUserId(sub.stream.connection.data)].length }}
+              </div>
+            </div>
+          </div>
+        </b-col>
+      </div>
+      <div id="PublisherSection" class="row">
+        <div id="GameInfoSection" class="col-8">
+          <div id="JamminMessage" class="row h-30">
+            <b-alert show variant="secondary" class="row mx-1 w-100">
+              <b-col cols="2">
+                <div class="clock"></div>
+              </b-col>
+              <b-col class="align-self-center">
+                <h3>{{ timeCounter }}</h3>
+                {{ jamminFaceTalk }}
+              </b-col>
+              <b-col cols="2"
+                ><img :src="require('../assets/jammin.gif')" height="100" />
+              </b-col>
+            </b-alert>
+          </div>
+          <div class="row"></div>
+          <div id="CardInfoSection" class="row">
+            <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
+              <b-alert show variant="primary"
+                ><div v-if="picked == userId">
+                  {{ picker }}가 나의 카드를 선택중입니다.
+                </div>
+                <div v-else-if="picker == userId">
+                  {{ picked }}의 카드를 선택하세요
+                </div>
+                <div v-else-if="picked != null">
+                  {{ picked }}의 카드덱입니다.
+                </div>
+                <div v-else>상대방의 카드덱</div>
+              </b-alert>
+
+              <b-row cols="6" v-if="cardList != null && picked != userId">
+                <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
+                  <img
+                    class="cardlist"
+                    v-on:click="picker == userId ? cardClick(card) : ''"
+                    :class="{
+                      CardEvent: isSameCard(card, selectedCard),
+                    }"
+                    :src="require('../assets/poker/backCard.jpg')"
+                  /> </b-col
+              ></b-row>
+              <b-button v-if="picker == userId" @click.prevent="gameLogic"
+                >카드 선택</b-button
+              >
+            </div>
+            <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
+              <b-alert show variant="primary">내 카드덱</b-alert>
+              <transition-group
+                tag="div"
+                name="card"
+                class="row row-cols-6"
+                v-if="cardList != null"
+              >
+                <b-col v-for="(card, idx) in myCard" v-bind:key="card.number">
+                  <img
+                    class="cardlist"
+                    :class="[
+                      {
+                        CardEvent: isSameCard(myCard[idx], selectedCard),
+                      },
+                    ]"
+                    v-animate-css="gameStartCardEvent"
+                    :src="
+                      require('@/assets/poker/poker' +
+                        card.shape +
+                        card.number +
+                        '.jpg')
+                    "
+                  /> </b-col
+              ></transition-group>
             </div>
           </div>
         </div>
-      </b-col>
+        <div id="PublisherInfo" class="col">
+          <div class="Info rounded">
+            <user-video
+              :stream-manager="publisher"
+              :userId="userId"
+              :picked="picked"
+              :class="{ PickerEvent: picker === userId }"
+            />
+            <div v-if="cardList != null">
+              <img :src="require('../assets/poker/miniCard.jpg')" /> X
+              {{ myCard.length }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="PublisherSection" class="row">
-      <div id="GameInfoSection" class="col-8">
-        <div id="JamminMessage" class="row h-30">
-          <b-alert show variant="secondary" class="row mx-1 w-100">
-            <b-col cols="2">
-              <div class="clock"></div>
-            </b-col>
-            <b-col class="align-self-center">
-              <h3>{{ timeCounter }}</h3>
-              {{ jamminFaceTalk }}
-            </b-col>
-            <b-col cols="2"
-              ><img :src="require('../assets/jammin.gif')" height="100" />
-            </b-col>
-          </b-alert>
-        </div>
-        <div class="row"></div>
-        <div id="CardInfoSection" class="row">
-          <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
-            <b-alert show variant="primary"
-              >{{ picked }} 카드를 선택하세요</b-alert
-            >
-            <b-row cols="6" class="" v-if="cardList != null">
-              <b-col v-for="(card, idx) in cardList[picked]" v-bind:key="idx">
-                <img
-                  class="cardlist"
-                  v-on:click="picker == userId ? cardClick(card) : ''"
-                  :class="{
-                    CardEvent:
-                      card.number === selectedCard.number &&
-                      card.shape === selectedCard.shape,
-                  }"
-                  :src="require('../assets/poker/backCard.jpg')"
-                /> </b-col
-            ></b-row>
-            <b-button v-if="picker == userId" @click.prevent="gameLogic"
-              >카드 선택</b-button
-            >
-          </div>
-          <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
-            <b-alert show variant="primary">내카드덱</b-alert>
-            <b-row cols="6" class="" v-if="cardList != null">
-              <b-col v-for="(card, idx) in myCard" v-bind:key="idx" class="">
-                <img
-                  class="cardlist"
-                  v-on:click="cardClick(card)"
-                  :class="[
-                    {
-                      CardEvent:
-                        card.number === selectedCard.number &&
-                        card.shape === selectedCard.shape,
-                    },
-                  ]"
-                  v-animate-css="gameStartCardEvent"
-                  :src="
-                    require('@/assets/poker/poker' +
-                      card.shape +
-                      card.number +
-                      '.jpg')
-                  "
-                /> </b-col
-            ></b-row>
-          </div>
-        </div>
-      </div>
-      <div id="PublisherInfo" class="col">
-        <div class="Info rounded">
-          <user-video
-            :stream-manager="publisher"
-            :userId="userId"
-            :picked="picked"
-            :class="{ PickerEvent: picker === userId }"
-          />
-          <div v-if="cardList != null">
-            <img :src="require('../assets/poker/miniCard.jpg')" /> X
-            {{ myCard.length }}
-          </div>
-        </div>
-      </div>
+    <div v-else>
+      <game-result
+        :dodukId="dodukId"
+        :publisher="publisher"
+        :subscribers="subscribers"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
+import GameResult from "@/components/GameRoom/GameResult.vue";
 import { mapState, mapGetters } from "vuex";
 const gameStore = "gameStore";
 const memberStore = "memberStore";
+
 export default {
   name: "JokerGame",
   components: {
     UserVideo,
+    GameResult,
   },
   props: {
     publisher: Object,
@@ -121,6 +142,7 @@ export default {
     userId: String,
     gameMessage: Object,
     eventMessage: Object,
+    statusMessage: Object,
   },
 
   data() {
@@ -132,7 +154,7 @@ export default {
       hostId: null,
       turn: null,
       picker: null,
-      picked: "before",
+      picked: null,
       players: null,
       cardList: null,
       timeCounter: null,
@@ -140,15 +162,18 @@ export default {
       eventType: null,
       // 게임 로직 관련 data
       selectedCard: { number: null, shape: null },
-      matchedCard: { number: "", shape: "" },
+      matchedCard: { number: null, shape: null },
+      timer: null,
+      jamminFaceTalk: "조금만 기다려봐~~",
       // 게임 시작 카드 이벤트 관련 data
       gameStartCardEvent: {
         classes: "slideInDown",
         delay: 100,
         duration: 2500,
       },
-      timer: null,
-      jamminFaceTalk: "조금만 기다려봐~~",
+      // 게임 결과 관련 data
+      isGameEnd: false,
+      dodukId: null,
     };
   },
   watch: {
@@ -162,6 +187,7 @@ export default {
       this.cardList = this.gameMessage.cardList;
       this.timeCounter = this.gameMessage.timeCounter;
       this.myCard = this.cardList[this.userId];
+      // console.log(this.selectedCard);
       this.timerStop(this.timer); // 게임메시지 받을 때마다 타이머 멈추고
       this.timerStart(); // 타이머 다시 시작
     },
@@ -169,8 +195,12 @@ export default {
       this.eventType = this.eventMessage.eventType;
       this.selectedCard = this.eventMessage.selectedCard;
     },
-    "$store.state.emotion": function () {
-      console.log(this.$store.state.emotion);
+    statusMessage() {
+      if (this.statusMessage.type == "END") {
+        this.timerStop(this.timer);
+        this.isGameEnd = true;
+        this.dodukId = this.statusMessage.content;
+      }
     },
     emotion() {
       this.emotionCheck();
@@ -182,47 +212,6 @@ export default {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
-    emotionCheck() {
-      console.log("#############이모션 인식!!!!");
-      if (this.picked == this.user.userId) {
-        console.log("emotion 바뀌고 내차례-> " + this.emotion);
-        switch (this.emotion) {
-          case "angry":
-            this.jamminFaceTalk =
-              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못떄리죠? 어~ 또빡치죠? 그냥 화났죠? 냬~ 알걨섑니댸~ 아무도 안물 안궁~";
-            break;
-          case "disgusted":
-            this.jamminFaceTalk = "아무도 조커 안가져가서 빡치쥬? ";
-            break;
-          case "fearful":
-            this.jamminFaceTalk =
-              "쫄았죠? 눈물나죠? 엄마한테 이를거죠? 근데 엄마도 공감 안해주죠? 또 빡치죠? 응~ 눈물찔끔~ ";
-            break;
-          case "happy":
-            this.jamminFaceTalk =
-              "마치 상대방이 조커를 가져간 표정인데? 방심하면 너가 다시 가져온다? ㅋㅋ루삥뽕";
-            break;
-          case "neutral":
-            this.jamminFaceTalk =
-              "호오 표정관리좀 친다? 계속 유지 못하면 게임 지쥬? ";
-            break;
-          case "sad":
-            this.jamminFaceTalk =
-              "조커 가져왔어? 표정관리 못하면 너가 패배자야 응 어쩔티비 저쩔티비~";
-            break;
-          case "surprised":
-            this.jamminFaceTalk =
-              "놀랐쥬? 뜨끔했쥬? 게임 질거같쥬? 이거 하나 못이기쥬?";
-            break;
-          default:
-            this.jamminFaceTalk = "당신 표정을 분석중이라구~~";
-            break;
-        }
-      } else {
-        this.jamminFaceTalk = "조금만 기다려봐~~~";
-      }
-    },
-
     getUserId(data) {
       let clientData = JSON.parse(data);
       return clientData.clientData.userId;
@@ -236,11 +225,6 @@ export default {
     gameLogic() {
       // 타이머 종료
       this.timerStop(this.timer);
-
-      //잼민 메시지 초기화
-      if (this.picked != this.userId)
-        this.jamminFaceTalk = "조금만 기다려봐~~~";
-
       // picked의 카드리스트에서 선택한 카드 삭제
       for (let i = 0; i < this.cardList[this.picked].length; i++) {
         let card = this.cardList[this.picked][i];
@@ -286,7 +270,8 @@ export default {
       if (this.turn.length == 1) {
         this.timerStop(this.timer);
         // 게임 종료 메시지 브로드캐스팅하기
-        alert("게임 끝");
+        // let content = { dodukId: this.turn[0] };
+        this.sendStatusMessage("END", this.turn[0]);
       } else {
         // picker, picked 변경
         this.picker = this.turn[0];
@@ -294,14 +279,57 @@ export default {
         // 고른 카드 초기화
         this.selectedCard = { number: null, shape: null };
         // 매칭되는 카드 초기화
-        this.matchedCard = { number: "", shape: "" };
+        this.matchedCard = { number: null, shape: null };
         // 타이머 초기화
         this.timeCounter = 30;
-        // 이벤트 메시지 보내기
-        // this.sendEventMessage();
+        // cardList 셔플
+        for (const key in this.cardList) {
+          this.shuffle(this.cardList[key]);
+        }
+        this.sendGameMessage();
       }
-      this.sendGameMessage();
     },
+    emotionCheck() {
+      console.log("#############이모션 인식!!!!");
+      if (this.picked == this.user.userId) {
+        console.log("emotion 바뀌고 내차례-> " + this.emotion);
+        switch (this.emotion) {
+          case "angry":
+            this.jamminFaceTalk =
+              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못떄리죠? 어~ 또빡치죠? 그냥 화났죠? 냬~ 알걨섑니댸~ 아무도 안물 안궁~";
+            break;
+          case "disgusted":
+            this.jamminFaceTalk = "아무도 조커 안가져가서 빡치쥬? ";
+            break;
+          case "fearful":
+            this.jamminFaceTalk =
+              "쫄았죠? 눈물나죠? 엄마한테 이를거죠? 근데 엄마도 공감 안해주죠? 또 빡치죠? 응~ 눈물찔끔~ ";
+            break;
+          case "happy":
+            this.jamminFaceTalk =
+              "마치 상대방이 조커를 가져간 표정인데? 방심하면 너가 다시 가져온다? ㅋㅋ루삥뽕";
+            break;
+          case "neutral":
+            this.jamminFaceTalk =
+              "호오 표정관리좀 친다? 계속 유지 못하면 게임 지쥬? ";
+            break;
+          case "sad":
+            this.jamminFaceTalk =
+              "조커 가져왔어? 표정관리 못하면 너가 패배자야 응 어쩔티비 저쩔티비~";
+            break;
+          case "surprised":
+            this.jamminFaceTalk =
+              "놀랐쥬? 뜨끔했쥬? 게임 질거같쥬? 이거 하나 못이기쥬?";
+            break;
+          default:
+            this.jamminFaceTalk = "당신 표정을 분석중이라구~~";
+            break;
+        }
+      } else {
+        this.jamminFaceTalk = "조금만 기다려봐~~~";
+      }
+    },
+
     sendGameMessage() {
       let message = {
         gameSessionId: this.gameSessionId,
@@ -324,6 +352,9 @@ export default {
       };
       this.$emit("sendEventMessage", message);
     },
+    sendStatusMessage(type, content) {
+      this.$emit("sendStatusMessage", type, content);
+    },
     timerStart() {
       console.log("타이머 시작");
       // 1초에 한번씩 start 호출
@@ -340,8 +371,24 @@ export default {
     },
     timerStop: function (Timer) {
       clearInterval(Timer);
-      this.jamminFaceTalk = "조금만 기다려봐~~~";
       console.log("타이머 종료");
+    },
+    shuffle: function (array) {
+      array.sort(() => Math.random() - 0.5);
+    },
+    isSameCard: function (card1, card2) {
+      if (card1.number === card2.number && card1.shape === card2.shape) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    beforeEnter(el) {
+      el.style.transitionDelay = 100 * parseInt(el.dataset.index, 10) + "ms";
+    },
+    // 트랜지션을 완료하거나 취소할 때는 딜레이를 제거합니다.
+    afterEnter(el) {
+      el.style.transitionDelay = "";
     },
   },
 };
@@ -451,5 +498,22 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.card-enter-active,
+.card-leave-active,
+.card-move {
+  transition: opacity 2s, transform 2s;
+}
+.card-leave-active {
+  position: absolute;
+}
+.card-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.card-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

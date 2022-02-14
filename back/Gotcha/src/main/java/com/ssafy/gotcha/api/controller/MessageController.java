@@ -51,13 +51,11 @@ public class MessageController {
 			break;
 		case GAME:
 			System.out.println(chatMessage.getContent());
-
 //       
 			break;
 		case EVENT:
-//          
+//           
 			break;
-
 		case END:
 			roomService.changeIsRun(gameSessionId, false);
 			break;
