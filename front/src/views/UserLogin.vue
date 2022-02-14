@@ -23,7 +23,7 @@
                       <div class="input-group input-group-lg">
                         <input
                           type="text"
-                          class="form-control shadow-sm"
+                          class="form-control shadow-sm Jua"
                           v-model="user.userId"
                           placeholder="아이디를 입력해주세요."
                           @keyup.enter="login()"
@@ -42,7 +42,7 @@
                           type="password"
                           v-model="user.password"
                           placeholder="비밀번호를 입력해주세요."
-                          class="form-control"
+                          class="form-control shadow-sm Jua"
                           @keyup.enter="login()"
                         />
                       </div>
