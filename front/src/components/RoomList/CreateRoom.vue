@@ -93,7 +93,8 @@
 <script>
 import { createRoom } from "@/api/room.js";
 import validator from "@/api/validator.js";
-
+import { mapState } from "vuex";
+const memberStore = "memberStore";
 export default {
   name: "CreateRoom",
   components: {},
@@ -116,6 +117,9 @@ export default {
         },
       },
     };
+  },
+  computed: {
+    ...mapState(memberStore, ["user"]),
   },
   // computed: {
   //   roomTitleValidation() {
@@ -146,9 +150,10 @@ export default {
       if (this.errorBag.form.roomTitle[0] || this.errorBag.form.password[0]) {
         alert("방 생성 조건을 만족하지 않았습니다.");
       } else {
+        console.log("userId: " + this.user.userId);
         createRoom(
           {
-            hostId: "testId",
+            hostId: this.user.userId,
             roomTitle: this.form.roomTitle,
             password: this.form.password,
             isPrivate: this.form.isPrivate,

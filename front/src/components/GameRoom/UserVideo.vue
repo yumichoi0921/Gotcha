@@ -4,6 +4,7 @@
       :stream-manager="streamManager"
       :picked="picked"
       :userId="userId"
+      @maxEmotion="maxEmotion"
       class="rounded-top"
     />
     <h5 class="card-title">닉네임: {{ clientData.userId }}</h5>
@@ -19,13 +20,16 @@ export default {
   components: {
     OvVideo,
   },
+  // emits:['maxEmotion']
   props: {
     streamManager: Object,
     userId: String,
     picked: String,
   },
   data() {
-    return {};
+    return {
+      maxEmo: "",
+    };
   },
   computed: {
     clientData() {
@@ -38,6 +42,12 @@ export default {
     getConnectionData() {
       const { connection } = this.streamManager.stream;
       return JSON.parse(connection.data);
+    },
+  },
+  watch: {
+    maxEmotion() {
+      console.log("maxEmotion:" + this.maxEmotion);
+      this.maxEmo = this.maxEmotion;
     },
   },
 };
