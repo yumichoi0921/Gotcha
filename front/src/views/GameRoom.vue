@@ -1,6 +1,6 @@
 <template>
   <div class="GameRoom">
-    <div id="setting-dialog" class="card" v-if="!session">
+    <!-- <div id="setting-dialog" class="card" v-if="!session">
       <h5 class="card-header">Join a video session</h5>
       <div class="card-body">
         <h5 class="card-title">아이디를 적으세요</h5>
@@ -15,7 +15,7 @@
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
     <div id="GameSession" v-if="session" class="gs">
       <div id="GameSession-header">
         <b-row class="alert alert-secondary">
@@ -25,12 +25,11 @@
           <b-col>
             <b-button
               v-if="userId == hostId"
-              @click="gameStart"
+              @click="sendStatusMessage('START', 'START')"
               variant="danger"
               >시작</b-button
             >
-            <b-button v-else variant="danger">준비</b-button></b-col
-          >
+          </b-col>
           <b-col>
             <input
               class="btn btn-large btn-danger"
@@ -50,8 +49,10 @@
           :userId="userId"
           :gameMessage="gameMessage"
           :eventMessage="eventMessage"
+          :statusMessage="statusMessage"
           v-on:sendGameMessage="sendGameMessage"
           v-on:sendEventMessage="sendEventMessage"
+          v-on:sendStatusMessage="sendStatusMessage"
         ></joker-game>
       </div>
     </div>
@@ -60,24 +61,23 @@
 
 <script>
 import JokerGame from "@/views/JokerGame.vue";
-import UserVideo from "@/components/GameRoom/UserVideo.vue";
 
 import axios from "axios";
-import { room } from "@/api/room.js";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import { OpenVidu } from "openvidu-browser";
+import { room } from "@/api/room.js";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 // docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-server-kms:2.20.0
-//const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
+const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   name: "GameRoom",
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    UserVideo,
     JokerGame,
   },
   data() {
@@ -91,6 +91,7 @@ export default {
       content: "",
       gameMessage: null,
       eventMessage: null,
+      statusMessage: null,
       // stomp관련 data
       stompClient: null,
       connected: false,
@@ -107,10 +108,16 @@ export default {
   created() {
     let roomId = this.$route.params.roomId;
     room(roomId, (response) => {
+      console.log("room", response.data);
       this.room = response.data;
       this.mySessionId = this.room.roomId;
       this.hostId = this.room.hostId;
+      this.userId = this.user.userId;
+      this.joinSession();
     });
+  },
+  computed: {
+    ...mapState(memberStore, ["user"]),
   },
   methods: {
     connect() {
@@ -154,17 +161,29 @@ export default {
         this.gameMessageParser(jsonBody.content);
       } else if (jsonBody.type == "EVENT") {
         this.eventMessageParser(jsonBody.content);
+      } else if (jsonBody.type == "START" || jsonBody.type == "END") {
+        this.statusMessageParser(jsonBody);
       }
     },
-    gameStart() {
-      this.type = "START";
-      this.content = "";
+    sendStatusMessage(type, content) {
+      this.type = type;
+      this.content = content;
       this.sendMessage();
     },
-    gameEnd() {
-      // TODO: 게임 끝나는 부분에서 호출해주세요!!!!
-      this.type = "END";
-      this.content = "";
+    // gameEnd() {
+    //   // TODO: 게임 끝나는 부분에서 호출해주세요!!!!
+    //   this.type = "END";
+    //   this.content = "";
+    //   this.sendMessage();
+    // },
+    sendGameMessage(message) {
+      this.type = "GAME";
+      this.content = JSON.stringify(message);
+      this.sendMessage();
+    },
+    sendEventMessage(message) {
+      this.type = "EVENT";
+      this.content = JSON.stringify(message);
       this.sendMessage();
     },
     gameMessageParser(content) {
@@ -175,15 +194,9 @@ export default {
       this.eventMessage = JSON.parse(content);
       console.log("이벤트 메시지", this.eventMessage);
     },
-    sendGameMessage(message) {
-      this.type = "GAME";
-      this.content = JSON.stringify(message);
-      this.sendMessage();
-    },
-    sendEventMessage(message) {
-      this.type = "EVENT";
-      this.content = JSON.stringify(message);
-      this.sendMessage();
+    statusMessageParser(content) {
+      this.statusMessage = content;
+      console.log("게임상태 메시지", this.statusMessage);
     },
     joinSession() {
       // --- Get an OpenVidu object ---

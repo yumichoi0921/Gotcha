@@ -21,9 +21,6 @@
                   <p class="Jua" v-if="errorBag.form.roomTitle">
                     {{ errorBag.form.roomTitle[0] }}
                   </p>
-                  <!-- <b-form-invalid-feedback :state="roomTitleValidation">
-                    방제목은 2-10자까지 가능합니다.
-                  </b-form-invalid-feedback> -->
                 </b-form-group>
 
                 <b-form-group
@@ -53,9 +50,6 @@
                   <p class="Jua" v-if="errorBag.form.password">
                     {{ errorBag.form.password[0] }}
                   </p>
-                  <!-- <b-form-invalid-feedback :state="roomPwdValidation">
-                    비밀번호는 2-4자까지 가능합니다.
-                  </b-form-invalid-feedback> -->
                 </b-form-group>
 
                 <b-form-group id="room-capacity-group" label="인원" class="Jua">
@@ -121,16 +115,6 @@ export default {
   computed: {
     ...mapState(memberStore, ["user"]),
   },
-  // computed: {
-  //   roomTitleValidation() {
-  //     return (
-  //       this.form.roomTitle.length >= 2 && this.form.roomTitle.length <= 10
-  //     );
-  //   },
-  //   roomPwdValidation() {
-  //     return this.form.password.length >= 2 && this.form.password.length <= 4;
-  //   },
-  // },
   watch: {
     "form.roomTitle"(val) {
       this.errorBag.form.roomTitle = validator.validateRoomTitle("방제목", val);
