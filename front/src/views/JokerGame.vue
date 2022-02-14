@@ -31,7 +31,7 @@
             </b-col>
             <b-col class="align-self-center">
               <h3>{{ timeCounter }}</h3>
-              여기는 잼민이의 메시지가 나오는 곳입니다아
+              {{ jamminFaceTalk }}
             </b-col>
             <b-col cols="2"
               ><img :src="require('../assets/jammin.gif')" height="100" />
@@ -148,7 +148,7 @@ export default {
         duration: 2500,
       },
       timer: null,
-      jamminMessag: "",
+      jamminFaceTalk: "조금만 기다려봐~~",
     };
   },
   watch: {
@@ -180,16 +180,46 @@ export default {
     ...mapState(gameStore, ["emotion"]),
     ...mapGetters(gameStore, ["emotion"]),
     ...mapState(memberStore, ["user"]),
-    emotion() {
-      return this.$store.getters["emotion"];
-    },
   },
   methods: {
     emotionCheck() {
       console.log("#############이모션 인식!!!!");
       if (this.picked == this.user.userId) {
         console.log("emotion 바뀌고 내차례-> " + this.emotion);
-        this.jamminMessag = "열받쮸";
+        switch (this.emotion) {
+          case "angry":
+            this.jamminFaceTalk =
+              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못떄리죠? 어~ 또빡치죠? 그냥 화났죠? 냬~ 알걨섑니댸~ 아무도 안물 안궁~";
+            break;
+          case "disgusted":
+            this.jamminFaceTalk = "아무도 조커 안가져가서 빡치쥬? ";
+            break;
+          case "fearful":
+            this.jamminFaceTalk =
+              "쫄았죠? 눈물나죠? 엄마한테 이를거죠? 근데 엄마도 공감 안해주죠? 또 빡치죠? 응~ 눈물찔끔~ ";
+            break;
+          case "happy":
+            this.jamminFaceTalk =
+              "마치 상대방이 조커를 가져간 표정인데? 방심하면 너가 다시 가져온다? ㅋㅋ루삥뽕";
+            break;
+          case "neutral":
+            this.jamminFaceTalk =
+              "호오 표정관리좀 친다? 계속 유지 못하면 게임 지쥬? ";
+            break;
+          case "sad":
+            this.jamminFaceTalk =
+              "조커 가져왔어? 표정관리 못하면 너가 패배자야 응 어쩔티비 저쩔티비~";
+            break;
+          case "surprised":
+            this.jamminFaceTalk =
+              "놀랐쥬? 뜨끔했쥬? 게임 질거같쥬? 이거 하나 못이기쥬?";
+            break;
+          default:
+            this.jamminFaceTalk = "당신 표정을 분석중이라구~~";
+            break;
+        }
+      } else {
+        this.jamminFaceTalk = "조금만 기다려봐~~~";
       }
     },
 
@@ -206,6 +236,11 @@ export default {
     gameLogic() {
       // 타이머 종료
       this.timerStop(this.timer);
+
+      //잼민 메시지 초기화
+      if (this.picked != this.userId)
+        this.jamminFaceTalk = "조금만 기다려봐~~~";
+
       // picked의 카드리스트에서 선택한 카드 삭제
       for (let i = 0; i < this.cardList[this.picked].length; i++) {
         let card = this.cardList[this.picked][i];
@@ -305,6 +340,7 @@ export default {
     },
     timerStop: function (Timer) {
       clearInterval(Timer);
+      this.jamminFaceTalk = "조금만 기다려봐~~~";
       console.log("타이머 종료");
     },
   },

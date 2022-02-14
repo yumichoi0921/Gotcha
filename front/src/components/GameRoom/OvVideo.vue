@@ -4,11 +4,7 @@
 
 <script>
 import * as faceapi from "face-api.js";
-<<<<<<< HEAD
-import { mapState } from "vuex";
-=======
 import { mapGetters, mapState, mapMutations } from "vuex";
->>>>>>> 0fc0f9ed81778e0f090a05b24f52e7d4fb61b715
 const gameStore = "gameStore";
 const memberStore = "memberStore";
 
@@ -20,15 +16,7 @@ export default {
       emotionModel: null,
       timerId: 0,
       pickedName: "",
-      emotions: {
-        angry: 0,
-        disgusted: 0,
-        fearful: 0,
-        happy: 0,
-        neutral: 0,
-        sad: 0,
-        surprised: 0,
-      },
+
       maxEmotion: null,
     };
   },
@@ -48,12 +36,8 @@ export default {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
-<<<<<<< HEAD
-    ...mapState(gameStore, ["emotion"]),
-=======
     ...mapMutations(gameStore, ["SET_EMOTION"]),
     ...mapGetters(gameStore, ["emotion"]),
->>>>>>> 0fc0f9ed81778e0f090a05b24f52e7d4fb61b715
 
     async init() {
       await faceapi.nets.faceExpressionNet.load("../models");
@@ -68,7 +52,6 @@ export default {
         this.detections = await faceapi
           .detectSingleFace(this.$el, new faceapi.TinyFaceDetectorOptions())
           .withFaceExpressions();
-        console.log(this.picked + " /" + this.user.userId);
         if (this.detections && this.picked == this.user.userId) {
           let maxval = 0;
           for (let emo in this.detections.expressions) {
@@ -80,7 +63,7 @@ export default {
 
           this.SET_EMOTION(this.maxEmotion);
         }
-      }, 2500);
+      }, 2000);
 
       // setTimeout(() => {
       //   console.log("끝내자");
