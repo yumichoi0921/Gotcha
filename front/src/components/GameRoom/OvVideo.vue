@@ -4,7 +4,11 @@
 
 <script>
 import * as faceapi from "face-api.js";
+<<<<<<< HEAD
 import { mapState } from "vuex";
+=======
+import { mapGetters, mapState, mapMutations } from "vuex";
+>>>>>>> 0fc0f9ed81778e0f090a05b24f52e7d4fb61b715
 const gameStore = "gameStore";
 const memberStore = "memberStore";
 
@@ -44,7 +48,12 @@ export default {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
+<<<<<<< HEAD
     ...mapState(gameStore, ["emotion"]),
+=======
+    ...mapMutations(gameStore, ["SET_EMOTION"]),
+    ...mapGetters(gameStore, ["emotion"]),
+>>>>>>> 0fc0f9ed81778e0f090a05b24f52e7d4fb61b715
 
     async init() {
       await faceapi.nets.faceExpressionNet.load("../models");
@@ -68,10 +77,8 @@ export default {
               this.maxEmotion = emo;
             }
           }
-          if (this.emotion) {
-            this.emotion = this.maxEmotion;
-            console.log(this.emotion);
-          }
+
+          this.SET_EMOTION(this.maxEmotion);
         }
       }, 2500);
 
