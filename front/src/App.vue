@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <img src="@/assets/jammin.gif" />
+      <img style="margin-bottom: 10px" src="@/assets/jammin.gif" />
       <div
         id="title"
         class="card shadow p-3 mb-4 rounded-pill MainTitle"
