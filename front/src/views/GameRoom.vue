@@ -121,8 +121,8 @@ export default {
   },
   methods: {
     connect() {
-      const serverURL = "http://localhost:8080/ws";
-      //const serverURL = "https://i6b102.p.ssafy.io/ws"; // 배포용
+      // const serverURL = "http://localhost:8080/api/ws";
+      const serverURL = "https://i6b102.p.ssafy.io/api/ws"; // 배포용
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect(
