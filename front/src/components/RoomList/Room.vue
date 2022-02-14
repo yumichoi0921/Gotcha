@@ -1,8 +1,11 @@
 <template>
   <div id="Room">
-    <b-card bg-variant="light" class="rounded-lg shadow m-4">
+    <b-card
+      style="background-color: #f9c87f"
+      class="rounded-lg shadow m-4 RoomCard"
+    >
       <div id="Room-body">
-        <b-alert show variant="dark" class="rounded-pill">
+        <b-alert show variant="light" class="rounded-pill">
           <b-row
             ><b-col class="Jua">{{ room.roomTitle }}</b-col>
             <b-col cols="1" class="Jua"
@@ -22,7 +25,12 @@
             name: 'GameRoom',
             params: { roomId: room.roomId },
           }"
-          ><b-button pill class="col-6 mx-auto Jua">Enter</b-button>
+          ><b-button
+            pill
+            class="col-6 mx-auto Jua e-button shadow-sm"
+            style="border: 0px; background-color: #f59421"
+            >Enter</b-button
+          >
         </router-link>
         <b-button
           @click="secretModal"
