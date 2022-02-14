@@ -21,7 +21,7 @@ public class GameSessionRepository {
 	private void init() {
 		gameSessionMap = new LinkedHashMap<>();
 		// testcode -> 게임세션 생성
-		gameSessionMap.put("865a1de0-c25b-4819-a7bc-cc87fe19272c", new GameSession("865a1de0-c25b-4819-a7bc-cc87fe19272c", Player.builder().build()));
+		gameSessionMap.put("865a1de0-c25b-4819-a7bc-cc87fe19272c", new GameSession("865a1de0-c25b-4819-a7bc-cc87fe19272c", "host"));
 	}
 
 	public List<GameSession> findAllGameSessions() {
@@ -35,8 +35,8 @@ public class GameSessionRepository {
 		return gameSessionMap.get(id);
 	}
 
-	public GameSession createGameSession(String gameSessionId, Player hostPlayer) {
-		GameSession gameSession = new GameSession(gameSessionId, hostPlayer);
+	public GameSession createGameSession(String gameSessionId, String hostId) {
+		GameSession gameSession = new GameSession(gameSessionId, hostId);
 		gameSessionMap.put(gameSession.getGameSessionId(), gameSession);
 
 		return gameSession;

@@ -39,6 +39,8 @@ public class PlayerServiceImpl {
 		String userId = player.getUserId();
 		String gameSessionId = player.getRoomId();
 		Room room = roomRepository.findByRoomId(gameSessionId); // 해당 커넥션의 방을 찾아서
+		
+		
 		if(room.getParticipant() <= 1) {
 			roomRepository.deleteByRoomId(gameSessionId); // 1명이었다면 방 제거
 		} else {

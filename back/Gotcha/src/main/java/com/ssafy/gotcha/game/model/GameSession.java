@@ -29,9 +29,9 @@ public class GameSession {
 	private int timeCounter; // 타이머
 
 
-	public GameSession(String gameSessionId, Player hostPlayer) {
+	public GameSession(String gameSessionId, String hostId) {
 		this.gameSessionId = gameSessionId;
-		this.hostId = hostPlayer.getUserId();
+		this.hostId = hostId;
 		players = new HashMap<String, Player>();
 	}
 
