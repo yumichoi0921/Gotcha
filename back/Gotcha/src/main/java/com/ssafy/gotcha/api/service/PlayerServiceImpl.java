@@ -55,7 +55,6 @@ public class PlayerServiceImpl implements PlayerService {
 			playerRepository.remove(connectionId);
 		} else {
 			GameSession gs = gameSessionRepository.findGameSessionById(gameSessionId);
-
 			gs.getPlayers().remove(userId);
 			if (gs.getCardList() != null) {
 				gs.getCardList().remove(userId);
