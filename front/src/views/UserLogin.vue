@@ -88,11 +88,8 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import { Howl, Howler } from "howler";
+
 const memberStore = "memberStore";
-const sound = new Howl({
-  src: ["@/assets/River_Changes.mp3"],
-});
 export default {
   name: "Login",
   data() {
@@ -121,8 +118,6 @@ export default {
         if (this.isLogin) {
           alert("로그인 성공, 대기실로 이동합니다.");
           this.$router.push({ name: "Home" });
-          sound.play();
-          Howler.volume(0.5);
         }
       }
     },
