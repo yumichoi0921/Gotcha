@@ -20,12 +20,15 @@
       </div>
       <div id="Room-footer">
         <router-link
-          v-if="!room.isFull && !room.isPrivate"
+          v-if="!room.isFull && !room.isPrivate && !room.isRun"
           :to="{
             name: 'GameRoom',
             params: { roomId: room.roomId },
           }"
-          ><b-button pill class="col-6 mx-auto Jua e-button shadow-sm"
+          ><b-button
+            pill
+            class="col-6 mx-auto Jua e-button shadow-sm"
+            style="border: 0px; background-color: #f59421"
             >Enter</b-button
           >
         </router-link>
@@ -34,10 +37,21 @@
           class="col-6 mx-auto Jua e-button shadow-sm"
           style="border: 0px; background-color: #f59421"
           @click="secretModal"
-          v-else-if="!room.isFull && room.isPrivate"
+          v-else-if="!room.isFull && room.isPrivate && !room.isRun"
           >Enter</b-button
         >
-        <b-button @click="gameRunning" v-else pill class="col-6 mx-auto Jua"
+        <b-button
+          @click="gameRunning"
+          v-else-if="room.isFull"
+          pill
+          class="col-6 mx-auto Jua"
+          >Full</b-button
+        >
+        <b-button
+          @click="gameRunning"
+          v-else-if="room.isRun"
+          pill
+          class="col-6 mx-auto Jua"
           >게임진행중</b-button
         >
       </div>
@@ -78,7 +92,7 @@ export default {
   },
   methods: {
     gameRunning() {
-      alert("게임진행중입니다.");
+      alert("입장할 수 없습니다.");
     },
     secretModal() {
       this.isShow = !this.isShow;
