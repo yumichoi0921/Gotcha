@@ -1,7 +1,5 @@
 package com.ssafy.gotcha.game.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class MessageContent {

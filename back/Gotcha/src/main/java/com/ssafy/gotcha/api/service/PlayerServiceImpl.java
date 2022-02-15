@@ -44,6 +44,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public void disConnectPlayer(String connectionId) {
+		System.out.println("1");
 		Player player = playerRepository.get(connectionId);
 		String userId = player.getUserId();
 		String gameSessionId = player.getRoomId();
@@ -51,23 +52,36 @@ public class PlayerServiceImpl implements PlayerService {
 		int capacity = room.getCapacity();
 		int participant = room.getParticipant();
 		if (participant <= 1) {
+			System.out.println("2");
+			gameSessionRepository.removeGameSession(gameSessionId); // game session 제거
+			System.out.println("2-1");
 			roomRepository.deleteByRoomId(gameSessionId); // 1명이었다면 방 제거
+			System.out.println("2-2");
 			playerRepository.remove(connectionId);
+			System.out.println("2-3");
 		} else {
+			System.out.println("3");
 			GameSession gs = gameSessionRepository.findGameSessionById(gameSessionId);
 			gs.getPlayers().remove(userId);
 			if (gs.getCardList() != null) {
+				System.out.println("4");
 				gs.getCardList().remove(userId);
 			}
 			playerRepository.remove(connectionId);
 			participant -= 1; // 해당 방 인원수 감소
 			if (capacity > participant) { // 다 안찼다면
+				System.out.println("5");
 				room.setFull(false);
 			}
-			room.setParticipant(participant); // 수용량을 1 감소 시킴.
-			roomRepository.save(room); // 그리고 저장
-		}
+			System.out.println("6");
 
+			room.setParticipant(participant); // 수용량을 1 감소 시킴.
+			System.out.println("7");
+			roomRepository.save(room); // 그리고 저장
+			System.out.println("8");
+
+		}
+		System.out.println("빠밤");
 	}
 
 }
