@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.gotcha.api.jwt.JwtFilter;
@@ -25,8 +24,6 @@ import com.ssafy.gotcha.api.request.UserLoginPostReq;
 import com.ssafy.gotcha.api.request.UserRegisterPostReq;
 import com.ssafy.gotcha.api.response.BaseResponseBody;
 import com.ssafy.gotcha.api.service.UserService;
-import com.ssafy.gotcha.api.service.UserServiceImpl;
-import com.ssafy.gotcha.entity.User;
 import com.ssafy.gotcha.vo.Token;
 
 import io.swagger.annotations.Api;
@@ -49,7 +46,7 @@ public class UserController {
 	@ApiOperation(value = "registerInfo", notes = "회원가입")
 	@PostMapping("/signup")
 	public ResponseEntity<? extends BaseResponseBody> register(@RequestBody UserRegisterPostReq registerInfo) {
-		User user = userService.createUser(registerInfo);
+		userService.createUser(registerInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	

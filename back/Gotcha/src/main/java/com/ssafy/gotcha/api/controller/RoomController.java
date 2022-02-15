@@ -64,11 +64,11 @@ public class RoomController {
 	@PatchMapping(value = "/{roomId}")
 	public ResponseEntity<? extends BaseResponseBody> modifyRoom(@PathVariable("roomId") String roomId,
 			@RequestBody RoomModifyPostReq modifyInfo) {
-		Room room = roomService.modifyRoom(roomId, modifyInfo);
+		roomService.modifyRoom(roomId, modifyInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@GetMapping(value = "{/roomId}")
+	@GetMapping(value = "/checkacess/{roomId}")
 	public ResponseEntity<String> checkAcess(@PathVariable("roomId") String roomId) {
 		Room room = roomService.getRoom(roomId);
 		return (room.getCapacity() > room.getParticipant()) ? ResponseEntity.status(200).body("possible")

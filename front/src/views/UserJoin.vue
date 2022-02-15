@@ -264,6 +264,7 @@ export default {
         axios
           .post(
             `http://localhost:8080/api/users/signup`,
+            // `https://i6b102.p.ssafy.io/api/users/signup`,
             JSON.stringify(this.user)
           )
           .then((response) => {
@@ -286,6 +287,7 @@ export default {
       } else {
         axios({
           url: "http://localhost:8080/api/users/userIdCheck",
+          // url: "https://i6b102.p.ssafy.io/api/users/userIdCheck",
           method: "GET",
           params: {
             userId: this.user.userId,
@@ -316,6 +318,7 @@ export default {
       } else {
         axios({
           url: "http://localhost:8080/api/users/nickNameCheck",
+          // url: "https://i6b102.p.ssafy.io/api/users/nickNameCheck",
           method: "GET",
           params: {
             nickName: this.user.nickName,

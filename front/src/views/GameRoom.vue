@@ -10,18 +10,22 @@
             <b-button
               v-if="userId == hostId && !room.isRun"
               @click="sendStatusMessage('START', 'START')"
-              variant="danger"
+              variant="primary"
+              class="Jua"
+              pill
               >시작</b-button
             >
           </b-col>
-          <!-- <b-col>
-            <input
-              class="btn btn-large btn-danger"
-              type="button"
+          <b-col>
+            <b-button
               id="buttonLeaveSession"
               @click="leaveSession"
-              value="Leave session" /></b-col
-        > -->
+              variant="danger"
+              class="Jua"
+              pill
+              >방 나가기</b-button
+            ></b-col
+          >
         </b-row>
       </div>
       <div id="GameSession-body">
@@ -100,13 +104,14 @@ export default {
       this.joinSession();
     });
   },
+
   computed: {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
     connect() {
-      const serverURL = "http://localhost:8080/ws";
-      //const serverURL = "https://i6b102.p.ssafy.io/ws"; // 배포용
+      const serverURL = "http://localhost:8080/api/ws";
+      // const serverURL = "https://i6b102.p.ssafy.io/api/ws"; // 배포용
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect(
@@ -256,7 +261,8 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (this.session) this.session.disconnect();
-
+      if (this.stompClient) this.stompClient.disconnect();
+      this.stompClient = null;
       this.session = undefined;
       this.mainStreamManager = undefined;
       this.publisher = undefined;
@@ -264,6 +270,9 @@ export default {
       this.OV = undefined;
 
       window.removeEventListener("beforeunload", this.leaveSession);
+      this.$router.replace({
+        name: "RoomList",
+      });
     },
 
     updateMainVideoStreamManager(stream) {

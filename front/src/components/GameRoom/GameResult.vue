@@ -11,10 +11,13 @@
         <h2 class="Jua align-middle">도둑은 {{ dodukId }}쥬</h2>
       </div>
       <div class="row mx-auto mb-3">
-        <b-button pill class="Jua" @click="refresh">세션으로 돌아가기</b-button>
+        <b-button pill class="Jua float-right" @click="refresh"
+          >세션으로 돌아가기</b-button
+        >
       </div>
       <div class="row mx-auto">
         <div id="dodukCam" class="col">
+          <b-alert show variant="secondary" class="Jua">도둑</b-alert>
           <div
             v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
@@ -32,19 +35,21 @@
             />
           </div>
         </div>
-        <div class="row row-cols-2">
-          <div id="playerCam" class="col">
+
+        <div id="playerCam" class="col">
+          <b-alert show variant="secondary" class="Jua">플레이어</b-alert>
+          <div class="row row-cols-3">
             <div
               v-for="sub in subscribers"
               :key="sub.stream.connection.connectionId"
-              class="PlayerCam m-auto"
+              class="PlayerCam col"
             >
               <user-video
                 :stream-manager="sub"
                 v-if="dodukId != getUserId(sub.stream.connection.data)"
               />
             </div>
-            <div class="PlayerCam m-auto">
+            <div class="PlayerCam col">
               <user-video
                 :stream-manager="publisher"
                 v-if="dodukId != getUserId(publisher.stream.connection.data)"
@@ -86,6 +91,6 @@ export default {
   width: 100%;
 }
 .PlayerCam {
-  width: 80%;
+  width: 70%;
 }
 </style>
