@@ -67,7 +67,6 @@ export default {
             this.SET_EMOTION(this.maxEmotion);
           } else {
             this.SET_EMOTION("");
-            clearInterval(this.timerId);
           }
         } else {
           clearInterval(this.timerId);

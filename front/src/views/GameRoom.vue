@@ -1,43 +1,37 @@
 <template>
   <div class="GameRoom">
-    <!-- <div id="setting-dialog" class="card" v-if="!session">
-      <h5 class="card-header">Join a video session</h5>
-      <div class="card-body">
-        <h5 class="card-title">아이디를 적으세요</h5>
-        <div class="card-text form-group">
-          <p>
-            <input v-model="userId" class="form-control" type="text" required />
-          </p>
-          <p class="text-center">
-            <button class="btn btn-lg btn-success" @click="joinSession()">
-              Join!
-            </button>
-          </p>
-        </div>
-      </div>
-    </div> -->
     <div id="GameSession" v-if="session" class="gs">
       <div id="GameSession-header">
-        <b-row class="alert alert-secondary">
-          <b-col
-            ><h3>{{ room.roomTitle }}</h3></b-col
-          >
-          <b-col>
-            <b-button
-              v-if="userId == hostId"
-              @click="sendStatusMessage('START', 'START')"
-              variant="danger"
-              >시작</b-button
-            >
-          </b-col>
-          <b-col>
-            <input
-              class="btn btn-large btn-danger"
-              type="button"
-              id="buttonLeaveSession"
-              @click="leaveSession"
-              value="Leave session" /></b-col
-        ></b-row>
+        <div
+          class="shadow p-3 mb-4 rounded-pill mx-auto"
+          style="color: #616264; background-color: #fff6a0"
+        >
+          <div class="row justify-content-center">
+            <h1 class="Jua">{{ room.roomTitle }}</h1>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-6">
+              <b-button
+                v-if="userId == hostId && !isRun"
+                @click="sendStatusMessage('START', 'START')"
+                variant="primary"
+                class="Jua"
+                pill
+                >시작</b-button
+              >
+            </div>
+            <div class="col-6">
+              <b-button
+                id="buttonLeaveSession"
+                @click="leaveSession"
+                variant="danger"
+                class="Jua"
+                pill
+                >방 나가기</b-button
+              >
+            </div>
+          </div>
+        </div>
       </div>
       <div id="GameSession-body">
         <!-- <div id="main-video" class="col-3">
@@ -104,19 +98,21 @@ export default {
       subscribers: [],
       mySessionId: "",
       hostId: "",
+      isRun: null,
     };
   },
   created() {
     let roomId = this.$route.params.roomId;
     room(roomId, (response) => {
-      console.log("room", response.data);
       this.room = response.data;
       this.mySessionId = this.room.roomId;
       this.hostId = this.room.hostId;
       this.userId = this.user.userId;
+      this.isRun = this.room.isRun;
       this.joinSession();
     });
   },
+
   computed: {
     ...mapState(memberStore, ["user"]),
   },
@@ -172,16 +168,11 @@ export default {
       }
     },
     sendStatusMessage(type, content) {
+      this.isRun = !this.isRun;
       this.type = type;
       this.content = content;
       this.sendMessage();
     },
-    // gameEnd() {
-    //   // TODO: 게임 끝나는 부분에서 호출해주세요!!!!
-    //   this.type = "END";
-    //   this.content = "";
-    //   this.sendMessage();
-    // },
     sendGameMessage(message) {
       this.type = "GAME";
       this.content = JSON.stringify(message);
@@ -278,7 +269,8 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (this.session) this.session.disconnect();
-
+      if (this.stompClient) this.stompClient.disconnect();
+      this.stompClient = null;
       this.session = undefined;
       this.mainStreamManager = undefined;
       this.publisher = undefined;
@@ -286,6 +278,9 @@ export default {
       this.OV = undefined;
 
       window.removeEventListener("beforeunload", this.leaveSession);
+      this.$router.replace({
+        name: "RoomList",
+      });
     },
 
     updateMainVideoStreamManager(stream) {
