@@ -1,5 +1,5 @@
 <template>
-  <div id="JockerGame">
+  <div id="JockerGame" class="body">
     <div id="Game" v-if="!isGameEnd">
       <div id="SubscriberSection" class="row row-cols-5 mb-3">
         <b-col
@@ -7,7 +7,10 @@
           :key="sub.stream.connection.connectionId"
         >
           <div id="PlayerInfo">
-            <div class="Info rounded">
+            <div
+              class="card shadow p-1"
+              style="color: #616264; background-color: #fff6a0"
+            >
               <user-video
                 :stream-manager="sub"
                 :class="{
@@ -40,7 +43,11 @@
           </div>
           <div class="row"></div>
           <div id="CardInfoSection" class="row">
-            <div id="SubCardDeck" class="col CardDeck p-1 mx-1">
+            <div
+              id="SubCardDeck"
+              class="col card shadow p-1 mx-1"
+              style="color: #616264; background-color: #fff6a0"
+            >
               <b-alert show variant="primary"
                 ><div v-if="picked == userId">
                   {{ picker }}가 나의 카드를 선택중입니다.
@@ -69,7 +76,11 @@
                 >카드 선택</b-button
               >
             </div>
-            <div id="PubCardDeck" class="col CardDeck p-1 mx-1">
+            <div
+              id="PubCardDeck"
+              class="col card shadow p-1 mx-1"
+              style="color: #616264; background-color: #fff6a0"
+            >
               <b-alert show variant="primary">내 카드덱</b-alert>
               <transition-group
                 tag="div"
@@ -98,7 +109,10 @@
           </div>
         </div>
         <div id="PublisherInfo" class="col">
-          <div class="Info rounded">
+          <div
+            class="card shadow p-1"
+            style="color: #616264; background-color: #fff6a0"
+          >
             <user-video
               :stream-manager="publisher"
               :userId="userId"
@@ -399,11 +413,9 @@ export default {
   width: 100%;
   margin-bottom: 5px;
 }
-.Info {
-  background-color: rgba(255, 216, 110, 0.938);
-}
-.CardDeck {
-  background-color: rgba(255, 216, 110, 0.938);
+.body {
+  background-color: rgba(255, 255, 255, 0.452);
+  width: 100%;
 }
 .PickerEvent {
   border: 4px #ff0000 solid;
@@ -503,7 +515,7 @@ export default {
 .card-enter-active,
 .card-leave-active,
 .card-move {
-  transition: opacity 2s, transform 2s;
+  transition: opacity 1s, transform 1s;
 }
 .card-leave-active {
   position: absolute;

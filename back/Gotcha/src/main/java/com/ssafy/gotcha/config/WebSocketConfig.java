@@ -12,8 +12,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-	@Autowired
-    private StompHandler stompHandler;
 	
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -25,10 +23,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		registry.setApplicationDestinationPrefixes("/pub");	// Client에서 SEND 요청을 처리
 		registry.enableSimpleBroker("/sub"); // destination 헤더가 '/sub'으로 시작하는 메세지를 브로커로 라우팅한다.
 	}
-
-	@Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(stompHandler);
-    }
 
 }

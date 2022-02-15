@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="card shadow p-3 mb-4 rounded-pill MainTitle"
+      class="card shadow p-3"
       style="color: #616264; background-color: #fff6a0"
     >
       <div class="row mx-auto">
@@ -10,26 +10,54 @@
       <div class="row mx-auto">
         <h2 class="Jua align-middle">도둑은 {{ dodukId }}쥬</h2>
       </div>
-      <b-button pill class="col-6 mx-auto Jua" @click="refresh"
-        >세션으로 돌아가기</b-button
-      >
-    </div>
+      <div class="row mx-auto mb-3">
+        <b-button pill class="Jua float-right" @click="refresh"
+          >세션으로 돌아가기</b-button
+        >
+      </div>
+      <div class="row mx-auto">
+        <div id="dodukCam" class="col">
+          <b-alert show variant="secondary" class="Jua">도둑</b-alert>
+          <div
+            v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            class="DodukCam m-auto"
+          >
+            <user-video
+              :stream-manager="sub"
+              v-if="dodukId == getUserId(sub.stream.connection.data)"
+            />
+          </div>
+          <div class="DodukCam m-auto">
+            <user-video
+              :stream-manager="publisher"
+              v-if="dodukId == getUserId(publisher.stream.connection.data)"
+            />
+          </div>
+        </div>
 
-    <div
-      v-for="sub in subscribers"
-      :key="sub.stream.connection.connectionId"
-      class="DodukCam m-auto"
-    >
-      <user-video
-        :stream-manager="sub"
-        v-if="dodukId == getUserId(sub.stream.connection.data)"
-      />
-    </div>
-    <div class="DodukCam m-auto">
-      <user-video
-        :stream-manager="publisher"
-        v-if="dodukId == getUserId(publisher.stream.connection.data)"
-      />
+        <div id="playerCam" class="col">
+          <b-alert show variant="secondary" class="Jua">플레이어</b-alert>
+          <div class="row">
+            <div
+              v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+              class="PlayerCam col"
+            >
+              <user-video
+                :stream-manager="sub"
+                v-if="dodukId != getUserId(sub.stream.connection.data)"
+              />
+            </div>
+            <div class="PlayerCam col">
+              <user-video
+                :stream-manager="publisher"
+                v-if="dodukId != getUserId(publisher.stream.connection.data)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,6 +88,9 @@ export default {
 
 <style>
 .DodukCam {
-  width: 500px;
+  width: 100%;
+}
+.PlayerCam {
+  width: 70%;
 }
 </style>
