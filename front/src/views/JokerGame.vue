@@ -14,9 +14,22 @@
                   PickerEvent: picker === getUserId(sub.stream.connection.data),
                 }"
               />
-              <div v-if="cardList != null">
+              <div
+                v-if="
+                  cardList != null &&
+                  cardList[getUserId(sub.stream.connection.data)].length > 0
+                "
+              >
                 <img :src="require('../assets/poker/miniCard.jpg')" /> X
                 {{ cardList[getUserId(sub.stream.connection.data)].length }}
+              </div>
+              <div
+                v-else-if="
+                  cardList != null &&
+                  cardList[getUserId(sub.stream.connection.data)].length == 0
+                "
+              >
+                CLEAR
               </div>
             </div>
           </div>
@@ -75,7 +88,7 @@
                 tag="div"
                 name="card"
                 class="row row-cols-6"
-                v-if="cardList != null"
+                v-if="cardList != null && myCard.length > 0"
               >
                 <b-col v-for="(card, idx) in myCard" v-bind:key="card.number">
                   <img
@@ -94,6 +107,9 @@
                     "
                   /> </b-col
               ></transition-group>
+              <div v-else-if="cardList != null && myCard.length == 0">
+                당신은 탈출했습니다!!
+              </div>
             </div>
           </div>
         </div>
@@ -105,9 +121,12 @@
               :picked="picked"
               :class="{ PickerEvent: picker === userId }"
             />
-            <div v-if="cardList != null">
+            <div v-if="cardList != null && myCard.length > 0">
               <img :src="require('../assets/poker/miniCard.jpg')" /> X
               {{ myCard.length }}
+            </div>
+            <div v-else-if="cardList != null && myCard.length == 0">
+              clear!!
             </div>
           </div>
         </div>
@@ -126,7 +145,7 @@
 <script>
 import UserVideo from "@/components/GameRoom/UserVideo.vue";
 import GameResult from "@/components/GameRoom/GameResult.vue";
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 const gameStore = "gameStore";
 const memberStore = "memberStore";
 
@@ -212,6 +231,7 @@ export default {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
+    ...mapMutations(gameStore, ["SET_EMOTION"]),
     getUserId(data) {
       let clientData = JSON.parse(data);
       return clientData.clientData.userId;
@@ -225,6 +245,7 @@ export default {
     gameLogic() {
       // 타이머 종료
       this.timerStop(this.timer);
+
       // picked의 카드리스트에서 선택한 카드 삭제
       for (let i = 0; i < this.cardList[this.picked].length; i++) {
         let card = this.cardList[this.picked][i];
@@ -322,7 +343,7 @@ export default {
               "놀랐쥬? 뜨끔했쥬? 게임 질거같쥬? 이거 하나 못이기쥬?";
             break;
           default:
-            this.jamminFaceTalk = "당신 표정을 분석중이라구~~";
+            this.jamminFaceTalk = "조금만 기다려봐~~~";
             break;
         }
       } else {
