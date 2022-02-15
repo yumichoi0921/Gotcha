@@ -42,13 +42,13 @@ export default {
 
     async init() {
       console.log("init");
-
+      // clearInterval(this.timerId);
       await faceapi.nets.faceExpressionNet.load("../models");
       await faceapi.loadTinyFaceDetectorModel("../models");
     },
     startExpressDetection() {
       console.log("얼굴인식되니");
-
+      clearInterval(this.timerId);
       this.timerId = setInterval(async () => {
         if (!this.isGameEnd) {
           console.log(this.isGameEnd + this.picked + this.$el);
