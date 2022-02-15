@@ -25,14 +25,14 @@
             name: 'GameRoom',
             params: { roomId: room.roomId },
           }"
-          ><b-button
-            pill
-            class="col-6 mx-auto Jua e-button shadow-sm"
-            style="border: 0px; background-color: #f59421"
+          ><b-button pill class="col-6 mx-auto Jua e-button shadow-sm"
             >Enter</b-button
           >
         </router-link>
         <b-button
+          pill
+          class="col-6 mx-auto Jua e-button shadow-sm"
+          style="border: 0px; background-color: #f59421"
           @click="secretModal"
           v-else-if="!room.isFull && room.isPrivate"
           >Enter</b-button
@@ -42,13 +42,25 @@
         >
       </div>
     </b-card>
-    <div v-show="isShow">
-      <b-form @submit.prevent="onSubmit">
+    <div class="modal" v-show="isShow">
+      <b-modal class="modal" v-model="isShow" @ok="onSubmit"
+        ><b-form @submit.prevent="onSubmit"
+          ><h3 class="Jua">비밀번호 입력</h3>
+          <b-form-input
+            placeholder="비밀번호를 입력해주세요."
+            v-model="password"
+          ></b-form-input>
+          <!-- <b-button type="submit" variant="danger" class="mx-3 Jua"
+            >확인</b-button
+          > -->
+        </b-form></b-modal
+      >
+      <!-- <b-form @submit.prevent="onSubmit">
         <b-form-input label="비밀번호" v-model="password"></b-form-input>
         <b-button type="submit" variant="danger" class="mx-3 Jua"
           >확인</b-button
         ></b-form
-      >
+      > -->
     </div>
   </div>
 </template>
@@ -85,4 +97,9 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.modal {
+  padding-top: 15%;
+  text-align: center;
+}
+</style>
