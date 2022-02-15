@@ -50,7 +50,7 @@ public class MessageController {
 			roomService.changeIsRun(gameSessionId, true);
 			break;
 		case GAME:
-			System.out.println(chatMessage.getContent());
+//			System.out.println(chatMessage.getContent());
 //       
 			break;
 		case EVENT:

@@ -1,21 +1,5 @@
 <template>
   <div class="GameRoom">
-    <!-- <div id="setting-dialog" class="card" v-if="!session">
-      <h5 class="card-header">Join a video session</h5>
-      <div class="card-body">
-        <h5 class="card-title">아이디를 적으세요</h5>
-        <div class="card-text form-group">
-          <p>
-            <input v-model="userId" class="form-control" type="text" required />
-          </p>
-          <p class="text-center">
-            <button class="btn btn-lg btn-success" @click="joinSession()">
-              Join!
-            </button>
-          </p>
-        </div>
-      </div>
-    </div> -->
     <div id="GameSession" v-if="session" class="gs">
       <div id="GameSession-header">
         <b-row class="alert alert-secondary">
@@ -24,20 +8,21 @@
           >
           <b-col>
             <b-button
-              v-if="userId == hostId"
+              v-if="userId == hostId && !room.isRun"
               @click="sendStatusMessage('START', 'START')"
               variant="danger"
               >시작</b-button
             >
           </b-col>
-          <b-col>
+          <!-- <b-col>
             <input
               class="btn btn-large btn-danger"
               type="button"
               id="buttonLeaveSession"
               @click="leaveSession"
               value="Leave session" /></b-col
-        ></b-row>
+        > -->
+        </b-row>
       </div>
       <div id="GameSession-body">
         <!-- <div id="main-video" class="col-3">
@@ -108,7 +93,6 @@ export default {
   created() {
     let roomId = this.$route.params.roomId;
     room(roomId, (response) => {
-      console.log("room", response.data);
       this.room = response.data;
       this.mySessionId = this.room.roomId;
       this.hostId = this.room.hostId;

@@ -503,7 +503,7 @@ export default {
 .card-enter-active,
 .card-leave-active,
 .card-move {
-  transition: opacity 2s, transform 2s;
+  transition: opacity 1s, transform 1s;
 }
 .card-leave-active {
   position: absolute;
