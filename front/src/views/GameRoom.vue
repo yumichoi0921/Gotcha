@@ -19,24 +19,34 @@
       >
         <div class="row justify-content-around">
           <div class="col-6">
-            <b-button
-              v-if="userId == hostId && !isRun"
-              @click="sendStatusMessage('START', 'START')"
-              variant="primary"
-              class="Jua"
-              pill
-              >시작</b-button
-            >
+            <b-row>
+              <b-col
+                ><b-button
+                  v-if="userId == hostId && !isRun"
+                  @click="sendStatusMessage('START', 'START')"
+                  variant="primary"
+                  class="Jua"
+                  pill
+                  >시작하기</b-button
+                ></b-col
+              >
+              <b-col></b-col>
+            </b-row>
           </div>
           <div class="col-6">
-            <b-button
-              id="buttonLeaveSession"
-              @click="leaveSession"
-              variant="danger"
-              class="Jua"
-              pill
-              >방 나가기</b-button
-            >
+            <b-row>
+              <b-col></b-col>
+              <b-col
+                ><b-button
+                  id="buttonLeaveSession"
+                  @click="leaveSession"
+                  variant="danger"
+                  class="Jua"
+                  pill
+                  >방 나가기</b-button
+                ></b-col
+              >
+            </b-row>
           </div>
         </div>
       </div>
@@ -379,5 +389,8 @@ export default {
 <style>
 .gs {
   margin-top: 80px;
+}
+.space {
+  margin-left: 10px;
 }
 </style>
