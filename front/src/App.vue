@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <audio autoplay loop controls class="rightTop">
+      <source src="@/assets/River_Changes.mp3" type="audio/mp3" />
+    </audio>
     <router-view />
   </div>
 </template>
@@ -24,6 +27,11 @@ export default {
 .MainTitle {
   width: 60%;
   margin: auto;
+}
+.rightTop {
+  position: fixed;
+  right: 20px;
+  top: 50px;
 }
 /* 
 #nav {

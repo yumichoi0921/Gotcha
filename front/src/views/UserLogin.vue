@@ -90,7 +90,6 @@
 import { mapState, mapActions } from "vuex";
 
 const memberStore = "memberStore";
-
 export default {
   name: "Login",
   data() {
