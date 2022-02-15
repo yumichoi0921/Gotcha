@@ -38,7 +38,7 @@
 
         <div id="playerCam" class="col">
           <b-alert show variant="secondary" class="Jua">플레이어</b-alert>
-          <div class="row row-cols-3">
+          <div class="row">
             <div
               v-for="sub in subscribers"
               :key="sub.stream.connection.connectionId"

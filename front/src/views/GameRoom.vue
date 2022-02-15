@@ -2,31 +2,36 @@
   <div class="GameRoom">
     <div id="GameSession" v-if="session" class="gs">
       <div id="GameSession-header">
-        <b-row class="alert alert-secondary">
-          <b-col
-            ><h3>{{ room.roomTitle }}</h3></b-col
-          >
-          <b-col>
-            <b-button
-              v-if="userId == hostId && !room.isRun"
-              @click="sendStatusMessage('START', 'START')"
-              variant="primary"
-              class="Jua"
-              pill
-              >시작</b-button
-            >
-          </b-col>
-          <b-col>
-            <b-button
-              id="buttonLeaveSession"
-              @click="leaveSession"
-              variant="danger"
-              class="Jua"
-              pill
-              >방 나가기</b-button
-            ></b-col
-          >
-        </b-row>
+        <div
+          class="shadow p-3 mb-4 rounded-pill mx-auto"
+          style="color: #616264; background-color: #fff6a0"
+        >
+          <div class="row justify-content-center">
+            <h1 class="Jua">{{ room.roomTitle }}</h1>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-6">
+              <b-button
+                v-if="userId == hostId && !isRun"
+                @click="sendStatusMessage('START', 'START')"
+                variant="primary"
+                class="Jua"
+                pill
+                >시작</b-button
+              >
+            </div>
+            <div class="col-6">
+              <b-button
+                id="buttonLeaveSession"
+                @click="leaveSession"
+                variant="danger"
+                class="Jua"
+                pill
+                >방 나가기</b-button
+              >
+            </div>
+          </div>
+        </div>
       </div>
       <div id="GameSession-body">
         <!-- <div id="main-video" class="col-3">
@@ -61,9 +66,9 @@ const memberStore = "memberStore";
 const gameStore = "gameStore";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 // docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-server-kms:2.20.0
-//const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
+const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   name: "GameRoom",
@@ -93,6 +98,7 @@ export default {
       subscribers: [],
       mySessionId: "",
       hostId: "",
+      isRun: null,
     };
   },
   created() {
@@ -102,6 +108,7 @@ export default {
       this.mySessionId = this.room.roomId;
       this.hostId = this.room.hostId;
       this.userId = this.user.userId;
+      this.isRun = this.room.isRun;
       this.joinSession();
     });
   },
@@ -161,16 +168,11 @@ export default {
       }
     },
     sendStatusMessage(type, content) {
+      this.isRun = !this.isRun;
       this.type = type;
       this.content = content;
       this.sendMessage();
     },
-    // gameEnd() {
-    //   // TODO: 게임 끝나는 부분에서 호출해주세요!!!!
-    //   this.type = "END";
-    //   this.content = "";
-    //   this.sendMessage();
-    // },
     sendGameMessage(message) {
       this.type = "GAME";
       this.content = JSON.stringify(message);
