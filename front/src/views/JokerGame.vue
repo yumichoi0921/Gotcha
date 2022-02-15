@@ -58,7 +58,7 @@
                 <div v-else-if="picked != null">
                   {{ picked }}의 카드덱입니다.
                 </div>
-                <div v-else>상대방의 카드덱</div>
+                <div class="Jua" v-else>상대방의 카드덱</div>
               </b-alert>
 
               <b-row cols="6" v-if="cardList != null && picked != userId">
@@ -527,5 +527,8 @@ export default {
 .card-leave-to {
   opacity: 0;
   transform: translateY(20px);
+}
+#Game {
+  width: 1200px;
 }
 </style>
