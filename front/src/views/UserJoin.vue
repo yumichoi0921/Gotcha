@@ -263,7 +263,7 @@ export default {
       } else {
         axios
           .post(
-            // `http://localhost:8080/api/users/signup`,
+            `http://localhost:8080/api/users/signup`,
             `https://i6b102.p.ssafy.io/api/users/signup`,
             JSON.stringify(this.user)
           )
@@ -286,8 +286,8 @@ export default {
         alert("이미 확인되었습니다.");
       } else {
         axios({
-          // url: "http://localhost:8080/api/users/userIdCheck",
-          url: "https://i6b102.p.ssafy.io/api/users/userIdCheck",
+          url: "http://localhost:8080/api/users/userIdCheck",
+          //url: "https://i6b102.p.ssafy.io/api/users/userIdCheck",
           method: "GET",
           params: {
             userId: this.user.userId,
@@ -317,8 +317,8 @@ export default {
         alert("이미 확인되었습니다.");
       } else {
         axios({
-          // url: "http://localhost:8080/api/users/nickNameCheck",
-          url: "https://i6b102.p.ssafy.io/api/users/nickNameCheck",
+          url: "http://localhost:8080/api/users/nickNameCheck",
+          //url: "https://i6b102.p.ssafy.io/api/users/nickNameCheck",
           method: "GET",
           params: {
             nickName: this.user.nickName,
