@@ -25,7 +25,10 @@
             name: 'GameRoom',
             params: { roomId: room.roomId },
           }"
-          ><b-button pill class="col-6 mx-auto Jua e-button shadow-sm"
+          ><b-button
+            pill
+            class="col-6 mx-auto Jua e-button shadow-sm"
+            style="border: 0px; background-color: #f59421"
             >Enter</b-button
           >
         </router-link>
