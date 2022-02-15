@@ -34,50 +34,57 @@ export default {
   },
   computed: {
     ...mapState(memberStore, ["user"]),
+    ...mapGetters(gameStore, ["isGameEnd"]),
   },
   methods: {
     ...mapMutations(gameStore, ["SET_EMOTION"]),
     ...mapGetters(gameStore, ["emotion"]),
 
     async init() {
+      console.log("init");
+
       await faceapi.nets.faceExpressionNet.load("../models");
       await faceapi.loadTinyFaceDetectorModel("../models");
     },
     startExpressDetection() {
       console.log("얼굴인식되니");
-      //    console.log(this.picked + this.$refs.myWebCam);
 
       this.timerId = setInterval(async () => {
-        console.log(this.picked + this.$el);
-        this.detections = await faceapi
-          .detectSingleFace(this.$el, new faceapi.TinyFaceDetectorOptions())
-          .withFaceExpressions();
-        if (this.detections && this.picked == this.user.userId) {
-          let maxval = 0;
-          for (let emo in this.detections.expressions) {
-            if (this.detections.expressions[emo] > maxval) {
-              maxval = this.detections.expressions[emo];
-              this.maxEmotion = emo;
+        if (!this.isGameEnd) {
+          console.log(this.isGameEnd + this.picked + this.$el);
+          this.detections = await faceapi
+            .detectSingleFace(this.$el, new faceapi.TinyFaceDetectorOptions())
+            .withFaceExpressions();
+          if (this.detections && this.picked == this.user.userId) {
+            let maxval = 0;
+            for (let emo in this.detections.expressions) {
+              if (this.detections.expressions[emo] > maxval) {
+                maxval = this.detections.expressions[emo];
+                this.maxEmotion = emo;
+              }
             }
+
+            this.SET_EMOTION(this.maxEmotion);
+          } else {
+            this.SET_EMOTION("");
           }
-
-          this.SET_EMOTION(this.maxEmotion);
+        } else {
+          clearInterval(this.timerId);
         }
-      }, 2000);
-
-      // setTimeout(() => {
-      //   console.log("끝내자");
-      //   clearInterval(this.timerId);
-      // }, 5000);
+      }, 300);
     },
   },
   watch: {
     picked() {
       clearInterval(this.timerId);
-      if (this.userId == this.picked) {
+      if (this.userId == this.picked && !this.isGameEnd) {
         this.startExpressDetection();
+      } else {
+        this.SET_EMOTION("");
       }
     },
   },
+
+  // },
 };
 </script>

@@ -67,13 +67,14 @@ import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import { OpenVidu } from "openvidu-browser";
 import { room } from "@/api/room.js";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 const memberStore = "memberStore";
+const gameStore = "gameStore";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 // docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-server-kms:2.20.0
-const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
+//const OPENVIDU_SERVER_URL = "https://" + "i6b102.p.ssafy.io" + ":9443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   name: "GameRoom",
@@ -120,9 +121,11 @@ export default {
     ...mapState(memberStore, ["user"]),
   },
   methods: {
+    ...mapMutations(gameStore, ["SET_ISGAMEEND"]),
+
     connect() {
-      // const serverURL = "http://localhost:8080/api/ws";
-      const serverURL = "https://i6b102.p.ssafy.io/api/ws"; // 배포용
+      const serverURL = "http://localhost:8080/api/ws";
+      // const serverURL = "https://i6b102.p.ssafy.io/api/ws"; // 배포용
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect(
@@ -161,7 +164,10 @@ export default {
         this.gameMessageParser(jsonBody.content);
       } else if (jsonBody.type == "EVENT") {
         this.eventMessageParser(jsonBody.content);
-      } else if (jsonBody.type == "START" || jsonBody.type == "END") {
+      } else if (jsonBody.type == "START") {
+        this.statusMessageParser(jsonBody);
+      } else if (jsonBody.type == "END") {
+        this.SET_ISGAMEEND(true);
         this.statusMessageParser(jsonBody);
       }
     },
