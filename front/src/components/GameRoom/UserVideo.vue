@@ -6,7 +6,8 @@
       :userId="userId"
       class="rounded-top"
     />
-    <h5 class="card-title">닉네임: {{ clientData.userId }}</h5>
+
+    <h5 class="card-title Jua">{{ clientData.userId }}</h5>
   </div>
 </template>
 
