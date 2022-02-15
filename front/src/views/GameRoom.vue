@@ -62,6 +62,7 @@ import SockJS from "sockjs-client";
 import { OpenVidu } from "openvidu-browser";
 import { room } from "@/api/room.js";
 import { mapState, mapMutations } from "vuex";
+import { API_BASE_URL } from "@/config";
 const memberStore = "memberStore";
 const gameStore = "gameStore";
 
@@ -120,7 +121,7 @@ export default {
     ...mapMutations(gameStore, ["SET_ISGAMEEND"]),
 
     connect() {
-      const serverURL = "http://localhost:8080/api/ws";
+      const serverURL = API_BASE_URL + "/api/ws";
       // const serverURL = "https://i6b102.p.ssafy.io/api/ws"; // 배포용
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
