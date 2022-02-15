@@ -77,7 +77,7 @@ export default {
   methods: {
     ...mapActions(roomStore, ["getRoomList"]),
     refresh() {
-      this.$router.go();
+      this.$router.push("/home");
     },
   },
 };
