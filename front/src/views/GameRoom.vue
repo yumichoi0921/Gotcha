@@ -9,30 +9,38 @@
           <div class="row justify-content-center">
             <h1 class="Jua">{{ room.roomTitle }}</h1>
           </div>
-          <div class="row justify-content-around">
-            <div class="col-6">
-              <b-button
-                v-if="userId == hostId && !isRun"
-                @click="sendStatusMessage('START', 'START')"
-                variant="primary"
-                class="Jua"
-                pill
-                >시작</b-button
-              >
-            </div>
-            <div class="col-6">
-              <b-button
-                id="buttonLeaveSession"
-                @click="leaveSession"
-                variant="danger"
-                class="Jua"
-                pill
-                >방 나가기</b-button
-              >
-            </div>
+        </div>
+      </div>
+
+      <div
+        id="GameSession-nav"
+        class="py-3 rounded-top"
+        style="background-color: #f9c87f"
+      >
+        <div class="row justify-content-around">
+          <div class="col-6">
+            <b-button
+              v-if="userId == hostId && !isRun"
+              @click="sendStatusMessage('START', 'START')"
+              variant="primary"
+              class="Jua"
+              pill
+              >시작</b-button
+            >
+          </div>
+          <div class="col-6">
+            <b-button
+              id="buttonLeaveSession"
+              @click="leaveSession"
+              variant="danger"
+              class="Jua"
+              pill
+              >방 나가기</b-button
+            >
           </div>
         </div>
       </div>
+
       <div id="GameSession-body">
         <!-- <div id="main-video" class="col-3">
           <user-video :stream-manager="mainStreamManager" />
