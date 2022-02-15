@@ -264,7 +264,7 @@ export default {
         axios
           .post(
             `http://localhost:8080/api/users/signup`,
-            `https://i6b102.p.ssafy.io/api/users/signup`,
+            // `https://i6b102.p.ssafy.io/api/users/signup`,
             JSON.stringify(this.user)
           )
           .then((response) => {
