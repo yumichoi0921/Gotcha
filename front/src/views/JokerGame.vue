@@ -9,7 +9,7 @@
           <div id="PlayerInfo">
             <div
               class="card shadow p-1"
-              style="color: #616264; background-color: #fff6a0"
+              style="color: #616264; background-color: #bcdbff"
             >
               <user-video
                 :stream-manager="sub"
@@ -41,13 +41,13 @@
       <div id="PublisherSection" class="row">
         <div id="GameInfoSection" class="col-8">
           <div id="JamminMessage" class="row h-30">
-            <b-alert show variant="secondary" class="row mx-1 w-100">
+            <b-alert show variant="danger" class="row mx-1 w-100">
               <b-col cols="2">
                 <div class="clock"></div>
               </b-col>
               <b-col class="align-self-center">
-                <h3>{{ timeCounter }}</h3>
-                {{ jamminFaceTalk }}
+                <h3 class="Jua">{{ timeCounter }}</h3>
+                <h3 class="Jua">{{ jamminFaceTalk }}</h3>
               </b-col>
               <b-col cols="2"
                 ><img :src="require('../assets/jammin.gif')" height="100" />
@@ -61,17 +61,17 @@
               class="col card shadow p-1 mx-1"
               style="color: #616264; background-color: #fff6a0"
             >
-              <b-alert show variant="primary"
-                ><div v-if="picked == userId">
+              <b-alert show variant="light"
+                ><div class="Jua" v-if="picked == userId">
                   {{ picker }}가 나의 카드를 선택중입니다.
                 </div>
-                <div v-else-if="picker == userId">
+                <div class="Jua" v-else-if="picker == userId">
                   {{ picked }}의 카드를 선택하세요
                 </div>
-                <div v-else-if="picked != null">
+                <div class="Jua" v-else-if="picked != null">
                   {{ picked }}의 카드덱입니다.
                 </div>
-                <div v-else>상대방의 카드덱</div>
+                <div class="Jua" v-else>상대방의 카드덱</div>
               </b-alert>
 
               <b-row cols="6" v-if="cardList != null && picked != userId">
@@ -94,7 +94,7 @@
               class="col card shadow p-1 mx-1"
               style="color: #616264; background-color: #fff6a0"
             >
-              <b-alert show variant="primary">내 카드덱</b-alert>
+              <b-alert show variant="light" class="Jua">내 카드덱</b-alert>
               <transition-group
                 tag="div"
                 name="card"
@@ -127,7 +127,7 @@
         <div id="PublisherInfo" class="col">
           <div
             class="card shadow p-1"
-            style="color: #616264; background-color: #fff6a0"
+            style="color: #616264; background-color: #dcdbff"
           >
             <user-video
               :stream-manager="publisher"
@@ -548,5 +548,19 @@ export default {
 .card-leave-to {
   opacity: 0;
   transform: translateY(20px);
+}
+#GameInfoSection {
+  padding-left: 4%;
+}
+
+#SubscriberSection {
+  /* padding-left: 4%;
+  padding-top: 2%; */
+  padding: 2%;
+}
+#PublisherInfo {
+  padding-right: 4%;
+
+  padding-bottom: 2%;
 }
 </style>

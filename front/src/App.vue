@@ -31,7 +31,7 @@ export default {
 .rightTop {
   position: fixed;
   right: 20px;
-  top: 50px;
+  top: 15px;
 }
 /* 
 #nav {
