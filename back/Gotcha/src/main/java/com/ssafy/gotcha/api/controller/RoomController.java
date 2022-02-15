@@ -64,7 +64,7 @@ public class RoomController {
 	@PatchMapping(value = "/{roomId}")
 	public ResponseEntity<? extends BaseResponseBody> modifyRoom(@PathVariable("roomId") String roomId,
 			@RequestBody RoomModifyPostReq modifyInfo) {
-		Room room = roomService.modifyRoom(roomId, modifyInfo);
+		roomService.modifyRoom(roomId, modifyInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 

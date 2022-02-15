@@ -1,6 +1,5 @@
 package com.ssafy.gotcha.repository;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -8,8 +7,6 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.gotcha.game.model.ChatMessage;
-import com.ssafy.gotcha.game.model.GameSession;
 import com.ssafy.gotcha.game.model.Player;
 
 @Repository
@@ -35,7 +32,6 @@ public class PlayerRepository {
     }
 
     public void remove(String connectionId) {
-        String roomId = players.get(connectionId).getRoomId();
         players.remove(connectionId); 
     }
     

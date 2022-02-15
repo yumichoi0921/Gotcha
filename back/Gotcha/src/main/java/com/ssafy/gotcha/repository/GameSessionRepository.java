@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.gotcha.game.model.GameSession;
-import com.ssafy.gotcha.game.model.Player;
 
 @Repository
 public class GameSessionRepository {
@@ -40,5 +39,9 @@ public class GameSessionRepository {
 		gameSessionMap.put(gameSession.getGameSessionId(), gameSession);
 
 		return gameSession;
+	}
+	
+	public void removeGameSession(String gameSessionId) {
+		gameSessionMap.remove(gameSessionId);
 	}
 }

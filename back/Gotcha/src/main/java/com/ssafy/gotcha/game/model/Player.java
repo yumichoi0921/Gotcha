@@ -1,8 +1,5 @@
 package com.ssafy.gotcha.game.model;
 
-import java.util.List;
-import java.util.Objects;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
