@@ -236,15 +236,15 @@ export default {
     },
     gameMessageParser(content) {
       this.gameMessage = JSON.parse(content);
-      console.log("게임 메시지", this.gameMessage);
+      // console.log("게임 메시지", this.gameMessage);
     },
     eventMessageParser(content) {
       this.eventMessage = JSON.parse(content);
-      console.log("이벤트 메시지", this.eventMessage);
+      // console.log("이벤트 메시지", this.eventMessage);
     },
     statusMessageParser(content) {
       this.statusMessage = content;
-      console.log("게임상태 메시지", this.statusMessage);
+      // console.log("게임상태 메시지", this.statusMessage);
     },
     joinSession() {
       // --- Get an OpenVidu object ---
