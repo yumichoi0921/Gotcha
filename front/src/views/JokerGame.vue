@@ -418,13 +418,6 @@ export default {
         return false;
       }
     },
-    beforeEnter(el) {
-      el.style.transitionDelay = 100 * parseInt(el.dataset.index, 10) + "ms";
-    },
-    // 트랜지션을 완료하거나 취소할 때는 딜레이를 제거합니다.
-    afterEnter(el) {
-      el.style.transitionDelay = "";
-    },
   },
 };
 </script>
