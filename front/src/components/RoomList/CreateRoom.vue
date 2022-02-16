@@ -134,7 +134,6 @@ export default {
       if (this.errorBag.form.roomTitle[0] || this.errorBag.form.password[0]) {
         alert("방 생성 조건을 만족하지 않았습니다.");
       } else {
-        console.log("userId: " + this.user.userId);
         createRoom(
           {
             hostId: this.user.userId,

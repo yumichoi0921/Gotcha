@@ -265,7 +265,6 @@ export default {
         axios
           .post(API_BASE_URL + `/api/users/signup`, JSON.stringify(this.user))
           .then((response) => {
-            console.log(response);
             let msg = "회원가입에 실패했습니다.";
             if (response.data.message === "Success") {
               msg = "회원가입 되었습니다.";
