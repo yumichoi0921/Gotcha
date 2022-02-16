@@ -17,14 +17,14 @@
       </div>
       <div class="row mx-auto">
         <div id="dodukCam" class="col">
-          <b-alert show variant="secondary" class="Jua">도둑</b-alert>
+          <b-alert show variant="danger" class="Jua">도둑</b-alert>
           <div class="DodukCam m-auto">
             <user-video :stream-manager="doduk" />
           </div>
         </div>
 
         <div id="playerCam" class="col">
-          <b-alert show variant="secondary" class="Jua">플레이어</b-alert>
+          <b-alert show variant="primary" class="Jua">플레이어</b-alert>
           <div class="row row-cols-2">
             <div
               v-for="player in players"
@@ -88,9 +88,9 @@ export default {
 
 <style>
 .DodukCam {
-  width: 100%;
+  width: 90%;
 }
 .PlayerCam {
-  width: 70%;
+  width: 60%;
 }
 </style>
