@@ -11,7 +11,33 @@
           </div>
         </div>
       </div>
+      <b-icon
+        @click="showModal"
+        class="infoIcon"
+        icon="question-circle-fill"
+        font-scale="2"
+      ></b-icon>
+      <div v-show="isShow">
+        <b-modal v-model="isShow" size="lg" hide-footer>
+          <div class="Jua" style="list-style-type: none">
+            <h2>도둑잡기 게임!</h2>
 
+            <li>
+              조커 두 장 중 한 장을 빼고, 남은 53장의 카드를 전부 나눠 갖는다.
+            </li>
+            <li>
+              숫자나 글자가 같은 카드가 더 이상 남지 않을 때까지 1쌍씩 버린다.
+            </li>
+            <li>
+              상대방의 카드를 한장 가져와서 짝이 맞는 카드가 있으면 버리고
+              아니면 가지고 있는다.
+            </li>
+            <li>카드를 전부 버리면 게임에서 빠진다.</li>
+            <li>3를 반복한다.</li>
+            <li>마지막으로 조커를 가지고 있는 사람이 패배한다.</li>
+          </div>
+        </b-modal>
+      </div>
       <div
         id="GameSession-nav"
         class="py-3 rounded-top"
@@ -118,6 +144,8 @@ export default {
       mySessionId: "",
       hostId: "",
       isRun: null,
+      //도움말 모달 여부
+      isShow: false,
     };
   },
   created() {
@@ -137,7 +165,10 @@ export default {
   },
   methods: {
     ...mapMutations(gameStore, ["SET_ISGAMEEND"]),
-
+    showModal() {
+      this.isShow = !this.isShow;
+      console.log("버튼눌림");
+    },
     connect() {
       const serverURL = API_BASE_URL + "/api/ws";
       // const serverURL = "https://i6b102.p.ssafy.io/api/ws"; // 배포용
@@ -180,6 +211,7 @@ export default {
       } else if (jsonBody.type == "EVENT") {
         this.eventMessageParser(jsonBody.content);
       } else if (jsonBody.type == "START") {
+        this.SET_ISGAMEEND(false);
         this.statusMessageParser(jsonBody);
       } else if (jsonBody.type == "END") {
         this.SET_ISGAMEEND(true);
@@ -204,15 +236,15 @@ export default {
     },
     gameMessageParser(content) {
       this.gameMessage = JSON.parse(content);
-      console.log("게임 메시지", this.gameMessage);
+      // console.log("게임 메시지", this.gameMessage);
     },
     eventMessageParser(content) {
       this.eventMessage = JSON.parse(content);
-      console.log("이벤트 메시지", this.eventMessage);
+      // console.log("이벤트 메시지", this.eventMessage);
     },
     statusMessageParser(content) {
       this.statusMessage = content;
-      console.log("게임상태 메시지", this.statusMessage);
+      // console.log("게임상태 메시지", this.statusMessage);
     },
     joinSession() {
       // --- Get an OpenVidu object ---
@@ -388,9 +420,14 @@ export default {
 
 <style>
 .gs {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 .space {
   margin-left: 10px;
+}
+.infoIcon {
+  position: fixed;
+  top: 20px;
+  left: 30px;
 }
 </style>
