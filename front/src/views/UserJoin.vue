@@ -194,6 +194,7 @@
 <script>
 import axios from "axios";
 import validator from "@/api/validator.js";
+import { API_BASE_URL } from "@/config";
 export default {
   name: "Join",
   data() {
@@ -262,11 +263,7 @@ export default {
         alert("회원가입 조건을 만족하지 않았습니다.");
       } else {
         axios
-          .post(
-            `http://localhost:8080/api/users/signup`,
-            //`https://i6b102.p.ssafy.io/api/users/signup`,
-            JSON.stringify(this.user)
-          )
+          .post(API_BASE_URL + `/api/users/signup`, JSON.stringify(this.user))
           .then((response) => {
             console.log(response);
             let msg = "회원가입에 실패했습니다.";
@@ -286,8 +283,7 @@ export default {
         alert("이미 확인되었습니다.");
       } else {
         axios({
-          url: "http://localhost:8080/api/users/userIdCheck",
-          //url: "https://i6b102.p.ssafy.io/api/users/userIdCheck",
+          url: API_BASE_URL + "/api/users/userIdCheck",
           method: "GET",
           params: {
             userId: this.user.userId,
@@ -317,8 +313,7 @@ export default {
         alert("이미 확인되었습니다.");
       } else {
         axios({
-          url: "http://localhost:8080/api/users/nickNameCheck",
-          //url: "https://i6b102.p.ssafy.io/api/users/nickNameCheck",
+          url: API_BASE_URL + "/api/users/nickNameCheck",
           method: "GET",
           params: {
             nickName: this.user.nickName,
