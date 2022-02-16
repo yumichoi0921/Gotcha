@@ -1,6 +1,9 @@
 <template>
   <div id="JockerGame" class="body">
     <div id="Game" v-if="!isGameEnd">
+      <div id="TurnList" v-if="turn">
+        <h5 class="Jua">순서: {{ turn | join }}</h5>
+      </div>
       <div id="SubscriberSection" class="row row-cols-5 mb-3">
         <b-col
           v-for="sub in subscribers"
@@ -46,8 +49,11 @@
               <b-col cols="2">
                 <div class="clock"></div>
               </b-col>
-              <b-col class="align-self-center">
-                <h3 class="Jua">{{ timeCounter }}</h3>
+              <b-col
+                class="align-self-center"
+                style="height: 170px; text-align: center"
+              >
+                <h3 class="Jua align-self-center">{{ timeCounter }}</h3>
                 <h3 class="Jua">{{ jamminFaceTalk }}</h3>
               </b-col>
               <b-col cols="2"
@@ -209,7 +215,7 @@ export default {
       gameStartCardEvent: {
         classes: "slideInDown",
         delay: 100,
-        duration: 2500,
+        duration: 1500,
       },
       // 게임 결과 관련 data
       isGameEnd: false,
@@ -227,7 +233,8 @@ export default {
       this.cardList = this.gameMessage.cardList;
       this.timeCounter = this.gameMessage.timeCounter;
       this.myCard = this.cardList[this.userId];
-      // console.log(this.selectedCard);
+      this.selectedCard = { number: null, shape: null };
+      this.matchedCard = { number: null, shape: null };
       this.timerStop(this.timer); // 게임메시지 받을 때마다 타이머 멈추고
       this.timerStart(); // 타이머 다시 시작
     },
@@ -251,6 +258,11 @@ export default {
     ...mapGetters(gameStore, ["emotion"]),
     ...mapState(memberStore, ["user"]),
   },
+  filters: {
+    join: function (array) {
+      return array.join(" -> ");
+    },
+  },
   methods: {
     ...mapMutations(gameStore, ["SET_EMOTION"]),
     getUserId(data) {
@@ -261,7 +273,6 @@ export default {
       this.eventType = "CARDCLICK";
       this.selectedCard = card;
       this.sendEventMessage();
-      // alert("선택카드 " + card.shape + card.number);
     },
     gameLogic() {
       // 타이머 종료
@@ -283,7 +294,6 @@ export default {
       for (let i = 0; i < this.cardList[this.picker].length; i++) {
         if (this.selectedCard.number == this.cardList[this.picker][i].number) {
           // 매칭되면
-          // alert("중복됨");
           this.matchedCard = this.cardList[this.picker][i]; // 매칭되는 카드
           this.cardList[this.picker].splice(i, 1); // picker 카드리스트에서 삭제
           matched = true; // 매칭플래그 true;
@@ -332,16 +342,14 @@ export default {
       }
     },
     emotionCheck() {
-      console.log("#############이모션 인식!!!!");
       if (this.picked == this.user.userId) {
-        console.log("emotion 바뀌고 내차례-> " + this.emotion);
         switch (this.emotion) {
           case "angry":
             this.jamminFaceTalk =
-              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못떄리죠? 어~ 또빡치죠? 그냥 화났죠? 냬~ 알걨섑니댸~ 아무도 안물 안궁~";
+              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못때리죠? 어~ 또빡치죠?";
             break;
           case "disgusted":
-            this.jamminFaceTalk = "아무도 조커 안가져가서 빡치쥬? ";
+            this.jamminFaceTalk = "아무도 조커 안가져갔나보죠? 빡치쥬? ";
             break;
           case "fearful":
             this.jamminFaceTalk =
@@ -357,7 +365,7 @@ export default {
             break;
           case "sad":
             this.jamminFaceTalk =
-              "조커 가져왔어? 표정관리 못하면 너가 패배자야 응 어쩔티비 저쩔티비~";
+              "호오 표정관리좀 친다? 계속 유지 못하면 게임 지쥬?";
             break;
           case "surprised":
             this.jamminFaceTalk =
@@ -371,7 +379,6 @@ export default {
         this.jamminFaceTalk = "조금만 기다려봐~~~";
       }
     },
-
     sendGameMessage() {
       let message = {
         gameSessionId: this.gameSessionId,
@@ -398,7 +405,6 @@ export default {
       this.$emit("sendStatusMessage", type, content);
     },
     timerStart() {
-      console.log("타이머 시작");
       // 1초에 한번씩 start 호출
       this.timer = setInterval(() => {
         this.timeCounter--; //1찍 감소
@@ -413,7 +419,6 @@ export default {
     },
     timerStop: function (Timer) {
       clearInterval(Timer);
-      console.log("타이머 종료");
     },
     shuffle: function (array) {
       array.sort(() => Math.random() - 0.5);
@@ -437,6 +442,10 @@ export default {
 .body {
   background-color: rgba(255, 255, 255, 0.452);
   width: 100%;
+}
+#TurnList {
+  position: relative;
+  bottom: 45px;
 }
 .PickerEvent {
   border: 4px #ff0000 solid;
