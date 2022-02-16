@@ -331,10 +331,10 @@ export default {
         switch (this.emotion) {
           case "angry":
             this.jamminFaceTalk =
-              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못떄리죠? 어~ 또빡치죠? 그냥 화났죠? 냬~ 알걨섑니댸~ 아무도 안물 안궁~";
+              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못때리죠? 어~ 또빡치죠? 그냥 화났죠? 네~알게쭙니댜~ 아무도 안물 안궁~";
             break;
           case "disgusted":
-            this.jamminFaceTalk = "아무도 조커 안가져가서 빡치쥬? ";
+            this.jamminFaceTalk = "아무도 조커 안가져갔나보죠? 빡치쥬? ";
             break;
           case "fearful":
             this.jamminFaceTalk =
@@ -350,7 +350,7 @@ export default {
             break;
           case "sad":
             this.jamminFaceTalk =
-              "조커 가져왔어? 표정관리 못하면 너가 패배자야 응 어쩔티비 저쩔티비~";
+              "호오 표정관리좀 친다? 계속 유지 못하면 게임 지쥬?";
             break;
           case "surprised":
             this.jamminFaceTalk =
