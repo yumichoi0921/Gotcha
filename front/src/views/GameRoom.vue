@@ -388,7 +388,7 @@ export default {
 
 <style>
 .gs {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 .space {
   margin-left: 10px;
