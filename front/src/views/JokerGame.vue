@@ -49,8 +49,11 @@
               <b-col cols="2">
                 <div class="clock"></div>
               </b-col>
-              <b-col class="align-self-center">
-                <h3 class="Jua">{{ timeCounter }}</h3>
+              <b-col
+                class="align-self-center"
+                style="height: 170px; text-align: center"
+              >
+                <h3 class="Jua align-self-center">{{ timeCounter }}</h3>
                 <h3 class="Jua">{{ jamminFaceTalk }}</h3>
               </b-col>
               <b-col cols="2"
@@ -341,7 +344,7 @@ export default {
         switch (this.emotion) {
           case "angry":
             this.jamminFaceTalk =
-              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못때리죠? 어~ 또빡치죠? 그냥 화났죠? 네~알게쭙니댜~ 아무도 안물 안궁~";
+              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못때리죠? 어~ 또빡치죠?";
             break;
           case "disgusted":
             this.jamminFaceTalk = "아무도 조커 안가져갔나보죠? 빡치쥬? ";
