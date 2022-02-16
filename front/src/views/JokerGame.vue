@@ -50,7 +50,7 @@
                 class="align-self-center"
                 style="height: 150px; text-align: center"
               >
-                <h3 class="Jua">{{ timeCounter }}</h3>
+                <h3 class="Jua align-self-center">{{ timeCounter }}</h3>
                 <h3 class="Jua">{{ jamminFaceTalk }}</h3>
               </b-col>
               <b-col cols="2"
