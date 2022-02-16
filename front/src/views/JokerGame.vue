@@ -46,7 +46,10 @@
               <b-col cols="2">
                 <div class="clock"></div>
               </b-col>
-              <b-col class="align-self-center">
+              <b-col
+                class="align-self-center"
+                style="height: 150px; text-align: center"
+              >
                 <h3 class="Jua">{{ timeCounter }}</h3>
                 <h3 class="Jua">{{ jamminFaceTalk }}</h3>
               </b-col>
@@ -202,7 +205,7 @@ export default {
       selectedCard: { number: null, shape: null },
       matchedCard: { number: null, shape: null },
       timer: null,
-      jamminFaceTalk: "조금만 기다려봐~~",
+      jamminFaceTalk: "\n조금만 기다려봐~~",
       // 게임 시작 카드 이벤트 관련 data
       gameStartCardEvent: {
         classes: "slideInDown",
@@ -362,11 +365,11 @@ export default {
               "놀랐쥬? 뜨끔했쥬? 게임 질거같쥬? 이거 하나 못이기쥬?";
             break;
           default:
-            this.jamminFaceTalk = "조금만 기다려봐~~~";
+            this.jamminFaceTalk = "/n조금만 기다려봐~~~";
             break;
         }
       } else {
-        this.jamminFaceTalk = "조금만 기다려봐~~~";
+        this.jamminFaceTalk = "/n조금만 기다려봐~~~";
       }
     },
 

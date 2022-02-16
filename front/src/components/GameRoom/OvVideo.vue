@@ -70,7 +70,7 @@ export default {
         } else {
           clearInterval(this.timerId);
         }
-      }, 1000);
+      }, 700);
     },
   },
   watch: {
