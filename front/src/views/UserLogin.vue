@@ -74,9 +74,14 @@
                 <i class="fa fa-user fa-fw" /><span class="Jua fontsize18"
                   >처음 방문하십니까?
                 </span>
-                <a class="Jua fontsize18" style="color: #ff8989" href="/join"
-                  >회원가입</a
+                <router-link
+                  :to="{
+                    name: 'Userjoin',
+                  }"
+                  class="Jua fontsize18"
                 >
+                  회원가입
+                </router-link>
               </div>
             </div>
           </b-card>
