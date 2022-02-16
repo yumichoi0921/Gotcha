@@ -46,5 +46,5 @@
     "prettier": "^2.2.1",
     "vue-template-compiler": "^2.6.11"
   },
-  "start":"webpack-dev-server --inline --content-base . --history-api-fallback"
+  "start": "webpack-dev-server --inline --content-base . --history-api-fallback"
 }
