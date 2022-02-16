@@ -17,7 +17,7 @@
       </div>
       <div class="row mx-auto">
         <div id="dodukCam" class="col">
-          <b-alert show variant="secondary" class="Jua">도둑</b-alert>
+          <b-alert show variant="danger" class="Jua"><h3>도둑</h3></b-alert>
           <div
             v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
@@ -37,7 +37,9 @@
         </div>
 
         <div id="playerCam" class="col">
-          <b-alert show variant="secondary" class="Jua">플레이어</b-alert>
+          <b-alert show variant="primary" class="Jua" piil
+            ><h3>플레이어</h3></b-alert
+          >
           <div class="row">
             <div
               v-for="sub in subscribers"
