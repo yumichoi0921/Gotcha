@@ -10,7 +10,7 @@
             <h1 class="Jua">{{ room.roomTitle }}</h1>
           </div>
           <div class="row justify-content-around">
-            <div class="col-6">
+            <div class="col-5">
               <b-button
                 v-if="userId == hostId && !isRun"
                 @click="sendStatusMessage('START', 'START')"
@@ -20,7 +20,7 @@
                 >시작</b-button
               >
             </div>
-            <div class="col-6">
+            <div class="col-5">
               <b-button
                 id="buttonLeaveSession"
                 @click="leaveSession"
@@ -29,6 +29,13 @@
                 pill
                 >방 나가기</b-button
               >
+            </div>
+            <div class="col-2">
+              <b-icon
+                icon="patch-question"
+                aria-label="Help"
+                font-scale="2.1"
+              ></b-icon>
             </div>
           </div>
         </div>
@@ -161,6 +168,7 @@ export default {
       } else if (jsonBody.type == "EVENT") {
         this.eventMessageParser(jsonBody.content);
       } else if (jsonBody.type == "START") {
+        this.SET_ISGAMEEND(false);
         this.statusMessageParser(jsonBody);
       } else if (jsonBody.type == "END") {
         this.SET_ISGAMEEND(true);

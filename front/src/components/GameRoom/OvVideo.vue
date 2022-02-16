@@ -42,20 +42,20 @@ export default {
 
     async init() {
       console.log("init");
-      // clearInterval(this.timerId);
+
       await faceapi.nets.faceExpressionNet.load("../models");
       await faceapi.loadTinyFaceDetectorModel("../models");
     },
     startExpressDetection() {
       console.log("얼굴인식되니");
-      clearInterval(this.timerId);
+
       this.timerId = setInterval(async () => {
         if (!this.isGameEnd) {
           console.log(this.isGameEnd + this.picked + this.$el);
           this.detections = await faceapi
             .detectSingleFace(this.$el, new faceapi.TinyFaceDetectorOptions())
             .withFaceExpressions();
-          if (this.detections && this.picked == this.user.userId) {
+          if (this.detections) {
             let maxval = 0;
             for (let emo in this.detections.expressions) {
               if (this.detections.expressions[emo] > maxval) {
@@ -63,15 +63,14 @@ export default {
                 this.maxEmotion = emo;
               }
             }
+            console.log(this.maxEmotion);
 
             this.SET_EMOTION(this.maxEmotion);
-          } else {
-            this.SET_EMOTION("");
           }
         } else {
           clearInterval(this.timerId);
         }
-      }, 300);
+      }, 1000);
     },
   },
   watch: {
