@@ -33,7 +33,7 @@
                   cardList[getUserId(sub.stream.connection.data)].length == 0
                 "
               >
-                CLEAR
+                <img src="@/assets/clear.png" />
               </div>
             </div>
           </div>
@@ -119,12 +119,13 @@
                     "
                   /> </b-col
               ></transition-group>
+
               <div
                 style="color: #e85858"
                 class="Jua"
                 v-else-if="cardList != null && myCard.length == 0"
               >
-                당신은 탈출했습니다!!
+                <img src="@/assets/escape.png" style="width: 50%" />
               </div>
             </div>
           </div>
@@ -145,7 +146,8 @@
               {{ myCard.length }}
             </div>
             <div class="Jua" v-else-if="cardList != null && myCard.length == 0">
-              clear!!
+              <img src="@/assets/clear.png" />
+              <!-- clear!! -->
             </div>
           </div>
         </div>
