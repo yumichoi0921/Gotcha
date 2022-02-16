@@ -51,7 +51,7 @@
               </b-col>
               <b-col
                 class="align-self-center"
-                style="height: 150px; text-align: center"
+                style="height: 170px; text-align: center"
               >
                 <h3 class="Jua align-self-center">{{ timeCounter }}</h3>
                 <h3 class="Jua">{{ jamminFaceTalk }}</h3>
@@ -208,7 +208,7 @@ export default {
       selectedCard: { number: null, shape: null },
       matchedCard: { number: null, shape: null },
       timer: null,
-      jamminFaceTalk: "\n조금만 기다려봐~~",
+      jamminFaceTalk: "조금만 기다려봐~~",
       // 게임 시작 카드 이벤트 관련 data
       gameStartCardEvent: {
         classes: "slideInDown",
@@ -344,7 +344,7 @@ export default {
         switch (this.emotion) {
           case "angry":
             this.jamminFaceTalk =
-              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못때리죠? 어~ 또빡치죠? 그냥 화났죠? 네~알게쭙니댜~ 아무도 안물 안궁~";
+              " 지금 화났죠? 개킹받죠? 때리고 싶죠? 어차피 내가 사는 곳 모르죠? 응~ 못때리죠? 어~ 또빡치죠?";
             break;
           case "disgusted":
             this.jamminFaceTalk = "아무도 조커 안가져갔나보죠? 빡치쥬? ";
@@ -370,11 +370,11 @@ export default {
               "놀랐쥬? 뜨끔했쥬? 게임 질거같쥬? 이거 하나 못이기쥬?";
             break;
           default:
-            this.jamminFaceTalk = "/n조금만 기다려봐~~~";
+            this.jamminFaceTalk = "조금만 기다려봐~~~";
             break;
         }
       } else {
-        this.jamminFaceTalk = "/n조금만 기다려봐~~~";
+        this.jamminFaceTalk = "조금만 기다려봐~~~";
       }
     },
     sendGameMessage() {

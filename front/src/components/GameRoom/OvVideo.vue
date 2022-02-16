@@ -67,20 +67,35 @@ export default {
         } else {
           clearInterval(this.timerId);
         }
-      }, 700);
+      }, 900);
     },
   },
   watch: {
     picked() {
       clearInterval(this.timerId);
-      if (this.userId == this.picked && !this.isGameEnd) {
-        this.startExpressDetection();
-      } else {
-        this.SET_EMOTION("");
+      this.detections = faceapi
+        .detectSingleFace(this.$el, new faceapi.TinyFaceDetectorOptions())
+        .withFaceExpressions();
+      if (this.detections) {
+        let maxval = 0;
+        for (let emo in this.detections.expressions) {
+          if (this.detections.expressions[emo] > maxval) {
+            maxval = this.detections.expressions[emo];
+            this.maxEmotion = emo;
+          }
+        }
+        console.log(this.maxEmotion);
+
+        this.SET_EMOTION(this.maxEmotion);
+        if (this.userId == this.picked && !this.isGameEnd) {
+          this.startExpressDetection();
+        } else {
+          this.SET_EMOTION("");
+        }
       }
+
+      // },
     },
   },
-
-  // },
 };
 </script>
