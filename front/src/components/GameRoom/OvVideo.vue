@@ -28,8 +28,8 @@ export default {
 
   mounted() {
     this.streamManager.addVideoElement(this.$el);
-    console.log("비디오:" + this.$el);
-    console.log("myWebCam:" + this.$refs.myWebCam);
+    // console.log("비디오:" + this.$el);
+    // console.log("myWebCam:" + this.$refs.myWebCam);
     this.init();
   },
   computed: {
@@ -41,17 +41,14 @@ export default {
     ...mapGetters(gameStore, ["emotion"]),
 
     async init() {
-      console.log("init");
       // clearInterval(this.timerId);
       await faceapi.nets.faceExpressionNet.load("../models");
       await faceapi.loadTinyFaceDetectorModel("../models");
     },
     startExpressDetection() {
-      console.log("얼굴인식되니");
       clearInterval(this.timerId);
       this.timerId = setInterval(async () => {
         if (!this.isGameEnd) {
-          console.log(this.isGameEnd + this.picked + this.$el);
           this.detections = await faceapi
             .detectSingleFace(this.$el, new faceapi.TinyFaceDetectorOptions())
             .withFaceExpressions();

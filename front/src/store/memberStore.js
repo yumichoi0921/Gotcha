@@ -36,23 +36,18 @@ const memberStore = {
       await login(
         user,
         (response) => {
-          console.log(response);
           if (response.status === 200) {
+            // eslint-disable-next-line no-unused-vars
             let token = response.data["token"];
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_LOGIN_ERROR", false);
             commit("SET_USER_INFO", user);
-            sessionStorage.setItem("token", token);
-            console.log("아이디 저장 됐다.");
-            console.log(token);
-            console.log(user.userId);
           }
         },
+        // eslint-disable-next-line no-unused-vars
         (response) => {
           commit("SET_IS_LOGIN", false);
           commit("SET_IS_LOGIN_ERROR", true);
-          console.log("로그인 요청 실패");
-          console.log(response);
           alert("아이디, 비밀번호를 다시 확인해 주세요");
         }
       );
@@ -66,7 +61,7 @@ const memberStore = {
     //         console.log(response);
     //         commit("SET_USER_INFO", response.data.userInfo);
     //       } else {
-    //         console.log("유저 정보 없음!!");
+    //         console.log("유저 정보를 찾을 수 없습니다.");
     //       }
     //     },
     //     (error) => {
