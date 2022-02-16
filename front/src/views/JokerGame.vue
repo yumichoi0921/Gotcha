@@ -30,6 +30,7 @@
                 {{ cardList[getUserId(sub.stream.connection.data)].length }}
               </div>
               <div
+                class="Jua"
                 v-else-if="
                   cardList != null &&
                   cardList[getUserId(sub.stream.connection.data)].length == 0
@@ -121,7 +122,11 @@
                     "
                   /> </b-col
               ></transition-group>
-              <div v-else-if="cardList != null && myCard.length == 0">
+              <div
+                style="color: #e85858"
+                class="Jua"
+                v-else-if="cardList != null && myCard.length == 0"
+              >
                 당신은 탈출했습니다!!
               </div>
             </div>
@@ -142,7 +147,7 @@
               <img :src="require('../assets/poker/miniCard.jpg')" /> X
               {{ myCard.length }}
             </div>
-            <div v-else-if="cardList != null && myCard.length == 0">
+            <div class="Jua" v-else-if="cardList != null && myCard.length == 0">
               clear!!
             </div>
           </div>
