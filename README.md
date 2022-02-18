@@ -19,15 +19,17 @@
 
 ---
 
-👨🏻‍💻 **유우식** - 팀장, FE
+👨‍💻 **유우식** - 팀장, FE
 
-👩🏻‍💻 **안예지** - FE, ,BE
+👩‍💻 **안예지** - FE, ,BE
 
-👨🏻‍💻 **안현호** - BE, DevOps
+👨‍💻 **안현호** - BE, DevOps
 
-👩🏻‍💻 **이예나** - FE, ,BE
+👩‍💻 **이예나** - FE, ,BE
 
-👩🏻‍💻 **최유미** - FE, ,BE
+👩‍💻 **최유미** - FE, ,BE
+
+👨‍💻 **김두회** - FE
 
 
 ## 1) 서비스 설명
@@ -68,7 +70,9 @@ WebRTC의 실시간 화상, 음성 소통의 이점을 활용하여 상대의 �
     
 
 ## 4) UCC
-[영상보러가기](https://youtu.be/BvCavb9vE-0)
+[![Untitled](img/thumbnail.png)](https://youtu.be/BvCavb9vE-0)
+
+
 
 # ⚙️ Tech Stack
 
@@ -76,7 +80,7 @@ WebRTC의 실시간 화상, 음성 소통의 이점을 활용하여 상대의 �
 
 ![Untitled](img/Untitled.png)
 
-### 2**) Tech Stack**
+### 2) Tech Stack
 
 - **Frontend**
     - Framework
