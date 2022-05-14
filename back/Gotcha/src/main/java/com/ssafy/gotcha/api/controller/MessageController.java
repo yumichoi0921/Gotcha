@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class MessageController {
 	private final SimpMessagingTemplate template;
 
-	// test code
 	@Autowired
 	private GameSessionRepository gameSessionRepository;
 
@@ -31,20 +30,12 @@ public class MessageController {
 	public void sendMessage(@Payload ChatMessage chatMessage) throws JsonProcessingException {
 		String gameSessionId = chatMessage.getRoomId();
 		switch (chatMessage.getType()) {
-		case READY:
-			break;
 		case START:
-			// testcode
 			GameSession gameSession = gameSessionRepository.findGameSessionById(gameSessionId);
 			gameSession.gameStart();
 			chatMessage.setType(MessageType.GAME);
 			chatMessage.setContent(gameSession.toGameMessage().toContent());
 			roomService.changeIsRun(gameSessionId, true);
-			break;
-		case GAME:
-//			System.out.println(chatMessage.getContent());
-			break;
-		case EVENT:
 			break;
 		case END:
 			roomService.changeIsRun(gameSessionId, false);
@@ -53,7 +44,6 @@ public class MessageController {
 			break;
 		}
 		template.convertAndSend("/sub/" + chatMessage.getRoomId(), chatMessage);
-
 	}
 
 }
