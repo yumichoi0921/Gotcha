@@ -37,6 +37,10 @@ public class MessageController {
 			chatMessage.setContent(gameSession.toGameMessage().toContent());
 			roomService.changeIsRun(gameSessionId, true);
 			break;
+		case GAME:
+			break;
+		case EVENT:
+			break;
 		case END:
 			roomService.changeIsRun(gameSessionId, false);
 			break;
