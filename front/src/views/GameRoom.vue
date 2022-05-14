@@ -171,7 +171,6 @@ export default {
     },
     connect() {
       const serverURL = API_BASE_URL + "/api/ws";
-      // const serverURL = "https://i6b102.p.ssafy.io/api/ws"; // 배포용
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect(
